@@ -42,14 +42,6 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
-  def exists
-    if User.find_by(name: params[:name])
-      render json: true
-    else
-      render json: false
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

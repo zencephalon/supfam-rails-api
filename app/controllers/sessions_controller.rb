@@ -20,6 +20,10 @@ class SessionsController < ActionController::API
     end
   end
 
+  def available
+    render json: !User.find_by(name: params[:name])
+  end
+
   private
 
   def session_params
