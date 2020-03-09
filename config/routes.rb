@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   post 'login', to: 'sessions#login'
   post 'register', to: 'sessions#register'
-  get 'available/:name', on: :collection, to: 'session#available'
+  get 'available/:name', to: 'session#available'
 end
