@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
 
+  has_and_belongs_to_many :families
+
   # Generate a unique API key
   def generate_api_key
     loop do
