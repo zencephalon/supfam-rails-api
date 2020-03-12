@@ -27,5 +27,4 @@ test:
   password:
 
 production:
-  <<: *default
-  database: supfam_prod
+  url: <%= ENV['DATABASE_URL'] %>
