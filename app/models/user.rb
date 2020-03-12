@@ -16,6 +16,10 @@ class User < ApplicationRecord
     self.statuses.last
   end
 
+  def friends
+    self.families.map {|f| f.users}.flatten.reject{|u| u.id == self.id}
+  end
+
   # Assign an API key on create
   before_create do |user|
     user.api_key = user.generate_api_key
