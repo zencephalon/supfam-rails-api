@@ -13,7 +13,7 @@ class User < ApplicationRecord
   end
 
   def current_status
-    self.statuses.last
+    self.statuses.pluck(:message, :color, :updated_at).last
   end
 
   def friends
