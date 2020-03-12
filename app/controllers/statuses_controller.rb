@@ -13,6 +13,10 @@ class StatusesController < ApplicationController
     render json: @status
   end
 
+  def my_status
+    render json: @current_user.current_status
+  end
+
   # POST /statuses
   def create
     # @status = Status.new(status_params)
