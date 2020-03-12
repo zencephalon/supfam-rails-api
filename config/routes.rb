@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#login'
   post 'register', to: 'sessions#register'
   get 'available/:name', to: 'sessions#available'
+  get 'friends', to: 'users#friends'
 end
