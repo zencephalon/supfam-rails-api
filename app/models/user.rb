@@ -3,7 +3,7 @@ class User < ApplicationRecord
 
   has_and_belongs_to_many :families
   has_many :statuses
-  has_one :currentStatus, -> { order(created_at: :desc) }, class_name: :Status
+  has_one :current_status, -> { order(created_at: :desc) }, class_name: :Status
 
   # Generate a unique API key
   def generate_api_key
