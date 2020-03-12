@@ -1,6 +1,5 @@
 class CreateStatuses < ActiveRecord::Migration[6.0]
   def change
-    drop_table :statuses
     drop_table :users
 
     create_table :users do |t|

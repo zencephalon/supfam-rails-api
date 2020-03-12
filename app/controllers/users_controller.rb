@@ -17,6 +17,10 @@ class UsersController < ApplicationController
     render json: @current_user
   end
 
+  def friends
+    @current_user.families.map {|f| f.users}.flatten
+  end
+
   # POST /users
   def create
     @user = User.new(user_params)

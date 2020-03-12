@@ -46,6 +46,8 @@ users_data = [{
 ]
 
 users_data.each do |data|
-  user = family.users.create({ name: data['displayName'], avatar_url: data['displayImage'] })
-  user.statuses.create({ message: data['statusText'], color: rand(4) })
+  user = User.new({ name: data[:displayName], avatar_url: data[:displayImage], password: 'password', password_confirmation: 'password' })
+  user.save
+  user.statuses.create({ message: data[:statusText], color: rand(4) })
+  family.users << user
 end
