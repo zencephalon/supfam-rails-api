@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   end
 
   def friends
-    render jeson: @current_user.families.map {|f| f.users}.flatten.reject(|u| u.id == @current_user.id)
+    render jeson: @current_user.families.map {|f| f.users}.flatten.reject{|u| u.id == @current_user.id}
   end
 
   # POST /users
