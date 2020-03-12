@@ -20,12 +20,17 @@ class StatusesController < ApplicationController
   # POST /statuses
   def create
     # @status = Status.new(status_params)
-    @status = @current_user.statuses.new(status_params)
-
-    if @status.save
-      render json: @status, status: :created, location: @status
+    if status_params[:message].nil?
+      @current_user.current_status.update(color: status_params[:color])
+      render json: @current_user.current_status
     else
-      render json: @status.errors, status: :unprocessable_entity
+      @status = @current_user.statuses.new(status_params)
+
+      if @status.save
+        render json: @status, status: :created, location: @status
+      else
+        render json: @status.errors, status: :unprocessable_entity
+      end
     end
   end
 
