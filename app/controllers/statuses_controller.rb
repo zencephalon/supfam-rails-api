@@ -15,7 +15,8 @@ class StatusesController < ApplicationController
 
   # POST /statuses
   def create
-    @status = Status.new(status_params)
+    # @status = Status.new(status_params)
+    @status = @current_user.statuses.new(status_params)
 
     if @status.save
       render json: @status, status: :created, location: @status
