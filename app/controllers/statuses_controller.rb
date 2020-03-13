@@ -26,6 +26,8 @@ class StatusesController < ApplicationController
     else
       @status = @current_user.statuses.new(status_params)
 
+      FamilyChannel.broadcast_to("family_mattfam", @status)
+
       if @status.save
         render json: @status, status: :created, location: @status
       else
