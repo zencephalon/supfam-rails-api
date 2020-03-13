@@ -14,7 +14,7 @@ class User < ApplicationRecord
   end
 
   def friends
-    self.families.eager_load(:users).map {|f| f.users.eager_load(:current_status)}.flatten.reject{|u| u.id == self.id}
+    self.families.eager_load(:users).map {|f| f.users}.flatten.reject{|u| u.id == self.id}
   end
 
   # Assign an API key on create
