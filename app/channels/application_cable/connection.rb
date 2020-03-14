@@ -12,7 +12,7 @@ module ApplicationCable
       end
     
       def authenticate_token
-        token = params[:token]
+        token = request.params[:token]
         return false unless token
         @current_user = User.find_by(api_key: token)
         return @current_user
