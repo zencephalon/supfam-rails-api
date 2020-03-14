@@ -8,11 +8,11 @@ module ApplicationCable
 
     private 
       def authenticate
-        authenticate_token || reject_unauthorized_connect
+        authenticate_token || reject_unauthorized_connection
       end
     
       def authenticate_token
-        token = request.headers['Authorization']
+        token = params[:token]
         return false unless token
         @current_user = User.find_by(api_key: token)
         return @current_user
