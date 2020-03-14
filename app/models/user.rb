@@ -16,7 +16,7 @@ class User < ApplicationRecord
   def friends
     # FIXME: this causes an n+1 query when the serializer grabs :current_status from each user
     # but doing f.users.eager_load(:current_status) doesn't work
-    self.families.eager_load(:users).map {|f| f.users.eager_load(:current_status)}.flatten.reject{|u| u.id == self.id}
+    self.families.eager_load(:users).map {|f| f.users}.flatten.reject{|u| u.id == self.id}
   end
 
   # Assign an API key on create
