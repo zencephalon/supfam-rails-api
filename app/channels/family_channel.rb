@@ -1,7 +1,8 @@
 class FamilyChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
-    stream_from "family_#{params[:name]}"
+    family = Family.find_by(id: params[:id])
+    stream_from family
   end
 
   def unsubscribed
