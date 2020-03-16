@@ -19,23 +19,21 @@ class StatusesController < ApplicationController
 
   # POST /statuses
   def create
-    # @status = Status.new(status_params)
     if status_params[:message].nil?
       @current_user.current_status.update(color: status_params[:color])
-      render json: @current_user.current_status
     else
-      @status = @current_user.statuses.new(status_params)
-
-      @current_user.families.each do |family|
-        FamilyChannel.broadcast_to(family, @status)
-      end
-
-      if @status.save
-        render json: @status, status: :created, location: @status
-      else
-        render json: @status.errors, status: :unprocessable_entity
-      end
+      @current_user.statuses.create(status_params)
     end
+
+    current_user_json = ActiveModelSerializers::Adapter::Json.new(
+        UserSerializer.new(@current_user)
+      ).serializable_hash
+
+    @current_user.families.each do |family|
+      FamilyChannel.broadcast_to(family, current_user_json)
+    end
+
+    render json: @current_user.current_status
   end
 
   # PATCH/PUT /statuses/1
