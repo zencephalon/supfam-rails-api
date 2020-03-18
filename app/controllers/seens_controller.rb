@@ -50,6 +50,6 @@ class SeensController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def seen_params
-      params.require(:seen).permit(:user_id, :network_type, :network_strength, :cellular_generation, :battery, :lat, :long, :client_type)
+      params.require(:seen).permit(:user_id, :network_type, :network_strength, :cellular_generation, :battery, :lat, :long, :client_type, :battery_state)
     end
 end
