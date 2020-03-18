@@ -13,6 +13,16 @@ class User < ApplicationRecord
     end
   end
 
+  def update_status(status_params)
+    if status_params[:message].nil?
+      self.current_status.update(color: status_params[:color])
+    else
+      status = self.statuses.create(status_params)
+      self.current_status_id = status.id
+      self.save
+    end
+  end
+
   def friends
     # FIXME: this causes an n+1 query when the serializer grabs :current_status from each user
     # but doing f.users.eager_load(:current_status) doesn't work

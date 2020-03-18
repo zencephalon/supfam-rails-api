@@ -19,11 +19,7 @@ class StatusesController < ApplicationController
 
   # POST /statuses
   def create
-    if status_params[:message].nil?
-      @current_user.current_status.update(color: status_params[:color])
-    else
-      @current_user.statuses.create(status_params)
-    end
+    @current_status.update_status(status_params)
 
     current_user_json = ActiveModelSerializers::Adapter::Json.new(
         UserSerializer.new(@current_user)
