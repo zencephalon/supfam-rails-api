@@ -28,6 +28,7 @@ class User < ApplicationRecord
   def update_seen(seen_params)
     if self.current_seen
       self.current_seen.update(seen_params)
+      self.current_seen.touch
     else
       seen = self.seens.create(seen_params)
       self.current_seen_id = seen.id
