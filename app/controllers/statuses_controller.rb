@@ -29,7 +29,7 @@ class StatusesController < ApplicationController
       FamilyChannel.broadcast_to(family, current_user_json)
     end
 
-    render json: @current_user.current_status
+    render json: true
   end
 
   # PATCH/PUT /statuses/1

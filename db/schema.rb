@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_18_004748) do
+ActiveRecord::Schema.define(version: 2020_03_18_180648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,21 @@ ActiveRecord::Schema.define(version: 2020_03_18_004748) do
     t.bigint "user_id", null: false
     t.index ["family_id"], name: "index_families_users_on_family_id"
     t.index ["user_id"], name: "index_families_users_on_user_id"
+  end
+
+  create_table "seens", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "network_type"
+    t.integer "network_strength"
+    t.string "cellular_generation"
+    t.float "battery"
+    t.string "battery_state"
+    t.float "lat"
+    t.float "long"
+    t.string "client_type"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_seens_on_user_id"
   end
 
   create_table "statuses", force: :cascade do |t|
@@ -46,7 +61,9 @@ ActiveRecord::Schema.define(version: 2020_03_18_004748) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "current_status_id"
+    t.bigint "current_seen_id"
   end
 
+  add_foreign_key "seens", "users"
   add_foreign_key "statuses", "users"
 end

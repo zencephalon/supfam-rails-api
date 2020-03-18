@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :families
   has_many :statuses
   belongs_to :current_status, class_name: :Status
+  belongs_to :current_seen, class_name: :Seen
 
   # Generate a unique API key
   def generate_api_key
@@ -23,10 +24,18 @@ class User < ApplicationRecord
     end
   end
 
+  def update_seen(seen_params)
+    if self.current_seen
+      self.current_seen.update(seen_params)
+    else
+      seen = self.seens.create(seen_params)
+      self.current_seen_id = seen.id
+      self.save
+    end
+  end
+
   def friends
-    # FIXME: this causes an n+1 query when the serializer grabs :current_status from each user
-    # but doing f.users.eager_load(:current_status) doesn't work
-    self.families.eager_load(:users).map {|f| f.users.eager_load(:current_status)}.flatten.reject{|u| u.id == self.id}
+    self.families.eager_load(:users).map {|f| f.users.eager_load(:current_status, :current_seen)}.flatten.reject{|u| u.id == self.id}
   end
 
   # Assign an API key on create
