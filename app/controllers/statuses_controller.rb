@@ -19,7 +19,7 @@ class StatusesController < ApplicationController
 
   # POST /statuses
   def create
-    @current_status.update_status(status_params)
+    @current_user.update_status(status_params)
 
     current_user_json = ActiveModelSerializers::Adapter::Json.new(
         UserSerializer.new(@current_user)
