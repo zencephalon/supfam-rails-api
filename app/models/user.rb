@@ -16,8 +16,8 @@ class User < ApplicationRecord
   end
 
   def update_status(status_params)
-    if status_params[:message].nil?
-      self.current_status.update(color: status_params[:color])
+    if self.current_status
+      self.current_status.update(status_params)
     else
       status = self.statuses.create(status_params)
       self.current_status_id = status.id
@@ -36,6 +36,16 @@ class User < ApplicationRecord
     end
   end
 
+  def broadcast_update
+    json = ActiveModelSerializers::Adapter::Json.new(
+      UserSerializer.new(self)
+    ).serializable_hash
+
+    self.families.each do |family|
+      FamilyChannel.broadcast_to(family, json)
+    end
+  end
+
   def friends
     self.families.eager_load(:users).map {|f| f.users.eager_load(:current_status, :current_seen)}.flatten.reject{|u| u.id == self.id}
   end
@@ -46,6 +56,6 @@ class User < ApplicationRecord
   end
 
   after_create do |user|
-    user.statuses.create({ message: 'My first status', color: 0 })
+    user.statuses.create({ message: 'I just joined, so everyone please welcome me! Sup fam?', color: 3 })
   end
 end

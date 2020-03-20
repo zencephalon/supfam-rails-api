@@ -20,14 +20,7 @@ class StatusesController < ApplicationController
   # POST /statuses
   def create
     @current_user.update_status(status_params)
-
-    current_user_json = ActiveModelSerializers::Adapter::Json.new(
-        UserSerializer.new(@current_user)
-      ).serializable_hash
-
-    @current_user.families.each do |family|
-      FamilyChannel.broadcast_to(family, current_user_json)
-    end
+    @current_user.broadcast_update
 
     render json: true
   end

@@ -16,14 +16,7 @@ class SeensController < ApplicationController
   # POST /seens
   def create
     @current_user.update_seen(seen_params)
-
-    current_user_json = ActiveModelSerializers::Adapter::Json.new(
-        UserSerializer.new(@current_user)
-      ).serializable_hash
-
-    @current_user.families.each do |family|
-      FamilyChannel.broadcast_to(family, current_user_json)
-    end
+    @current_user.broadcast_update
 
     render json: true
   end
