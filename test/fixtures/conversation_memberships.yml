@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: 
+  conversation: 
+  type: 1
+  last_read_message_index: 1
+
+two:
+  user: 
+  conversation: 
+  type: 1
+  last_read_message_index: 1

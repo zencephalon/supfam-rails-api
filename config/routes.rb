@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :conversation_memberships
+  resources :messages
+  resources :conversations
   # resources :seens
   # resources :families
   # resources :statuses
