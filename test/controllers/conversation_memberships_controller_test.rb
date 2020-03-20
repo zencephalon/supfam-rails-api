@@ -12,7 +12,7 @@ class ConversationMembershipsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create conversation_membership" do
     assert_difference('ConversationMembership.count') do
-      post conversation_memberships_url, params: { conversation_membership: { conversation: @conversation_membership.conversation, last_read_message_index: @conversation_membership.last_read_message_index, type: @conversation_membership.type, user: @conversation_membership.user } }, as: :json
+      post conversation_memberships_url, params: { conversation_membership: { conversation: @conversation_membership.conversation, last_read_message_num: @conversation_membership.last_read_message_num, type: @conversation_membership.type, user: @conversation_membership.user } }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class ConversationMembershipsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update conversation_membership" do
-    patch conversation_membership_url(@conversation_membership), params: { conversation_membership: { conversation: @conversation_membership.conversation, last_read_message_index: @conversation_membership.last_read_message_index, type: @conversation_membership.type, user: @conversation_membership.user } }, as: :json
+    patch conversation_membership_url(@conversation_membership), params: { conversation_membership: { conversation: @conversation_membership.conversation, last_read_message_num: @conversation_membership.last_read_message_num, type: @conversation_membership.type, user: @conversation_membership.user } }, as: :json
     assert_response 200
   end
 

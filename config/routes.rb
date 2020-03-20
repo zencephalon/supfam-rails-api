@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :conversation_memberships
-  resources :messages
-  resources :conversations
+  # resources :conversation_memberships
+  # resources :messages
+  # resources :conversations
   # resources :seens
   # resources :families
   # resources :statuses
@@ -20,4 +20,6 @@ Rails.application.routes.draw do
   get 'available/:name', to: 'sessions#available'
 
   get 'friends', to: 'users#friends'
+
+  get 'conversations/me', to: 'conversations#me'
 end

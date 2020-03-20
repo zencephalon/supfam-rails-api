@@ -1,8 +1,8 @@
 class CreateMessages < ActiveRecord::Migration[6.0]
   def change
     create_table :messages do |t|
-      t.reference :user
-      t.reference :conversation
+      t.references :user
+      t.references :conversation
       t.integer :type
       t.string :message
 

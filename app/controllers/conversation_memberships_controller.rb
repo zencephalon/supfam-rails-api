@@ -46,6 +46,6 @@ class ConversationMembershipsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def conversation_membership_params
-      params.require(:conversation_membership).permit(:user, :conversation, :type, :last_read_message_index)
+      params.require(:conversation_membership).permit(:user, :conversation, :type, :last_read_message_num)
     end
 end
