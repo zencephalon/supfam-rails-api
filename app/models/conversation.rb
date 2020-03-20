@@ -18,4 +18,7 @@ class Conversation < ApplicationRecord
     return dm
   end
 
+  def message_count
+    self.messages.count
+  end
 end

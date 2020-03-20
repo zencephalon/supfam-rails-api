@@ -50,6 +50,16 @@ class User < ApplicationRecord
     self.families.eager_load(:users).map {|f| f.users.eager_load(:current_status, :current_seen)}.flatten.reject{|u| u.id == self.id}
   end
 
+  def friend_ids
+    self.families.eager_load(:users).map {|f| f.users}.flatten.map {|u| u.id}
+  end
+
+  def dms
+    self.friend_ids.map do |user_id|
+      Conversation.dmWith(user_id)
+    end
+  end
+
   # Assign an API key on create
   before_create do |user|
     user.api_key = user.generate_api_key
