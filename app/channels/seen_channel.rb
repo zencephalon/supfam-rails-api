@@ -8,7 +8,7 @@ class SeenChannel < ApplicationCable::Channel
   end
 
   def update_seen(data)
-    @current_user.update_seen(data)
-    @current_user.broadcast_update
+    current_user.update_seen(data)
+    current_user.broadcast_update
   end
 end
