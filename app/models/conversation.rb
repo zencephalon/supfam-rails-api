@@ -18,6 +18,17 @@ class Conversation < ApplicationRecord
     return dm
   end
 
+  def add_message(msg_params)
+    msg = Message.new(msg_params)
+
+    if msg.save
+      self.update(message_count: self.message_count + 1, last_message_id: msg.id, last_message_user_id: @current_user.id)
+      return true
+    end
+
+    return false
+  end
+
   def message_count
     self.messages.count
   end
