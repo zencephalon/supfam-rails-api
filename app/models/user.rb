@@ -57,7 +57,7 @@ class User < ApplicationRecord
 
   def dms
     self.friend_ids.map do |user_id|
-      Conversation.dmWith(user_id)
+      Conversation.dmWith(self.id, user_id)
     end
   end
 

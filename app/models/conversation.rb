@@ -6,15 +6,15 @@ class Conversation < ApplicationRecord
     [ids].sort.join(":")
   end
 
-  def self.dmWith(user_id)
-    dmId = getDmId([user_id, @current_user.id])
+  def self.dmWith(current_user_id, user_id)
+    dmId = getDmId([user_id, current_user_id])
     dm = self.find_by(dmId: dmId)
     return dm if dm
 
     Conversation.transaction do
       dm = self.create!(dmId: dmId)
       ConversationMembership.create!(user_id: user_id, conversation_id: dm.id, type: 0)
-      ConversationMembership.create!(user_id: @current_user.id, conversation_id: dm.id, type: 0)
+      ConversationMembership.create!(user_id: current_user_id, conversation_id: dm.id, type: 0)
     end
     
     return dm
