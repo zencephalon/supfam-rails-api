@@ -1,6 +1,10 @@
 class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:show, :update, :destroy]
 
+  def me
+    render json: @current_user.dms
+  end
+
   # GET /conversations
   def index
     @conversations = Conversation.all
