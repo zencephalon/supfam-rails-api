@@ -8,7 +8,7 @@ class SeenChannel < ApplicationCable::Channel
   end
 
   def update_seen(msg)
-    puts data
+    puts msg
     current_user.update_seen(msg['data'])
     current_user.broadcast_update
   end
