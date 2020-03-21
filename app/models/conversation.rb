@@ -11,9 +11,11 @@ class Conversation < ApplicationRecord
     dm = self.find_by(dmId: dmId)
     return dm if dm
 
-    dm = self.create(dmId: dmId)
-    ConversationMembership.create(user_id: user_id, conversation_id: dm.id, type: 0)
-    ConversationMembership.create(user_id: @current_user.id, conversation_id: dm.id, type: 0)
+    Conversation.transaction do
+      dm = self.create!(dmId: dmId)
+      ConversationMembership.create!(user_id: user_id, conversation_id: dm.id, type: 0)
+      ConversationMembership.create!(user_id: @current_user.id, conversation_id: dm.id, type: 0)
+    end
     
     return dm
   end
