@@ -6,7 +6,8 @@ class User < ApplicationRecord
   has_many :seens
   belongs_to :current_status, class_name: :Status
   belongs_to :current_seen, class_name: :Seen
-  has_many :conversations, through: :conversation_membership
+  has_many :conversation_memberships
+  has_many :conversations, through: :conversation_memberships
 
   # Generate a unique API key
   def generate_api_key
