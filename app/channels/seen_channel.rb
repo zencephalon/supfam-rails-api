@@ -7,9 +7,9 @@ class SeenChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-  def update_seen(data)
-    # current_user.update_seen(data)
-    # current_user.broadcast_update
+  def update_seen(msg)
+    current_user.update_seen(msg[:data])
+    current_user.broadcast_update
     puts data
   end
 end
