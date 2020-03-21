@@ -2,7 +2,12 @@ class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:show, :update, :destroy]
 
   def me
-    render json: @current_user.dms
+    # render json: @current_user.
+    data = {}
+    @current_user.conversations.each do |conversation|
+      data[conversation.id] = conversation
+    end
+    render json: data
   end
 
   # GET /conversations
