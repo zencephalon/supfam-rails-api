@@ -17,12 +17,13 @@ class User < ApplicationRecord
 
   def update_status(status_params)
     if self.current_status
-      self.current_status.update(status_params)
+      status = self.current_status.update(status_params)
     else
       status = self.statuses.create(status_params)
       self.current_status_id = status.id
       self.save
     end
+    return status
   end
 
   def update_seen(seen_params)

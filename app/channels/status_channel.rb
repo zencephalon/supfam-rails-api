@@ -9,7 +9,8 @@ class StatusChannel < ApplicationCable::Channel
   end
 
   def update_status(msg)
-    current_user.update_status(msg['data'])
+    status = current_user.update_status(msg['data'])
     current_user.broadcast_update
+    StatusChannel.broadcast_to(current_user, status)
   end
 end
