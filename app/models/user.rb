@@ -7,7 +7,7 @@ class User < ApplicationRecord
   belongs_to :current_status, class_name: :Status
   belongs_to :current_seen, class_name: :Seen
   has_many :conversation_memberships
-  has_many :conversations, through: :conversation_memberships
+  has_many :direct_messages, through: :conversation_memberships
 
   # Generate a unique API key
   def generate_api_key
@@ -54,7 +54,7 @@ class User < ApplicationRecord
   end
 
   def friend_ids
-    self.families.eager_load(:users).map {|f| f.users}.flatten.map {|u| u.id}
+    self.families.eager_load(:users).map {|f| f.users}.flatten.map {|u| u.id}.reject{|id| id == self.id}
   end
 
   def dms
