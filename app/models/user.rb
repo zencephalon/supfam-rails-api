@@ -7,7 +7,7 @@ class User < ApplicationRecord
   belongs_to :current_status, class_name: :Status
   belongs_to :current_seen, class_name: :Seen
   has_many :conversation_memberships
-  has_many :direct_messages, through: :conversation_memberships
+  has_many :direct_messages, -> { where.not(conversations: { dmId: nil}) }, through: :conversation_memberships, source: :conversation
 
   # Generate a unique API key
   def generate_api_key
@@ -60,6 +60,16 @@ class User < ApplicationRecord
   def dms
     self.friend_ids.map do |user_id|
       Conversation.dmWith(self.id, user_id)
+    end
+  end
+
+  def get_friend_id_from_dm_id(dmId)
+    ids = dmId.split(':').map(&:to_i)
+    return ids.reject {|id| id == self.id}.first
+  end
+
+  def dms_by_friend_id
+    self.direct_messages.each do |message|
     end
   end
 

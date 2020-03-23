@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  user: one
+  user_id: 1
   color: 1
-  message: MyString
+  message: Hello, I feel cooped up now
 
 two:
-  user: two
-  color: 1
-  message: MyString
+  user_id: 2
+  color: 2
+  message: My toe nail is falling off

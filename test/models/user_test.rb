@@ -12,7 +12,15 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 2, users(:condon).friends.size
   end
 
-  test "User.dms" do
-    assert_equal 4, users(:matt).dms.size
+  # test "User.dms" do
+  #   assert_equal 4, users(:matt).dms.size
+  # end
+
+  test "User.direct_messages" do
+    assert_equal "1:2", users(:matt).direct_messages.first.dmId
+  end
+
+  test "User.get_friend_id_from_dm_id" do
+    assert_equal 5, users(:matt).get_friend_id_from_dm_id("1:5")
   end
 end
