@@ -1,9 +1,17 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+dm_12_a:
   user_id: 1
   conversation_id: 1
 
-two:
+dm_12_b:
+  user_id: 2
+  conversation_id: 1
+
+dm_13_a:
   user_id: 1
   conversation_id: 2
+
+dm_14_a:
+  user_id: 1
+  conversation_id: 3
