@@ -21,9 +21,7 @@ class Conversation < ApplicationRecord
   end
 
   def add_message(msg_params)
-    msg = Message.new(msg_params)
-
-    if msg.save
+    if self.messages.create(msg_params)
       self.update(message_count: self.message_count + 1, last_message_id: msg.id, last_message_user_id: @current_user.id)
       return true
     end
