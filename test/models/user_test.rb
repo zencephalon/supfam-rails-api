@@ -26,7 +26,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "User.dms_by_friend_id" do
-    assert_equal conversations(:dm_12), users(:matt).dms_by_dm_id["1:2"]
+    assert_equal conversations(:dm_12), users(:matt).dms_by_dm_id["2:1"]
   end
 
 end

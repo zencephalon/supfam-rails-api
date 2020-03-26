@@ -4,6 +4,7 @@ matt:
   id: 1
   name: Matt
   families: mattfam, hf0
+  api_key: hello
 
 daria:
   id: 2
