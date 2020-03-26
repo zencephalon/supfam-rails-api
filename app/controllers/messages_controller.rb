@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
 
   def send_message_to_user
     conversation = Conversation.dmWith(@current_user.id, params[:to_user_id])
-    render json: conversation.add_message(message_params)
+    render json: conversation.add_message({ user_id: @current_user.id, message: msg_params[:message], type: msg_params[:type] })
   end
 
   def messages_with_user
