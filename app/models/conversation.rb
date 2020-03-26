@@ -3,7 +3,7 @@ class Conversation < ApplicationRecord
   has_many :users, through: :conversation_memberships
 
   def self.getDmId(ids)
-    [ids].sort.join(":")
+    ids.map(&:to_i).sort.join(":")
   end
 
   def self.dmWith(current_user_id, user_id)
