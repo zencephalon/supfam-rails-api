@@ -22,4 +22,9 @@ Rails.application.routes.draw do
   get 'friends', to: 'users#friends'
 
   get 'conversations/me', to: 'conversations#me'
+
+  # messages
+
+  get 'messages/user/:to_user_id', to: 'messages#messages_with_user'
+  post 'messages/user/:to_user_id', to: 'messages#send_message_to_user'
 end

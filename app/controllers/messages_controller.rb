@@ -1,41 +1,14 @@
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:show, :update, :destroy]
 
-  # GET /messages
-  def index
-    @messages = Message.all
-
-    render json: @messages
+  def send_message_to_user
+    conversation = Conversation.dmWith(@current_user.id, params[:to_user_id])
+    conversation.add_message(message_params)
+    render json: true
   end
 
-  # GET /messages/1
-  def show
-    render json: @message
-  end
-
-  # POST /messages
-  def create
-    @message = Message.new(message_params)
-
-    if @message.save
-      render json: @message, status: :created, location: @message
-    else
-      render json: @message.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /messages/1
-  def update
-    if @message.update(message_params)
-      render json: @message
-    else
-      render json: @message.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /messages/1
-  def destroy
-    @message.destroy
+  def messages_with_user
+    conversation = Conversation.dmWith(@current_user.id, params[:to_user_id])
+    render json: conversation.messages
   end
 
   private
@@ -46,6 +19,6 @@ class MessagesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def message_params
-      params.require(:message).permit(:user, :conversation, :type, :message)
+      params.require(:message).permit(:type, :message)
     end
 end

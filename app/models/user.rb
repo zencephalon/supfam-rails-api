@@ -68,10 +68,11 @@ class User < ApplicationRecord
     return ids.reject {|id| id == self.id}.first
   end
 
-  def dms_by_friend_id
+  def dms_by_dm_id
     dm_obj = {}
     self.direct_conversations.each do |conversation|
-      dm_obj[self.get_friend_id_from_dm_id(conversation.dmId)] = conversation
+      # dm_obj[self.get_friend_id_from_dm_id(conversation.dmId)] = conversation
+      dm_obj[conversation.dmId] = conversation
     end
     return dm_obj
   end

@@ -1,50 +1,8 @@
 class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:show, :update, :destroy]
 
-  def me
-    # render json: @current_user.
-    data = {}
-    @current_user.conversations.each do |conversation|
-      data[conversation.id] = conversation
-    end
-    render json: data
-  end
-
-  # GET /conversations
-  def index
-    @conversations = Conversation.all
-
-    render json: @conversations
-  end
-
-  # GET /conversations/1
-  def show
-    render json: @conversation
-  end
-
-  # POST /conversations
-  def create
-    @conversation = Conversation.new(conversation_params)
-
-    if @conversation.save
-      render json: @conversation, status: :created, location: @conversation
-    else
-      render json: @conversation.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /conversations/1
-  def update
-    if @conversation.update(conversation_params)
-      render json: @conversation
-    else
-      render json: @conversation.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /conversations/1
-  def destroy
-    @conversation.destroy
+  def my_dms
+    render json: @current_user.dms_by_friend_id
   end
 
   private
