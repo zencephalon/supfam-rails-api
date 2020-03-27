@@ -25,7 +25,7 @@ class Conversation < ApplicationRecord
       MessageSerializer.new(msg)
     ).serializable_hash
 
-    MessageChannel.broadcast_to(self, { message: json })
+    MessageChannel.broadcast_to(self, json)
   end
 
   def add_message(current_user_id, msg_params)
