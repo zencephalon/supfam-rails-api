@@ -4,7 +4,7 @@ class SessionsController < ActionController::API
     @user = User.find_by(name: session_params[:name]).try(:authenticate, session_params[:password])
 
     if @user
-      render json: { token: @user.api_key }
+      render json: { token: @user.api_key, user: @user }
     else
       render json: 'ILUVU', status: :unauthorized
     end
