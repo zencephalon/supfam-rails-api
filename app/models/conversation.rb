@@ -20,12 +20,21 @@ class Conversation < ApplicationRecord
     return dm
   end
 
+  def broadcast_message(msg)
+    json = ActiveModelSerializers::Adapter::Json.new(
+      MessageSerializer.new(msg)
+    ).serializable_hash
+
+    MessageChannel.broadcast_to(self, { message: msg })
+  end
+
   def add_message(current_user_id, msg_params)
     msg = self.messages.create({ user_id: current_user_id, message: msg_params[:message], type: msg_params[:type] })
 
     if msg.save
       self.update(message_count: self.message_count + 1, last_message_id: msg.id, last_message_user_id: current_user_id)
-      MessageChannel.broadcast_to(self, { message: msg })
+      # MessageChannel.broadcast_to(self, { message: msg })
+      self.broadcast_message(msg)
       return true
     end
 
