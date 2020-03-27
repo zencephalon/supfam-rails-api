@@ -25,6 +25,7 @@ class Conversation < ApplicationRecord
 
     if msg.save
       self.update(message_count: self.message_count + 1, last_message_id: msg.id, last_message_user_id: current_user_id)
+      ConversationChannel.broadcast_to(self, msg)
       return true
     end
 
