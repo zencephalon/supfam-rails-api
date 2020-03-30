@@ -5,9 +5,9 @@ class InstantMessageChannel < ApplicationCable::Channel
     stream_for conversation
   end
 
-  def receive(data)
+  def send_instant(msg)
     conversation = Conversation.find(params[:id])
-    self.broadcast_to(conversation, data)
+    self.broadcast_to(conversation, msg['data'])
   end
 
   def unsubscribed
