@@ -5,6 +5,8 @@ class InstantMessageChannel < ApplicationCable::Channel
   end
 
   def send_instant(msg)
+    puts '=========='
+    puts msg
     self.broadcast_to("instant:#{params[:id]}", msg['data'])
   end
 
