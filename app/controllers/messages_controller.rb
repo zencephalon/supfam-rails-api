@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
 
   def messages_with_user
     conversation = Conversation.dmWith(@current_user.id, params[:to_user_id])
-    render json: conversation.messages.eager_load(:user)
+    render json: conversation.messages.eager_load(:user).order(id: :asc)
   end
 
   private
