@@ -6,6 +6,6 @@ class Message < ApplicationRecord
 
   def user_summary
     user = self.user
-    return {_id: user.id, name: user.name, avatar: user.avatar_url}
+    return {id: user.id, name: user.name, avatar_url: user.avatar_url}
   end
 end
