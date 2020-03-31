@@ -1,6 +1,8 @@
 class InstantMessageChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
+    puts "========"
+    puts "subscribed"
     stream_for "instant:#{params[:id]}"
   end
 
