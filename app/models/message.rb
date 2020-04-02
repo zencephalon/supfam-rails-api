@@ -5,7 +5,6 @@ class Message < ApplicationRecord
   belongs_to :user
 
   def user_summary
-    user = self.user
-    return {id: user.id, name: user.name, avatar_url: user.avatar_url}
+    return self.user.summary
   end
 end

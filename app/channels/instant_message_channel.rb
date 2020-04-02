@@ -1,15 +1,16 @@
 class InstantMessageChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
-    puts "========"
-    puts "subscribed"
     stream_for "instant:#{params[:id]}"
   end
 
-  def send_instant(msg)
-    puts '=========='
-    puts msg
-    self.broadcast_to("instant:#{params[:id]}", msg['data'])
+  def send_instant(data)
+    self.broadcast_to("instant:#{params[:id]}", {
+      message: data['message'],
+      type: 0,
+      id: 'instant',
+      user_summary: current_user.summary
+    })
   end
 
   def unsubscribed

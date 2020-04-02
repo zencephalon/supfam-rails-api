@@ -77,6 +77,10 @@ class User < ApplicationRecord
     return dm_obj
   end
 
+  def summary
+    return {id: self.id, name: self.name, avatar_url: self.avatar_url}
+  end
+
   # Assign an API key on create
   before_create do |user|
     user.api_key = user.generate_api_key
