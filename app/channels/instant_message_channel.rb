@@ -5,12 +5,12 @@ class InstantMessageChannel < ApplicationCable::Channel
   end
 
   def send_instant(data)
-    self.broadcast_to("instant:#{params[:id]}", {
+    self.broadcast_to("instant:#{params[:id]}", { message: {
       message: data['message'],
       type: 0,
       id: 'instant',
       user_summary: current_user.summary
-    })
+    }})
   end
 
   def unsubscribed
