@@ -1,3 +1,5 @@
+require 'json'
+
 class InstantMessageChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
@@ -10,7 +12,7 @@ class InstantMessageChannel < ApplicationCable::Channel
       type: 0,
       id: 'instant',
       user_summary: current_user.summary
-    })
+  }.to_json)
   end
 
   def unsubscribed
