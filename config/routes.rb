@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  # resources :conversation_memberships
-  # resources :messages
-  # resources :conversations
-  # resources :seens
-  # resources :families
-  # resources :statuses
-  # resources :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   get 'users/me', to: 'users#me'
