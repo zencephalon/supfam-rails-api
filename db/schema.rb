@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_20_195617) do
+ActiveRecord::Schema.define(version: 2020_04_09_200032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,14 @@ ActiveRecord::Schema.define(version: 2020_03_20_195617) do
     t.index ["user_id"], name: "index_families_users_on_user_id"
   end
 
+  create_table "invitations", force: :cascade do |t|
+    t.bigint "family_id", null: false
+    t.string "phone"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["family_id"], name: "index_invitations_on_family_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "conversation_id"
@@ -60,42 +68,36 @@ ActiveRecord::Schema.define(version: 2020_03_20_195617) do
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
-  create_table "seens", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "network_type"
-    t.integer "network_strength"
-    t.string "cellular_generation"
-    t.float "battery"
-    t.float "lat"
-    t.float "long"
-    t.string "client_type"
+  create_table "phone_verifications", force: :cascade do |t|
+    t.string "token"
+    t.string "phone"
+    t.string "code"
+    t.boolean "verified"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "battery_state"
-    t.index ["user_id"], name: "index_seens_on_user_id"
   end
 
-  create_table "statuses", force: :cascade do |t|
+  create_table "profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.integer "color"
-    t.string "message"
+    t.string "name"
+    t.string "avatar_url"
+    t.jsonb "status"
+    t.jsonb "location"
+    t.jsonb "seen"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_statuses_on_user_id"
+    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "phone"
     t.string "name"
-    t.string "email"
     t.string "password_digest"
     t.string "api_key"
-    t.string "avatar_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "current_status_id"
-    t.bigint "current_seen_id"
   end
 
-  add_foreign_key "seens", "users"
-  add_foreign_key "statuses", "users"
+  add_foreign_key "invitations", "families"
+  add_foreign_key "profiles", "users"
 end

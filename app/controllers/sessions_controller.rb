@@ -1,3 +1,10 @@
+require 'twilio-ruby'
+
+ACCOUNT_SID = '***REMOVED***'
+AUTH_TOKEN = '***REMOVED***'
+
+FROM = '+19386669393' # Your Twilio number
+
 class SessionsController < ActionController::API
   # POST /login
   def login
@@ -8,6 +15,24 @@ class SessionsController < ActionController::API
     else
       render json: 'ILUVU', status: :unauthorized
     end
+  end
+
+  def verify
+    to = params[:phone]
+
+    invite = Invitation.find_by(phone: to)
+
+    unless invite
+      render json: { error: 'No invite code found' }, status: :unauthorized
+    end
+
+    client = Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
+
+    client.messages.create(
+      from: FROM,
+      to: to,
+      body: "Your Supfam verification code: 9397"
+    )
   end
 
   def register
