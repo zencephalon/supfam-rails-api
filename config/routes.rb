@@ -10,7 +10,9 @@ Rails.application.routes.draw do
 
   post 'login', to: 'sessions#login'
   post 'register', to: 'sessions#register'
+  post 'check_invite', to: 'sessions#check_invite'
   post 'verify', to: 'sessions#verify'
+  post 'resend_code', to: 'sessions#resend_code'
   get 'available/:name', to: 'sessions#available'
 
   get 'friends', to: 'users#friends'

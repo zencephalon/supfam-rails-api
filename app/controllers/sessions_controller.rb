@@ -1,10 +1,3 @@
-require 'twilio-ruby'
-
-ACCOUNT_SID = '***REMOVED***'
-AUTH_TOKEN = '***REMOVED***'
-
-FROM = '+19386669393' # Your Twilio number
-
 class SessionsController < ActionController::API
   # POST /login
   def login
@@ -17,22 +10,48 @@ class SessionsController < ActionController::API
     end
   end
 
-  def verify
-    to = params[:phone]
+  def check_invite
+    phone = params[:phone]
 
-    invite = Invitation.find_by(phone: to)
+    invite = Invitation.find_by(phone: phone)
 
     unless invite
       render json: { error: 'No invite code found' }, status: :unauthorized
+      return
     end
 
-    client = Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
+    verification = PhoneVerification.generate(phone)
 
-    client.messages.create(
-      from: FROM,
-      to: to,
-      body: "Your Supfam verification code: 9397"
-    )
+    TwMessager.send_message(phone, "Your Supfam verification code: #{verification.code}")
+
+    render json: { token: verification.token }
+  end
+
+  def resend_code
+    token = params[:token]
+    verification = PhoneVerification.find_by(token: token)
+
+    if verification
+      TwMessager.send_message(verification.phone, "Your Supfam verification code: #{verification.code}")
+    end
+
+    render json: {}
+  end
+
+  def verify
+    token = params[:token]
+    code = params[:code]
+
+    verification = PhoneVerification.find_by(token: token)
+
+    if verification and verification.code == code
+      verification.verified = true
+      verification.save
+      render json: { success: true }
+      return
+    end
+
+    render json: { error: 'Invalid code' }, status: :unauthorized
   end
 
   def register
