@@ -65,7 +65,13 @@ class SessionsController < ActionController::API
   end
 
   def available
-    render json: !User.find_by(name: params[:name])
+    name = (params[:name] || '').downcase
+    user_with_name = User.find_by(name: name)
+    if ['here', 'free', 'busy', 'away', 'open'].include?(name) or user_with_name
+      render json: false
+      return
+    end
+    render json: true
   end
 
   private
@@ -75,6 +81,6 @@ class SessionsController < ActionController::API
   end
 
   def user_params
-    params.permit(:name, :email, :password, :password_confirmation)
+    params.permit(:name, :phone, :password, :password_confirmation)
   end
 end

@@ -83,6 +83,7 @@ class User < ApplicationRecord
 
   # Assign an API key on create
   before_create do |user|
+    user.name = user.name.downcase
     user.api_key = user.generate_api_key
   end
 
