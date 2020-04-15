@@ -1,7 +1,7 @@
 require 'twilio-ruby'
 
-ACCOUNT_SID = '***REMOVED***'
-AUTH_TOKEN = '***REMOVED***'
+ACCOUNT_SID = ENV['TWILIO_ACCOUNT_SID']
+AUTH_TOKEN = ENV['TWILIO_AUTH_TOKEN']
 
 FROM = '+19386669393' # Your Twilio number
 
