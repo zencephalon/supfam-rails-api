@@ -6,7 +6,7 @@ class SessionsController < ActionController::API
     if @user
       render json: { token: @user.api_key, user: @user }
     else
-      render json: 'ILUVU', status: :unauthorized
+      render json: { error: 'User name or password incorrect' }, status: :unauthorized
     end
   end
 
@@ -55,10 +55,19 @@ class SessionsController < ActionController::API
   end
 
   def register
+    token = params[:token]
+    verification = PhoneVerification.find_by(token: token)
+
+    if !verification or verification.verified
+      render json: { error: 'No verification found' }, status: :unprocessable_entity
+      return
+    end
+
     @user = User.new(user_params)
+    @user.phone = verification.phone
 
     if @user.save
-      render json: @user, status: :created, location: @user
+      render json: { token: @user.api_key, user: @user }, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
