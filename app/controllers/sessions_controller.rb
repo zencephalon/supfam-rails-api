@@ -66,11 +66,18 @@ class SessionsController < ActionController::API
 
   def available
     name = (params[:name] || '').downcase
-    user_with_name = User.find_by(name: name)
-    if ['here', 'free', 'busy', 'away', 'open'].include?(name) or user_with_name
+
+    if ['here', 'free', 'busy', 'away', 'open'].include?(name) or !(name =~ /\A\w+\z/)
       render json: false
       return
     end
+
+    user_with_name = User.find_by(name: name)
+    if user_with_name
+      render json: false
+      return
+    end
+
     render json: true
   end
 

@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   post 'check_invite', to: 'sessions#check_invite'
   post 'verify', to: 'sessions#verify'
   post 'resend_code', to: 'sessions#resend_code'
-  get 'available/:name', to: 'sessions#available'
+  
+  get 'username/available', to: 'sessions#available'
 
   get 'friends', to: 'users#friends'
 

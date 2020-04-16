@@ -4,7 +4,7 @@ class User < ApplicationRecord
   validates :name, :phone, :password, presence: true
   validates :name, :phone, uniqueness: true
   validates :password, confirmation: true, length: { minimum: 8 }
-  validates :name, format: { with: /^\w+$/, message: "Ony allow letters, numbers, and underscores" }
+  validates :name, format: { with: /\A\w+\z/, message: "Ony allow letters, numbers, and underscores" }
 
   # Generate a unique API key
   def generate_api_key
