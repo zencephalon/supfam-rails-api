@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   put 'statuses/me', to: 'statuses#create'
   get 'statuses/me', to: 'statuses#my_status'
 
+  get 'profiles/me', to: 'profiles#me'
+
   put 'seens/me', to: 'seens#create'
 
   post 'login', to: 'sessions#login'
