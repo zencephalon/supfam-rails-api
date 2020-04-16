@@ -8,6 +8,12 @@ class ProfilesController < ApplicationController
     render json: @profiles
   end
 
+  def me
+    profiles = @current_user.profiles
+
+    render json: profiles
+  end
+
   # GET /profiles/1
   def show
     render json: @profile
