@@ -11,6 +11,8 @@ Rails.application.routes.draw do
 
   put 'seens/me', to: 'seens#create'
 
+  get 'uploads/presigned', to: 'uploads#presign'
+
   post 'login', to: 'sessions#login'
   post 'register', to: 'sessions#register'
   post 'check_invite', to: 'sessions#check_invite'
