@@ -21,7 +21,7 @@ class ProfilesController < ApplicationController
 
   # POST /profiles
   def create
-    @profile = Profile.new(profile_params)
+    @profile = @current_user.create_profile(profile_params)
 
     if @profile.save
       render json: @profile, status: :created, location: @profile
@@ -52,6 +52,6 @@ class ProfilesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def profile_params
-      params.fetch(:profile, {})
+      params.require(:profile).permit(:name, :avatar_url)
     end
 end

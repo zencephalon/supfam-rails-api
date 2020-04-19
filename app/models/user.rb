@@ -16,6 +16,15 @@ class User < ApplicationRecord
     end
   end
 
+  def create_profile(profile_params)
+    is_first_profile = (self.profiles.size < 1)
+
+    profile = self.profiles.new(profile_params)
+    profile.is_default = is_first_profile
+
+    return profile
+  end
+
   def dms
     self.friend_ids.map do |user_id|
       Conversation.dmWith(self.id, user_id)
