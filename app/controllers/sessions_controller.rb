@@ -15,7 +15,7 @@ class SessionsController < ActionController::API
 
     invite = Invitation.find_by(phone: phone)
 
-    unless invite
+    unless invite || Rails.env.development?
       render json: { error: 'No invite code found' }, status: :unauthorized
       return
     end
@@ -44,7 +44,7 @@ class SessionsController < ActionController::API
 
     verification = PhoneVerification.find_by(token: token)
 
-    if verification and verification.code == code
+    if verification and (verification.code == code || (Rails.env.development? && code == "1111"))
       verification.verified = true
       verification.save
       render json: { success: true }
@@ -58,7 +58,7 @@ class SessionsController < ActionController::API
     token = params[:token]
     verification = PhoneVerification.find_by(token: token)
 
-    if !verification or verification.verified
+    if !verification or !verification.verified
       render json: { error: 'No verification found' }, status: :unprocessable_entity
       return
     end

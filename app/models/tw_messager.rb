@@ -10,6 +10,10 @@ class TwMessager
 
     client = Twilio::REST::Client.new(ACCOUNT_SID, AUTH_TOKEN)
 
+    if Rails.env.development?
+      return
+    end
+    
     client.messages.create(
       from: FROM,
       to: phone,
