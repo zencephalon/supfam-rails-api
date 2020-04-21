@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_193758) do
+ActiveRecord::Schema.define(version: 2020_04_21_184611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,15 @@ ActiveRecord::Schema.define(version: 2020_04_16_193758) do
     t.bigint "user_id", null: false
     t.index ["family_id"], name: "index_families_users_on_family_id"
     t.index ["user_id"], name: "index_families_users_on_user_id"
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "from_profile_id_id"
+    t.bigint "to_profile_id_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_profile_id_id"], name: "index_friendships_on_from_profile_id_id"
+    t.index ["to_profile_id_id"], name: "index_friendships_on_to_profile_id_id"
   end
 
   create_table "invitations", force: :cascade do |t|
