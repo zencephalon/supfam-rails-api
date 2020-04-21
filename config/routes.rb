@@ -4,10 +4,11 @@ Rails.application.routes.draw do
 
   get 'users/me', to: 'users#me'
 
-  put 'statuses/me', to: 'statuses#create'
-  get 'statuses/me', to: 'statuses#my_status'
+  put 'statuses/me', to: 'profiles#update_status'
+  # get 'statuses/me', to: 'statuses#my_status'
 
   get 'profiles/me', to: 'profiles#me'
+  get 'profiles/:id', to: 'profiles#show'
   post 'profiles', to: 'profiles#create'
 
   put 'seens/me', to: 'seens#create'

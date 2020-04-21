@@ -18,7 +18,8 @@ class UsersController < ApplicationController
   end
 
   def friends
-    render json: @current_user.friends
+    render json: []
+    # render json: @current_user.friends
   end
 
   # POST /users

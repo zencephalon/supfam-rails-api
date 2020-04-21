@@ -1,5 +1,5 @@
 class StatusesController < ApplicationController
-  before_action :set_status, only: [:show, :update, :destroy]
+  # before_action :set_status, only: [:show, :update, :destroy]
 
   # GET /statuses
   def index
@@ -27,6 +27,7 @@ class StatusesController < ApplicationController
 
   # PATCH/PUT /statuses/1
   def update
+    # profile = @current_user.profiles.find_by
     if @status.update(status_params)
       render json: @status
     else
