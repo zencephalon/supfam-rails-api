@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_21_184611) do
+ActiveRecord::Schema.define(version: 2020_04_22_142535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,13 +89,13 @@ ActiveRecord::Schema.define(version: 2020_04_21_184611) do
   create_table "profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "name"
-    t.string "avatar_url"
     t.jsonb "status"
     t.jsonb "location"
     t.jsonb "seen"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_default"
+    t.string "avatar_key"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
