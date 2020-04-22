@@ -10,8 +10,8 @@ class SeenChannel < ApplicationCable::Channel
   # TODO: we probably don't need a seperate channel for this, can just merge with family channel
   def update_seen(msg)
     # TODO: we shouldn't need this if we just broadcast the seen update itself instead of the entire user
-    current_user.reload
-    current_user.update_seen(msg['data'])
-    current_user.broadcast_update
+    current_profile.reload
+    current_profile.update_seen(msg['data'])
+    current_profile.broadcast_update
   end
 end

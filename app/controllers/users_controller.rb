@@ -18,7 +18,14 @@ class UsersController < ApplicationController
   end
 
   def friends
-    render json: []
+    profile = @current_user.profiles.find_by(id: params[:profile_id])
+
+    unless profile
+      render json: []
+      return
+    end
+
+    render json: profile.friends
     # render json: @current_user.friends
   end
 

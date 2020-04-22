@@ -1,7 +1,7 @@
 class Profile < ApplicationRecord
   belongs_to :user
   has_many :friendships, foreign_key: 'from_profile_id'
-  has_many :friends, through: :friendships, class_name: 'Profile'
+  has_many :friends, through: :friendships, class_name: 'Profile', source: :to_friend
 
   def create_friendship(friend_profile_id)
     friend_profile = Profile.find_by(id: friend_profile_id)
@@ -16,6 +16,25 @@ class Profile < ApplicationRecord
     end
 
     return true
+  end
+
+  def avatar_url
+    signer = Aws::S3::Presigner.new
+    signer.presigned_url(:get_object, bucket: "supfam-avatar", key: self.avatar_key)
+  end
+
+  def broadcast_update
+  end
+
+  def update_seen(params)
+    new_seen = {}
+    [:battery, :battery_state, :network_type, :network_strength].each do |key|
+      new_seen[key.to_s] = params[key.to_s]
+    end
+    puts new_seen
+    self.seen = (self.seen || {}).merge(new_seen)
+    puts self.seen
+    return self.save
   end
 
   def update_status(params)
