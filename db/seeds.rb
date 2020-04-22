@@ -12,44 +12,44 @@ me_profiles = [me.create_profile(name: 'Matt', avatar_key: "fixture/matt.jpg"), 
 mattfam_users_data = [{
     displayName: "Dad",
     displayImage: "fixture/dad.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Donald Drumpf needs to go away",
-    color: 2
+    color: 2,
+    phone: '+19522015075'
   },
   {
     displayName: "Huff",
     displayImage: "fixture/huff.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Groovin' to that funk",
-    color: 1
+    color: 1,
+    phone: '+19522015076'
   },
   {
     displayName: "Eleni",
     displayImage: "fixture/eleni.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Heading to the get down",
-    color: 2
+    color: 2,
+    phone: '+19522015077'
   },
   {
     displayName: "Daria",
     displayImage: "fixture/daria.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Doing jits",
-    color: 0
+    color: 0,
+    phone: '+19522015078'
   },
   {
     displayName: "Mark",
     displayImage: "fixture/mark.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Any dinner plans?",
-    color: 3
+    color: 3,
+    phone: '+19522015079'
   },
   {
     displayName: "Mom",
     displayImage: "fixture/mom.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Taking a walk",
-    color: 2
+    color: 2,
+    phone: '+19522015080'
   }
 ]
 
@@ -57,57 +57,56 @@ hf0_users_data = [
   {
     displayName: "Stedman",
     displayImage: "fixture/stedman.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Just raised a $3 million seed round!",
-    color: 1
+    color: 1,
+    phone: '+19522015081'
   },
   {
     displayName: "Cathy",
     displayImage: "fixture/cathy.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Crushing out some code",
-    color: 1
+    color: 1,
+    phone: '+19522015081'
   },
   {
     displayName: "DK",
     displayImage: "fixture/dk.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Pushing a new version of Intention tonight",
-    color: 2
+    color: 2,
+    phone: '+19522015082'
   },
   {
     displayName: "Condon",
     displayImage: "fixture/dk.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Have you tried boop lately?",
-    color: 3
+    color: 3,
+    phone: '+19522015083'
   },
   {
     displayName: "Hellyeah",
     displayImage: "fixture/hellyeah.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Pink Roses just made the billboard top 100!",
-    color: 2
+    color: 2,
+    phone: '+19522015084'
   },
   {
     displayName: "Nivi",
     displayImage: "fixture/nivi.png",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "At the gym! Thank god coronavirus ended",
-    color: 0
+    color: 0,
+    phone: '+19522015085'
   },
   {
     displayName: "Zain",
     displayImage: "fixture/dk.jpg",
-    phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Try out the latest version of Relephant!",
-    color: 2
+    color: 2,
+    phone: '+19522015086'
   },
 ]
 
 mattfam_users_data.each do |data|
-  user = User.new({ password: 'password', password_confirmation: 'password', phone: data[:phone] })
-  user.save
+  user = User.create({ password: 'password', password_confirmation: 'password', phone: data[:phone], name: data[:displayName] })
   profile = user.create_profile(avatar_key: data[:displayImage], name: data[:displayName])
   profile.update_status(message: data[:statusText], color: data[:color])
   me_profiles[0].create_friendship(profile.id)

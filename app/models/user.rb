@@ -19,8 +19,8 @@ class User < ApplicationRecord
   def create_profile(profile_params)
     is_first_profile = (self.profiles.size < 1)
 
-    profile = self.profiles.new(profile_params)
-    profile.is_default = is_first_profile
+    profile_params[:is_default] = is_first_profile
+    profile = self.profiles.create(profile_params)
 
     return profile
   end

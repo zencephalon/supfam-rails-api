@@ -30,17 +30,23 @@ class Profile < ApplicationRecord
     return self.save
   end
 
-  before_save do |profile|
+  before_create do
     if self.short_desc.nil?
       self.short_desc = ('a'..'z').to_a.sample
+    end
+    if self.status.nil?
+      self.status = {
+        message: 'I just joined, so everyone please welcome me! Sup fam?',
+        color: 3,
+      }
     end
   end
 
   after_create do |profile|
-    profile.status = {
-      message: 'I just joined, so everyone please welcome me! Sup fam?',
-      color: 3,
-    }
-    profile.save
+    # profile.status = {
+    #   message: 'I just joined, so everyone please welcome me! Sup fam?',
+    #   color: 3,
+    # }
+    # profile.save
   end
 end
