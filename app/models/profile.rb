@@ -31,16 +31,22 @@ class Profile < ApplicationRecord
     ProfileChannel.broadcast_to(self, json)
   end
 
+  def broadcast_seen
+    ProfileChannel.broadcast_to(self, { seen: self.seen })
+  end
+
   def update_seen(params)
     new_seen = {}
-    [:battery, :battery_state, :network_type, :network_strength].each do |key|
-      new_seen[key.to_s] = params[key.to_s]
+    ["battery", "battery_state", "network_type", "network_strength"].each do |key|
+      new_seen[key] = params[key]
     end
-    puts new_seen
+    new_seen["updated_at"] = DateTime.now()
     self.seen = (self.seen || {}).merge(new_seen)
 
-    self.broadcast_update
-    return self.save
+    if self.save
+      # self.broadcast_update
+      self.broadcast_seen
+    end
   end
 
   def update_status(params)
@@ -53,8 +59,9 @@ class Profile < ApplicationRecord
     end
     self.status = (self.status || {}).merge(new_status)
 
-    self.broadcast_update
-    return self.save
+    if self.save
+      self.broadcast_update
+    end
   end
 
   before_create do
