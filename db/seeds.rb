@@ -7,46 +7,46 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 me = User.create(name: 'zen', password: 'password', password_confirmation: 'password', phone: '+19522015074' )
-me_profile = me.create_profile(name: 'Matt')
+me_profiles = [me.create_profile(name: 'Matt', avatar_key: "fixture/matt.jpg"), me.create_profile(name: 'Bunday', avatar_key: "fixture/matt.jpg")]
 
 mattfam_users_data = [{
     displayName: "Dad",
-    displayImage: "https://justus-faces.s3.amazonaws.com/dad.jpg",
+    displayImage: "fixture/dad.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Donald Drumpf needs to go away",
     color: 2
   },
   {
     displayName: "Huff",
-    displayImage: "https://justus-faces.s3.amazonaws.com/huff.jpg",
+    displayImage: "fixture/huff.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Groovin' to that funk",
     color: 1
   },
   {
     displayName: "Eleni",
-    displayImage: "https://justus-faces.s3.amazonaws.com/eleni.jpg",
+    displayImage: "fixture/eleni.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Heading to the get down",
     color: 2
   },
   {
     displayName: "Daria",
-    displayImage: "https://justus-faces.s3.amazonaws.com/daria.jpg",
+    displayImage: "fixture/daria.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Doing jits",
     color: 0
   },
   {
     displayName: "Mark",
-    displayImage: "https://justus-faces.s3.amazonaws.com/mark.jpg",
+    displayImage: "fixture/mark.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Any dinner plans?",
     color: 3
   },
   {
     displayName: "Mom",
-    displayImage: "https://justus-faces.s3.amazonaws.com/mom.jpg",
+    displayImage: "fixture/mom.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Taking a walk",
     color: 2
@@ -56,58 +56,59 @@ mattfam_users_data = [{
 hf0_users_data = [
   {
     displayName: "Stedman",
-    displayImage: "https://justus-faces.s3.amazonaws.com/stedman.jpg",
+    displayImage: "fixture/stedman.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Just raised a $3 million seed round!",
     color: 1
   },
   {
     displayName: "Cathy",
-    displayImage: "https://justus-faces.s3.amazonaws.com/cathy.jpg",
+    displayImage: "fixture/cathy.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Crushing out some code",
     color: 1
   },
   {
     displayName: "DK",
-    displayImage: "https://justus-faces.s3.amazonaws.com/dk.jpg",
+    displayImage: "fixture/dk.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Pushing a new version of Intention tonight",
     color: 2
   },
   {
     displayName: "Condon",
-    displayImage: "https://justus-faces.s3.amazonaws.com/dk.jpg",
+    displayImage: "fixture/dk.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Have you tried boop lately?",
     color: 3
   },
   {
     displayName: "Hellyeah",
-    displayImage: "https://justus-faces.s3.amazonaws.com/hellyeah.jpg",
+    displayImage: "fixture/hellyeah.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Pink Roses just made the billboard top 100!",
     color: 2
   },
   {
     displayName: "Nivi",
-    displayImage: "https://justus-faces.s3.amazonaws.com/nivi.png",
+    displayImage: "fixture/nivi.png",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "At the gym! Thank god coronavirus ended",
     color: 0
   },
   {
     displayName: "Zain",
-    displayImage: "https://justus-faces.s3.amazonaws.com/dk.jpg",
+    displayImage: "fixture/dk.jpg",
     phone: Faker::PhoneNumber.cell_phone_in_e164,
     statusText: "Try out the latest version of Relephant!",
     color: 2
   },
 ]
 
-users_data.each do |data|
-  user = User.new({ name: data[:displayName], avatar_url: data[:displayImage], password: 'password', password_confirmation: 'password' })
+mattfam_users_data.each do |data|
+  user = User.new({ password: 'password', password_confirmation: 'password', phone: data[:phone] })
   user.save
-  user.statuses.create({ message: data[:statusText], color: rand(4) })
-  family.users << user
+  profile = user.create_profile(avatar_key: data[:displayImage], name: data[:displayName])
+  profile.update_status(message: data[:statusText], color: data[:color])
+  me_profiles[0].create_friendship(profile.id)
 end

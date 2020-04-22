@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_22_142535) do
+ActiveRecord::Schema.define(version: 2020_04_22_144551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 2020_04_22_142535) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_default"
     t.string "avatar_key"
+    t.string "short_desc"
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
