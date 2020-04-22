@@ -1,6 +1,6 @@
 class SeenChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+    stream_from "some_channel"
   end
 
   def unsubscribed
@@ -12,6 +12,5 @@ class SeenChannel < ApplicationCable::Channel
     # TODO: we shouldn't need this if we just broadcast the seen update itself instead of the entire user
     current_profile.reload
     current_profile.update_seen(msg['data'])
-    current_profile.broadcast_update
   end
 end

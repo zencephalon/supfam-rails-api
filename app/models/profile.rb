@@ -24,6 +24,11 @@ class Profile < ApplicationRecord
   end
 
   def broadcast_update
+    json = ActiveModelSerializers::Adapter::Json.new(
+      ProfileSerializer.new(self)
+    ).serializable_hash
+
+    ProfileChannel.broadcast_to(self, json)
   end
 
   def update_seen(params)
@@ -33,7 +38,8 @@ class Profile < ApplicationRecord
     end
     puts new_seen
     self.seen = (self.seen || {}).merge(new_seen)
-    puts self.seen
+
+    self.broadcast_update
     return self.save
   end
 
@@ -45,7 +51,9 @@ class Profile < ApplicationRecord
     if params[:color]
       new_status["color"] = params[:color]
     end
-    self.status = self.status.merge(new_status)
+    self.status = (self.status || {}).merge(new_status)
+
+    self.broadcast_update
     return self.save
   end
 
