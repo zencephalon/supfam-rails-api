@@ -22,8 +22,9 @@ gem 'redis'
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'twilio-ruby'
-
 gem 'faker'
+gem 'sorbet', :group => :development
+gem 'sorbet-runtime'
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'

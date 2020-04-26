@@ -1,3 +1,4 @@
+# typed: false
 class SessionsController < ActionController::API
   # POST /login
   def login

@@ -1,3 +1,4 @@
+# typed: true
 require 'twilio-ruby'
 
 ACCOUNT_SID = ENV['TWILIO_ACCOUNT_SID']

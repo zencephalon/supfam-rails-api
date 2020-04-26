@@ -1,3 +1,4 @@
+# typed: true
 class CreateConversationMemberships < ActiveRecord::Migration[6.0]
   def change
     create_table :conversation_memberships do |t|

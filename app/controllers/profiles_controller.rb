@@ -1,3 +1,4 @@
+# typed: false
 class ProfilesController < ApplicationController
   # before_action :set_profile, only: [:show, :update, :destroy]
 

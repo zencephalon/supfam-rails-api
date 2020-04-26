@@ -1,3 +1,4 @@
+# typed: false
 class SeensController < ApplicationController
   before_action :set_seen, only: [:show, :update, :destroy]
 

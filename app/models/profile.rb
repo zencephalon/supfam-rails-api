@@ -1,3 +1,4 @@
+# typed: false
 class Profile < ApplicationRecord
   belongs_to :user
   has_many :friendships, foreign_key: 'from_profile_id'
@@ -21,6 +22,10 @@ class Profile < ApplicationRecord
   def avatar_url
     signer = Aws::S3::Presigner.new
     signer.presigned_url(:get_object, bucket: "supfam-avatar", key: self.avatar_key)
+  end
+
+  def phone
+    user.phone
   end
 
   def broadcast_update
@@ -61,6 +66,7 @@ class Profile < ApplicationRecord
 
     if self.save
       self.broadcast_update
+      return true
     end
   end
 

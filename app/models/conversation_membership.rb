@@ -1,3 +1,4 @@
+# typed: false
 class ConversationMembership < ApplicationRecord
   self.inheritance_column = :_type_disabled
 

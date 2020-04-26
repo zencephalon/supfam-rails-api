@@ -1,3 +1,4 @@
+# typed: strict
 Rails.application.configure do
   config.hosts << "supfam.ngrok.io"
   # Settings specified here will take precedence over those in config/application.rb.

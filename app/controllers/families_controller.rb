@@ -1,3 +1,4 @@
+# typed: false
 class FamiliesController < ApplicationController
   before_action :set_family, only: [:show, :update, :destroy]
 

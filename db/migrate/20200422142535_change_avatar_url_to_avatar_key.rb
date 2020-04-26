@@ -1,3 +1,4 @@
+# typed: true
 class ChangeAvatarUrlToAvatarKey < ActiveRecord::Migration[6.0]
   def change
     remove_column :profiles, :avatar_url

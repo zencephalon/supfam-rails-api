@@ -1,3 +1,4 @@
+# typed: false
 class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:show, :update, :destroy]
 

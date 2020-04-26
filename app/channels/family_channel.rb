@@ -1,3 +1,4 @@
+# typed: true
 class FamilyChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"

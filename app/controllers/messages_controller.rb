@@ -1,3 +1,4 @@
+# typed: false
 class MessagesController < ApplicationController
 
   def send_message_to_user

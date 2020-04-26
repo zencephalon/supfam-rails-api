@@ -1,3 +1,4 @@
+# typed: false
 class ConversationMembershipsController < ApplicationController
   before_action :set_conversation_membership, only: [:show, :update, :destroy]
 

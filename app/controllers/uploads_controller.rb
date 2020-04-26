@@ -1,3 +1,4 @@
+# typed: true
 require 'aws-sdk'
 
 class UploadsController < ApplicationController

@@ -1,3 +1,4 @@
+# typed: true
 class PhoneVerification < ApplicationRecord
   def self.generate_token
     loop do

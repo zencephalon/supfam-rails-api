@@ -1,3 +1,4 @@
+# typed: true
 class RedoUsers < ActiveRecord::Migration[6.0]
   def change
     drop_table :statuses
