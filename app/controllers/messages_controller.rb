@@ -1,14 +1,18 @@
 # typed: false
 class MessagesController < ApplicationController
 
-  def send_message_to_user
-    conversation = Conversation.dmWith(@current_user.id, params[:to_user_id])
-    render json: conversation.add_message(@current_user.id, msg_params)
+  def send_message_to_profile
+    conversation = Conversation.dmWith(@current_user.id, params[:to_profile_id])
+    if conversation && @current_user.profiles.find(params[:from_profile_id])
+      render json: conversation.add_message(params[:from_profile_id], msg_params)
+    else
+      render json: { error: "Invalid profile" }, status: :unprocessable_entity
+    end
   end
 
-  def messages_with_user
-    conversation = Conversation.dmWith(@current_user.id, params[:to_user_id])
-    messages = conversation.messages.eager_load(:user).order(id: :desc)
+  def messages_with_profile
+    conversation = Conversation.dmWith(@current_user.id, params[:to_profile_id])
+    messages = conversation.messages.eager_load(:profile).order(id: :desc)
     render json: messages
   end
 

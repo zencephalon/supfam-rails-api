@@ -30,6 +30,6 @@ Rails.application.routes.draw do
 
   # messages
 
-  get 'messages/user/:to_user_id', to: 'messages#messages_with_user'
-  post 'messages/user/:to_user_id', to: 'messages#send_message_to_user'
+  get 'messages/profile/:to_profile_id', to: 'messages#messages_with_profile'
+  post 'profiles/:from_profile_id/messages/profile/:to_profile_id', to: 'messages#send_message_to_profile'
 end

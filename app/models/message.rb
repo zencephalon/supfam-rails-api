@@ -3,7 +3,7 @@ class Message < ApplicationRecord
   self.inheritance_column = :_type_disabled
 
   belongs_to :conversation
-  belongs_to :user
+  belongs_to :profile
 
   def user_summary
     return self.user.summary

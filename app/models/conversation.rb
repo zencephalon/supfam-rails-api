@@ -7,7 +7,8 @@ class Conversation < ApplicationRecord
     ids.map(&:to_i).sort.join(":")
   end
 
-  def self.dmWith(current_user_id, user_id)
+  def self.dmWith(current_user_id, profile_id)
+    user_id = Profile.find(profile_id).user_id
     dmId = getDmId([user_id, current_user_id])
     dm = self.find_by(dmId: dmId)
     return dm if dm
@@ -29,11 +30,13 @@ class Conversation < ApplicationRecord
     MessageChannel.broadcast_to(self, json)
   end
 
-  def add_message(current_user_id, msg_params)
-    msg = self.messages.create({ user_id: current_user_id, message: msg_params[:message], type: msg_params[:type] })
+  def add_message(current_profile_id, msg_params)
+    return false unless @current_user.profiles.find(current_profile_id)
+
+    msg = self.messages.create({ profile_id: current_profile_id, message: msg_params[:message], type: msg_params[:type] })
 
     if msg.save
-      self.update(message_count: self.message_count + 1, last_message_id: msg.id, last_message_user_id: current_user_id)
+      self.update(message_count: self.message_count + 1, last_message_id: msg.id, last_message_profile_id: current_profile_id)
       # MessageChannel.broadcast_to(self, { message: msg })
       self.broadcast_message(msg)
       return true
