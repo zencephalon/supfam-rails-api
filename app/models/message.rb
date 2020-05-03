@@ -4,8 +4,4 @@ class Message < ApplicationRecord
 
   belongs_to :conversation
   belongs_to :profile
-
-  def user_summary
-    return self.user.summary
-  end
 end
