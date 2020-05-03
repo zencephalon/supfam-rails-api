@@ -74,6 +74,10 @@ class Profile < ApplicationRecord
     return {id: self.id, name: self.name, avatar_url: self.avatar_url}
   end
 
+  def micro_summary
+    return {id: self.id}
+  end
+
   before_create do
     if self.short_desc.nil?
       self.short_desc = ('a'..'z').to_a.sample
