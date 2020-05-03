@@ -6,6 +6,6 @@ class Message < ApplicationRecord
   belongs_to :profile
 
   def profile_summary
-    self.profile
+    self.profile.summary
   end
 end
