@@ -4,4 +4,8 @@ class Message < ApplicationRecord
 
   belongs_to :conversation
   belongs_to :profile
+
+  def profile_summary
+    self.profile
+  end
 end
