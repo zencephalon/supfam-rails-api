@@ -10,7 +10,7 @@ class InstantMessageChannel < ApplicationCable::Channel
       message: data['message'],
       type: 0,
       id: 'i',
-      profile_summary: current_profile.micro_summary
+      profile_id: current_profile.id
     }})
   end
 
