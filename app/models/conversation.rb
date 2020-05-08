@@ -45,6 +45,18 @@ class Conversation < ApplicationRecord
     return false
   end
 
+  def message_page
+    return self.messages.order(id: :desc).limit(10)
+  end
+
+  def get_messages_with_cursor(cursor_id)
+    unless cursor_id
+      return message_page
+    end
+
+    return self.message_page.where("id < ?", cursor_id)
+  end
+
   def message_count
     self.messages.count
   end

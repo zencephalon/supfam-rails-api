@@ -13,8 +13,8 @@ class MessagesController < ApplicationController
 
   def messages_with_profile
     conversation = Conversation.dmWith(@current_user.id, params[:to_profile_id])
-    messages = conversation.messages.eager_load(:profile).order(id: :desc)
-    render json: messages
+    messages = conversation.get_messages_with_cursor(params[:cursor])
+    render json: { messages: messages, next_cursor: messages.last&.id }
   end
 
   private
