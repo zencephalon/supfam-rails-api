@@ -39,7 +39,7 @@ class Conversation < ApplicationRecord
       self.update(message_count: self.message_count + 1, last_message_id: msg.id, last_message_profile_id: from_profile.id)
       # MessageChannel.broadcast_to(self, { message: msg })
       self.broadcast_message(msg)
-      return true
+      return msg
     end
 
     return false
