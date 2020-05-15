@@ -33,7 +33,7 @@ class Conversation < ApplicationRecord
   def add_message(from_profile, msg_params)
     return false unless from_profile
 
-    msg = self.messages.create({ profile_id: from_profile.id, message: msg_params[:message], type: msg_params[:type] })
+    msg = self.messages.create({ profile_id: from_profile.id, message: msg_params[:message], type: msg_params[:type], qid: msg_params[:qid] })
 
     if msg.save
       self.update(message_count: self.message_count + 1, last_message_id: msg.id, last_message_profile_id: from_profile.id)
