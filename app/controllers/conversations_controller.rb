@@ -2,8 +2,8 @@
 class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:show, :update, :destroy]
 
-  def my_dms
-    render json: @current_user.dms_by_friend_id
+  def me
+    
   end
 
   def conversation_with_profile

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_15_154926) do
+ActiveRecord::Schema.define(version: 2020_05_19_144431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,7 +22,9 @@ ActiveRecord::Schema.define(version: 2020_05_15_154926) do
     t.integer "last_read_message_num"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "profile_id"
     t.index ["conversation_id"], name: "index_conversation_memberships_on_conversation_id"
+    t.index ["profile_id"], name: "index_conversation_memberships_on_profile_id"
     t.index ["user_id"], name: "index_conversation_memberships_on_user_id"
   end
 

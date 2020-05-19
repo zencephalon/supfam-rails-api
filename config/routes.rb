@@ -30,6 +30,8 @@ Rails.application.routes.draw do
 
   # messages
 
+  get 'conversations/me/:profile_id', to: 'conversations#me'
+
   get 'conversations/profile/:to_profile_id', to: 'conversations#conversation_with_profile'
 
   get 'conversations/:id/messages', to: 'conversations#messages'
