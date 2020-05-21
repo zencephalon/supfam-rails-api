@@ -2,17 +2,15 @@
 
 ## Next up
 
-Have messages#send_message_to_profile take a `cursor` param.
-
-Add a method to the conversation model to grab messages based on the cursor.
-
-`c.messages.where("messages.id > 0").order(id: :desc).limit(3)`
-
-We can get pagination with infinite scroll going.
-
 ## Later
 
 Use `User.where("users.phone IN (?)", ["+19522015076", "+19522015077"])` kind of stuff to deal with Contacts upload checking.
+
+## Notes
+
+I changed conversationMembership to use a last_message_index, but we need to change that back to a last_message_id. On the client side when receiving messages it's too much work to determine the count of each message, but we know the ID easily.
+
+We'll compute the unread count on the server side, using a similar query to the message cursor. Just look for new messages in the conversation with id > the last read id.
 
 ## Archive
 
