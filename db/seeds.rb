@@ -7,10 +7,18 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-me = User.create(name: 'zen', password: 'password', password_confirmation: 'password', phone: '+19522015074' )
-me_profiles = [me.create_profile(name: 'Matt', avatar_key: "fixture/matt.jpg"), me.create_profile(name: 'Bunday', avatar_key: "fixture/matt.jpg")]
+# me = User.create(name: 'zen', password: 'password', password_confirmation: 'password', phone: '+19522015074' )
+# me_profiles = [me.create_profile(name: 'Matt', avatar_key: "fixture/matt.jpg"), me.create_profile(name: 'Bunday', avatar_key: "fixture/matt.jpg")]
 
-mattfam_users_data = [{
+mattfam_users_data = [
+  {
+    displayName: "Matt",
+    displayImage: "fixture/matt.jpg",
+    statusText: "Doing a live demo of Supfam",
+    color: 1,
+    phone: '+19522015074'
+  },
+  {
     displayName: "Dad",
     displayImage: "fixture/dad.jpg",
     statusText: "Donald Drumpf needs to go away",
@@ -51,16 +59,13 @@ mattfam_users_data = [{
     statusText: "Taking a walk",
     color: 2,
     phone: '+19522015080'
-  }
-]
-
-hf0_users_data = [
+  },
   {
     displayName: "Stedman",
     displayImage: "fixture/stedman.jpg",
     statusText: "Just raised a $3 million seed round!",
     color: 1,
-    phone: '+19522015081'
+    phone: '+19522015000'
   },
   {
     displayName: "Cathy",
@@ -84,7 +89,7 @@ hf0_users_data = [
     phone: '+19522015083'
   },
   {
-    displayName: "Hellyeah",
+    displayName: "Dave",
     displayImage: "fixture/hellyeah.jpg",
     statusText: "Pink Roses just made the billboard top 100!",
     color: 2,
@@ -103,12 +108,22 @@ hf0_users_data = [
     statusText: "Try out the latest version of Relephant!",
     color: 2,
     phone: '+19522015086'
-  },
+  }
 ]
 
-mattfam_users_data.each do |data|
+puts mattfam_users_data.size
+
+mattfam_users_data.map do |data|
+  puts data
   user = User.create({ password: 'password', password_confirmation: 'password', phone: data[:phone], name: data[:displayName] })
+  user.save!
   profile = user.create_profile(avatar_key: data[:displayImage], name: data[:displayName])
   profile.update_status(message: data[:statusText], color: data[:color])
-  me_profiles[0].create_friendship(profile.id)
+  # me_profiles[0].create_friendship(profile.id)
+  profile
+end.combination(2) do |pair|
+  pair[0].create_friendship(pair[1].id)
+  puts "Pair #{pair[0].id} #{pair[1].id}"
 end
+
+Conversation.create({ name: 'HF0 Demo Group Chat'})
