@@ -10,7 +10,9 @@ class ProfilesController < ApplicationController
 
   # GET /profiles/1
   def show
-    profile = @current_user.profiles.find_by(id: params[:id])
+    # profile = @current_user.profiles.find_by(id: params[:id])
+    # TODO, fix security on this, should only view friends
+    profile = Profile.find_by(id: params[:id])
     render json: profile
   end
 
