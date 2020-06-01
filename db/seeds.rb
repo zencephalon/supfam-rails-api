@@ -76,14 +76,14 @@ mattfam_users_data = [
   },
   {
     displayName: "DK",
-    displayImage: "fixture/dk.jpg",
+    displayImage: "fixture/dk.png",
     statusText: "Pushing a new version of Intention tonight",
     color: 2,
     phone: '+19522015082'
   },
   {
     displayName: "Condon",
-    displayImage: "fixture/dk.jpg",
+    displayImage: "fixture/condon.jpg",
     statusText: "Have you tried boop lately?",
     color: 3,
     phone: '+19522015083'
@@ -104,7 +104,7 @@ mattfam_users_data = [
   },
   {
     displayName: "Zain",
-    displayImage: "fixture/dk.jpg",
+    displayImage: "fixture/zain.jpg",
     statusText: "Try out the latest version of Relephant!",
     color: 2,
     phone: '+19522015086'

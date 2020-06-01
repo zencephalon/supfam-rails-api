@@ -3,7 +3,8 @@ class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:show, :update, :destroy]
 
   def me
-    
+    # TODO: just for demo, we'll have to change this later
+    render json: Conversation.where(dmId: nil)
   end
 
   def conversation_with_profile
