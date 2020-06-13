@@ -42,10 +42,7 @@ class Profile < ApplicationRecord
   end
 
   def update_seen(params)
-    new_seen = {}
-    ["battery", "battery_state", "network_type", "network_strength"].each do |key|
-      new_seen[key] = params[key]
-    end
+    new_seen = params.slice("battery", "battery_state", "network_type", "network_strength")
     new_seen["updated_at"] = DateTime.now()
     self.seen = (self.seen || {}).merge(new_seen)
 
