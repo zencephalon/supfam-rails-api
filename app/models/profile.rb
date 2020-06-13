@@ -38,7 +38,7 @@ class Profile < ApplicationRecord
   end
 
   def broadcast_seen
-    ProfileChannel.broadcast_to(self, { seen: self.seen })
+    ProfileChannel.broadcast_to(self, { seen: self.seen, profile_id: self.id })
   end
 
   def update_seen(params)
