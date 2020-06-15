@@ -12,27 +12,16 @@ I changed conversationMembership to use a last_message_index, but we need to cha
 
 We'll compute the unread count on the server side, using a similar query to the message cursor. Just look for new messages in the conversation with id > the last read id.
 
-## Archive
+## Setup
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+`rvm install 2.6.3`
+`rvm use 2.6.3`
+`bundle`
 
-Things you may want to cover:
+I recommend installing https://postgresapp.com/
 
-- Ruby version
+`rails db:create`
+`rails db:migrate`
+`rails db:seed`
 
-- System dependencies
-
-- Configuration
-
-- Database creation
-
-- Database initialization
-
-- How to run the test suite
-
-- Services (job queues, cache servers, search engines, etc.)
-
-- Deployment instructions
-
-- ...
+`rails s`
