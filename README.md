@@ -12,6 +12,8 @@ I changed conversationMembership to use a last_message_index, but we need to cha
 
 We'll compute the unread count on the server side, using a similar query to the message cursor. Just look for new messages in the conversation with id > the last read id.
 
+Display unread status on conversations by just using a last_read_at timestamp
+
 ## Setup
 
 `rvm install 2.6.3`
