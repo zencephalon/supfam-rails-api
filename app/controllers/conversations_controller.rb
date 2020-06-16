@@ -3,13 +3,17 @@ class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:read]
 
   def read
-    membership = @conversation.conversation_memberships.where(user_id: @current_user.id)
+    membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
 
     render json: { error: "Not a member of this conversation" }, status: 403 unless membership
 
-    membership.last_read_message_id = conversation.last_message_id
+    membership.last_read_message_id = @conversation.last_message_id
     
-    head :ok
+    if membership.save
+      render json: {}
+    else
+      render json: { error: "Failed to save" }, status: 400
+    end
   end
 
   def conversation_with_profile
