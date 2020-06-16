@@ -1,8 +1,16 @@
 # typed: false
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:show, :update, :destroy]
+  before_action :set_conversation, only: [:read]
 
+  def read
+    membership = @conversation.conversation_memberships.where(user_id: @current_user.id)
 
+    render json: { error: "Not a member of this conversation" }, status: 403 unless membership
+
+    membership.last_read_message_id = conversation.last_message_id
+    
+    head :ok
+  end
 
   def conversation_with_profile
     conversation = Conversation.dmWith(@current_user.id, params[:to_profile_id])
@@ -10,7 +18,7 @@ class ConversationsController < ApplicationController
     if conversation
       render json: conversation
     else
-      render json: { error: "Conversation not found" }
+      render json: { error: "Conversation not found" }, status: 404
     end
   end
 

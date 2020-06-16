@@ -35,6 +35,8 @@ Rails.application.routes.draw do
 
   # messages
 
+  post 'conversations/:id/read', to: 'conversations#read'
+
   get 'conversations/:id/messages', to: 'conversations#messages'
   post 'conversations/:id/messages/profile/:from_profile_id', to: 'messages#send_message'
 
