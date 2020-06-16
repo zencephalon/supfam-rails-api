@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :name, format: { with: /\A\w+\z/, message: "Ony allow letters, numbers, and underscores" }
 
   has_many :profiles
+  has_many :conversation_memberships
 
   # Generate a unique API key
   def generate_api_key

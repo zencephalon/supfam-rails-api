@@ -26,13 +26,14 @@ Rails.application.routes.draw do
 
   get 'friends/:profile_id', to: 'users#friends'
 
-  get 'conversations/me', to: 'conversations#me'
 
-  # messages
+  # conversations
 
-  get 'conversations/me/:profile_id', to: 'conversations#me'
+  get 'conversation_memberships/me', to: 'conversation_memberships#me'
 
   get 'conversations/profile/:to_profile_id', to: 'conversations#conversation_with_profile'
+
+  # messages
 
   get 'conversations/:id/messages', to: 'conversations#messages'
   post 'conversations/:id/messages/profile/:from_profile_id', to: 'messages#send_message'
