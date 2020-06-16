@@ -1,6 +1,6 @@
 # typed: false
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:read]
+  before_action :set_conversation, only: [:read, :preview]
 
   def read
     membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
@@ -14,6 +14,14 @@ class ConversationsController < ApplicationController
     else
       render json: { error: "Failed to save" }, status: 400
     end
+  end
+
+  def preview
+    membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
+
+    render json: { error: "Not a member of this conversation" }, status: 403 unless membership
+
+    render json: @conversation.last_message
   end
 
   def conversation_with_profile

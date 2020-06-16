@@ -3,6 +3,7 @@ class Conversation < ApplicationRecord
   has_many :messages
   has_many :conversation_memberships
   has_many :users, through: :conversation_memberships
+  belongs_to :last_message, class_name: "Message", foreign_key: "last_message_id"
 
   def self.getDmId(ids)
     ids.map(&:to_i).sort.join(":")
