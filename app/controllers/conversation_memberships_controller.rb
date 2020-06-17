@@ -2,6 +2,6 @@
 class ConversationMembershipsController < ApplicationController
 
   def me
-    render json: @current_user.conversation_memberships.includes(conversation: :last_message)
+    render json: @current_user.conversation_memberships.includes(:conversation).map(&:summary)
   end
 end

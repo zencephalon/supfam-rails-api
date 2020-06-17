@@ -5,7 +5,10 @@ class ConversationsController < ApplicationController
   def read
     membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
 
-    render json: { error: "Not a member of this conversation" }, status: 403 unless membership
+    unless membership
+      render json: { error: "Not a member of this conversation" }, status: 403 
+      return
+    end
 
     membership.last_read_message_id = @conversation.last_message_id
     
@@ -19,7 +22,10 @@ class ConversationsController < ApplicationController
   def preview
     membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
 
-    render json: { error: "Not a member of this conversation" }, status: 403 unless membership
+    unless membership
+      render json: { error: "Not a member of this conversation" }, status: 403 
+      return
+    end
 
     render json: @conversation.last_message
   end
@@ -27,9 +33,30 @@ class ConversationsController < ApplicationController
   def membership
     membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
 
-    render json: { error: "Not a member of this conversation" }, status: 403 unless membership
+    unless membership
+      render json: { error: "Not a member of this conversation" }, status: 403 
+      return
+    end
 
-    render json: membership 
+    render json: membership.summary
+  end
+
+  def dmMembership
+    conversation = Conversation.find_by(dmId: params[:dmId])
+
+    unless conversation
+      render json: { error: "No such conversation" }, status: 404
+      return
+    end
+
+    membership = conversation.conversation_memberships.where(user_id: @current_user.id)[0]
+
+    unless membership
+      render json: { error: "Not a member of this conversation" }, status: 403 
+      return
+    end
+
+    render json: membership.summary
   end
 
   def conversation_with_profile
