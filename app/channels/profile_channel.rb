@@ -1,9 +1,7 @@
 # typed: true
 class ProfileChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
-    profile = Profile.find(params[:id])
-    stream_for profile
+    stream_for "#{params[:id]}"
   end
 
   def unsubscribed

@@ -4,6 +4,7 @@ class ConversationChannel < ApplicationCable::Channel
     # stream_from "some_channel"
     # conversation = Conversation.find(params[:id])
     # stream_for conversation
+    # stream_for 
   end
 
   def unsubscribed

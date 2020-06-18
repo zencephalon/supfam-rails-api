@@ -29,16 +29,17 @@ class Profile < ApplicationRecord
     user.phone
   end
 
+  # TODO: should probably just handle this the same way we handle Seen
   def broadcast_update
     json = ActiveModelSerializers::Adapter::Json.new(
       ProfileSerializer.new(self)
     ).serializable_hash
 
-    ProfileChannel.broadcast_to(self, json)
+    ProfileChannel.broadcast_to("#{self.id}", json)
   end
 
   def broadcast_seen
-    ProfileChannel.broadcast_to(self, { seen: self.seen, profile_id: self.id })
+    ProfileChannel.broadcast_to("#{self.id}", { seen: self.seen, profile_id: self.id })
   end
 
   def update_seen(params)
@@ -69,11 +70,7 @@ class Profile < ApplicationRecord
   end
 
   def summary
-    return {id: self.id, name: self.name, avatar_url: self.avatar_url}
-  end
-
-  def micro_summary
-    return {id: self.id}
+    return {id: self.id, name: self.name, avatar_url: self.avatar_url, user_id: self.user_id}
   end
 
   before_create do
