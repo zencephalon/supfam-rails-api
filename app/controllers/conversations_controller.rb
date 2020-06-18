@@ -10,7 +10,7 @@ class ConversationsController < ApplicationController
       return
     end
 
-    membership.last_read_message_id = @conversation.last_message_id
+    membership.last_read_message_id = params[:msgId]
     
     if membership.save
       render json: {}
