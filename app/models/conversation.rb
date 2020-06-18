@@ -29,7 +29,7 @@ class Conversation < ApplicationRecord
       MessageSerializer.new(msg)
     ).serializable_hash
 
-    MessageChannel.broadcast_to(self, json)
+    MessageChannel.broadcast_to("#{self.id}", json)
   end
 
   def add_message(from_profile, msg_params)
