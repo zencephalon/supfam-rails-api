@@ -29,6 +29,7 @@ class Conversation < ApplicationRecord
       MessageSerializer.new(msg)
     ).serializable_hash
 
+    ConversationChannel.broadcast_to("#{self.id}", { last_message: msg, id: self.id })
     MessageChannel.broadcast_to("#{self.id}", json)
   end
 

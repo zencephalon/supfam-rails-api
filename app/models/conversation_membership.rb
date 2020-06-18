@@ -15,7 +15,8 @@ class ConversationMembership < ApplicationRecord
     }
   end
 
-  def broadcast_read(conversation)
-    ConversationChannel.broadcast_to(conversation, self.summary)
-  end
+  # TODO: enable this when we want to support read-avatar heads like Facebook has
+  # def broadcast_read(conversation)
+  #   ConversationChannel.broadcast_to("#{conversation.id}", self.summary)
+  # end
 end

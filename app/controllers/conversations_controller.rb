@@ -10,7 +10,8 @@ class ConversationsController < ApplicationController
       return
     end
 
-    membership.broadcast_read(@conversation)
+    # TODO: enable this when we want to support read-avatar heads like Facebook has
+    # membership.broadcast_read(@conversation)
     membership.last_read_message_id = params[:msgId]
     
     if membership.save
