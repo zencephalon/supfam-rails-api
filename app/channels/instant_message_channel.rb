@@ -9,9 +9,9 @@ class InstantMessageChannel < ApplicationCable::Channel
     self.broadcast_to("instant:#{params[:id]}", { message: {
       message: data['message'],
       type: 0,
-      id: "i-#{current_profile.id}",
       i: true,
-      profile_id: current_profile.id
+      id: "i-#{data['profile_id']}",
+      profile_id: data['profile_id']
     }})
   end
 

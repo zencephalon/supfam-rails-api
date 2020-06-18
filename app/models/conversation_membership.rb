@@ -8,7 +8,8 @@ class ConversationMembership < ApplicationRecord
   def summary
     {
       conversation_id: self.conversation_id,
-      read: self.conversation.last_message_id == self.last_read_message_id,
+      last_message: self.conversation.last_message,
+      last_read_message_id: self.last_read_message_id,
       dmId: self.conversation.dmId
     }
   end

@@ -12,6 +12,7 @@ class SeenChannel < ApplicationCable::Channel
   def update_seen(msg)
     # TODO: we shouldn't need this if we just broadcast the seen update itself instead of the entire user
     # current_profile.reload
-    current_profile.update_seen(msg['data'])
+    current_profile = current_user.profiles.find_by(id: msg['profile_id'])
+    current_profile.update_seen(msg['data']) if current_profile
   end
 end

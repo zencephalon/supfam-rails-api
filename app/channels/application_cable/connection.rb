@@ -1,10 +1,10 @@
 # typed: true
 module ApplicationCable
   class Connection < ActionCable::Connection::Base
-    identified_by :current_profile
+    identified_by :current_user
 
     def connect
-      self.current_profile = authenticate
+      self.current_user = authenticate
     end
 
     private 
@@ -16,8 +16,8 @@ module ApplicationCable
         token = request.params[:token]
         profileId = request.params[:profileId]
         return false unless token
-        current_profile = User.find_by(api_key: token).profiles.find_by(id: request.params[:profileId])
-        return current_profile
+        current_user = User.find_by(api_key: token) #.profiles.find_by(id: request.params[:profileId])
+        return current_user
       end
   end
 end
