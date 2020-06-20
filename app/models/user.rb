@@ -2,9 +2,9 @@
 class User < ApplicationRecord
   has_secure_password
 
-  validates :name, :phone, :password, presence: true
+  validates :name, :phone, presence: true
   validates :name, :phone, uniqueness: true
-  validates :password, confirmation: true, length: { minimum: 8 }
+  validates :password, confirmation: true, length: { minimum: 8 }, if: :password
   validates :name, format: { with: /\A\w+\z/, message: "Ony allow letters, numbers, and underscores" }
 
   has_many :profiles
