@@ -23,7 +23,7 @@ mattfam_users_data = [
     displayImage: "fixture/dad.jpg",
     statusText: "Donald Drumpf needs to go away",
     color: 2,
-    phone: '+19522015075'
+    phone: '+19522003146'
   },
   {
     displayName: "Huff",
@@ -32,83 +32,89 @@ mattfam_users_data = [
     color: 1,
     phone: '+19522015076'
   },
+  { displayName: "Evan",
+    displayImage: "fixture/evan.jpg",
+    statusText: "Working on newDay",
+    color: 1,
+    phone: '+15103883187'
+  },
   {
     displayName: "Eleni",
     displayImage: "fixture/eleni.jpg",
-    statusText: "Heading to the get down",
-    color: 2,
+    statusText: "Castle soiree crew gather!",
+    color: 3,
     phone: '+19522015077'
   },
   {
     displayName: "Daria",
     displayImage: "fixture/daria.jpg",
-    statusText: "Doing jits",
+    statusText: "Training bjj",
     color: 0,
-    phone: '+19522015078'
+    phone: '+19172470014'
   },
   {
     displayName: "Mark",
     displayImage: "fixture/mark.jpg",
-    statusText: "Any dinner plans?",
-    color: 3,
-    phone: '+19522015079'
+    statusText: "Protesting #justiceforgeorge",
+    color: 1,
+    phone: '+16127353148'
   },
   {
     displayName: "Mom",
     displayImage: "fixture/mom.jpg",
     statusText: "Taking a walk",
     color: 2,
-    phone: '+19522015080'
+    phone: '+19522003147'
   },
-  {
-    displayName: "Stedman",
-    displayImage: "fixture/stedman.jpg",
-    statusText: "Just raised a $3 million seed round!",
-    color: 1,
-    phone: '+19522015000'
-  },
-  {
-    displayName: "Cathy",
-    displayImage: "fixture/cathy.jpg",
-    statusText: "Crushing out some code",
-    color: 1,
-    phone: '+19522015081'
-  },
-  {
-    displayName: "DK",
-    displayImage: "fixture/dk.png",
-    statusText: "Pushing a new version of Intention tonight",
-    color: 2,
-    phone: '+19522015082'
-  },
-  {
-    displayName: "Condon",
-    displayImage: "fixture/condon.jpg",
-    statusText: "Have you tried boop lately?",
-    color: 3,
-    phone: '+19522015083'
-  },
-  {
-    displayName: "Dave",
-    displayImage: "fixture/hellyeah.jpg",
-    statusText: "Pink Roses just made the billboard top 100!",
-    color: 2,
-    phone: '+19522015084'
-  },
-  {
-    displayName: "Nivi",
-    displayImage: "fixture/nivi.png",
-    statusText: "At the gym! Thank god coronavirus ended",
-    color: 0,
-    phone: '+19522015085'
-  },
-  {
-    displayName: "Zain",
-    displayImage: "fixture/zain.jpg",
-    statusText: "Try out the latest version of Relephant!",
-    color: 2,
-    phone: '+19522015086'
-  }
+  # {
+  #   displayName: "Stedman",
+  #   displayImage: "fixture/stedman.jpg",
+  #   statusText: "Just raised a $3 million seed round!",
+  #   color: 1,
+  #   phone: '+19522015000'
+  # },
+  # {
+  #   displayName: "Cathy",
+  #   displayImage: "fixture/cathy.jpg",
+  #   statusText: "Crushing out some code",
+  #   color: 1,
+  #   phone: '+19522015081'
+  # },
+  # {
+  #   displayName: "DK",
+  #   displayImage: "fixture/dk.png",
+  #   statusText: "Pushing a new version of Intention tonight",
+  #   color: 2,
+  #   phone: '+19522015082'
+  # },
+  # {
+  #   displayName: "Condon",
+  #   displayImage: "fixture/condon.jpg",
+  #   statusText: "Have you tried boop lately?",
+  #   color: 3,
+  #   phone: '+19522015083'
+  # },
+  # {
+  #   displayName: "Dave",
+  #   displayImage: "fixture/hellyeah.jpg",
+  #   statusText: "Pink Roses just made the billboard top 100!",
+  #   color: 2,
+  #   phone: '+19522015084'
+  # },
+  # {
+  #   displayName: "Nivi",
+  #   displayImage: "fixture/nivi.png",
+  #   statusText: "At the gym! Thank god coronavirus ended",
+  #   color: 0,
+  #   phone: '+19522015085'
+  # },
+  # {
+  #   displayName: "Zain",
+  #   displayImage: "fixture/zain.jpg",
+  #   statusText: "Try out the latest version of Relephant!",
+  #   color: 2,
+  #   phone: '+19522015086'
+  # }
 ]
 
 puts mattfam_users_data.size
