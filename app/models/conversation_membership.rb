@@ -3,6 +3,7 @@ class ConversationMembership < ApplicationRecord
   self.inheritance_column = :_type_disabled
 
   belongs_to :user
+  belongs_to :profile
   belongs_to :conversation
 
   def summary

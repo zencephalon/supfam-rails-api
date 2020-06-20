@@ -5,6 +5,8 @@ ruby '2.6.3'
 
 gem 'aws-sdk', '~> 3'
 
+gem 'sidekiq'
+
 gem 'dotenv-rails', groups: [:development, :test]
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
