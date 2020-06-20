@@ -1,4 +1,4 @@
-class HardWorker
+class ConversationBroadcastWorker
   include Sidekiq::Worker
 
   def perform(conversation_id, message_id)
@@ -9,6 +9,6 @@ class HardWorker
     return unless message
 
     # conversation.broadcast
-    conversation.update_with_msg(message)
+    conversation.update_with_message(message)
   end
 end

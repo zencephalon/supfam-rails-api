@@ -3,7 +3,7 @@ class Conversation < ApplicationRecord
   has_many :messages
   has_many :conversation_memberships
   has_many :users, through: :conversation_memberships
-  belongs_to :last_message, class_name: "Message", foreign_key: "last_message_id"
+  belongs_to :last_message, class_name: "Message", foreign_key: "last_message_id", optional: true
 
   def self.getDmId(ids)
     ids.map(&:to_i).sort.join(":")
@@ -17,8 +17,9 @@ class Conversation < ApplicationRecord
 
     Conversation.transaction do
       dm = self.create!(dmId: dmId)
-      ConversationMembership.create!(user_id: user_id, conversation_id: dm.id, type: 0)
-      ConversationMembership.create!(user_id: current_user_id, conversation_id: dm.id, type: 0)
+      friendship = Friendship.where(from_user_id: current_user_id, to_user_id: user_id)[0]
+      ConversationMembership.create!(user_id: user_id, conversation_id: dm.id, type: 0, profile_id: profile_id)
+      ConversationMembership.create!(user_id: current_user_id, conversation_id: dm.id, type: 0, profile_id: friendship.from_profile_id)
     end
     
     return dm
@@ -45,7 +46,7 @@ class Conversation < ApplicationRecord
 
     if msg.save
       # update_with_message(msg)
-      ConversationBroadcastWorker.perform(self.id, msg.id)
+      ConversationBroadcastWorker.perform_async(self.id, msg.id)
       return msg
     end
 
