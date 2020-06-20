@@ -42,9 +42,9 @@ class Profile < ApplicationRecord
     ProfileChannel.broadcast_to("#{self.id}", { seen: self.seen, profile_id: self.id })
   end
 
-  def update_seen(params)
+  def update_seen(params, updated_at = nil)
     new_seen = params.slice("battery", "battery_state", "network_type", "network_strength")
-    new_seen["updated_at"] = DateTime.now()
+    new_seen["updated_at"] = updated_at || DateTime.now()
     self.seen = (self.seen || {}).merge(new_seen)
 
     if self.save

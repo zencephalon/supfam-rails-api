@@ -14,37 +14,37 @@ mattfam_users_data = [
   {
     displayName: "Matt",
     displayImage: "fixture/matt.jpg",
-    statusText: "Doing a live demo of Supfam",
+    statusText: "Growing Supfam!",
     color: 1,
     phone: '+19522015074'
   },
-  {
-    displayName: "Dad",
-    displayImage: "fixture/dad.jpg",
-    statusText: "Donald Drumpf needs to go away",
-    color: 2,
-    phone: '+19522003146'
-  },
+  # {
+  #   displayName: "Dad",
+  #   displayImage: "fixture/dad.jpg",
+  #   statusText: "Donald Drumpf needs to go away",
+  #   color: 2,
+  #   phone: '+19522003146'
+  # },
   {
     displayName: "Huff",
     displayImage: "fixture/huff.jpg",
     statusText: "Groovin' to that funk",
-    color: 1,
+    color: 0,
     phone: '+19522015076'
   },
   { displayName: "Evan",
     displayImage: "fixture/evan.jpg",
     statusText: "Working on newDay",
-    color: 1,
+    color: 0,
     phone: '+15103883187'
   },
-  {
-    displayName: "Eleni",
-    displayImage: "fixture/eleni.jpg",
-    statusText: "Castle soiree crew gather!",
-    color: 3,
-    phone: '+19522015077'
-  },
+  # {
+  #   displayName: "Eleni",
+  #   displayImage: "fixture/eleni.jpg",
+  #   statusText: "Castle soiree crew gather!",
+  #   color: 3,
+  #   phone: '+19522015077'
+  # },
   {
     displayName: "Daria",
     displayImage: "fixture/daria.jpg",
@@ -66,20 +66,20 @@ mattfam_users_data = [
     color: 2,
     phone: '+19522003147'
   },
-  # {
-  #   displayName: "Stedman",
-  #   displayImage: "fixture/stedman.jpg",
-  #   statusText: "Just raised a $3 million seed round!",
-  #   color: 1,
-  #   phone: '+19522015000'
-  # },
-  # {
-  #   displayName: "Cathy",
-  #   displayImage: "fixture/cathy.jpg",
-  #   statusText: "Crushing out some code",
-  #   color: 1,
-  #   phone: '+19522015081'
-  # },
+  {
+    displayName: "Stedman",
+    displayImage: "fixture/stedman.jpg",
+    statusText: "Just raised a $1.5 million seed round!",
+    color: 1,
+    phone: '+19522015000'
+  },
+  {
+    displayName: "Cathy",
+    displayImage: "fixture/cathy.jpg",
+    statusText: "Just chilling, hmu!",
+    color: 2,
+    phone: '+19522015081'
+  },
   # {
   #   displayName: "DK",
   #   displayImage: "fixture/dk.png",
@@ -87,20 +87,20 @@ mattfam_users_data = [
   #   color: 2,
   #   phone: '+19522015082'
   # },
-  # {
-  #   displayName: "Condon",
-  #   displayImage: "fixture/condon.jpg",
-  #   statusText: "Have you tried boop lately?",
-  #   color: 3,
-  #   phone: '+19522015083'
-  # },
-  # {
-  #   displayName: "Dave",
-  #   displayImage: "fixture/hellyeah.jpg",
-  #   statusText: "Pink Roses just made the billboard top 100!",
-  #   color: 2,
-  #   phone: '+19522015084'
-  # },
+  {
+    displayName: "Condon",
+    displayImage: "fixture/condon.jpg",
+    statusText: "案ずるより産むが易し",
+    color: 3,
+    phone: '+19522015083'
+  },
+  {
+    displayName: "Dave",
+    displayImage: "fixture/hellyeah.jpg",
+    statusText: "Pink Roses just made the billboard top 100!",
+    color: 3,
+    phone: '+19522015084'
+  }
   # {
   #   displayName: "Nivi",
   #   displayImage: "fixture/nivi.png",
@@ -119,13 +119,17 @@ mattfam_users_data = [
 
 puts mattfam_users_data.size
 
+def get_random_seen
+  {"battery_state" => rand(1..2), "battery" => rand(), "network_type" => ['wifi', 'cellular'].sample, "network_strength" => rand(1..5)}
+end
+
 mattfam_users_data.map do |data|
   puts data
   user = User.create({ password: 'password', password_confirmation: 'password', phone: data[:phone], name: data[:displayName] })
   user.save!
   profile = user.create_profile(avatar_key: data[:displayImage], name: data[:displayName])
   profile.update_status(message: data[:statusText], color: data[:color])
-  # me_profiles[0].create_friendship(profile.id)
+  profile.update_seen(get_random_seen, DateTime.now() - rand(150).seconds)
   profile
 end.combination(2) do |pair|
   pair[0].create_friendship(pair[1].id)
