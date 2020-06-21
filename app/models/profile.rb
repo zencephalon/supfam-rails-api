@@ -16,6 +16,9 @@ class Profile < ApplicationRecord
       Friendship.create(to_profile_id: self.id, from_profile_id: friend_profile_id, to_user_id: self.id, from_user_id: friend_profile.user_id)
     end
 
+    # Setup the conversation immediately
+    Conversation.dmWith(self.user_id, friend_profile_id)
+
     return true
   end
 
