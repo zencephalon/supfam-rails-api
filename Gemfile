@@ -6,6 +6,7 @@ ruby '2.6.3'
 gem 'aws-sdk', '~> 3'
 
 gem 'sidekiq'
+gem 'exponent-server-sdk'
 
 gem 'dotenv-rails', groups: [:development, :test]
 
