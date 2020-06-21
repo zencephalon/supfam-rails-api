@@ -21,7 +21,8 @@ class ConversationBroadcastWorker
         title: "#{message.profile.name} sent a message",
         # TODO: handle non-text messages
         body: message.message,
-        _displayInForeground: true
+        _displayInForeground: true,
+        data: { message: message }
       }
     end
 
