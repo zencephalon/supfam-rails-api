@@ -20,7 +20,8 @@ class ConversationBroadcastWorker
         to: membership.profile.user.push_token,
         title: "#{message.profile.name} sent a message",
         # TODO: handle non-text messages
-        body: message.message
+        body: message.message,
+        _displayInForeground: true
       }
     end
 
