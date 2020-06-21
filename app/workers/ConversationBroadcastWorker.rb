@@ -2,9 +2,9 @@ class ConversationBroadcastWorker
   include Sidekiq::Worker
 
   def perform(conversation_id, message_id)
-    message = Message.find(message_id).includes(:profile)
+    message = Message.includes(:profile).find(message_id)
     return unless message
-    conversation = Conversation.find(conversation_id).includes(conversation_memberships: { profile: :user })
+    conversation = Conversation.includes(conversation_memberships: { profile: :user }).find(conversation_id)
     return unless conversation
 
     conversation.update_with_message(message)
@@ -29,6 +29,7 @@ class ConversationBroadcastWorker
     handler = client.send_messages(push_messages)
 
     puts handler.errors
+    puts handler.receipt_ids
 
     # Do this in a delayed job later
     # client.verify_deliveries(handler.receipt_ids)
