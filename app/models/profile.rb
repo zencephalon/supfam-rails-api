@@ -33,12 +33,12 @@ class Profile < ApplicationRecord
   end
 
   # TODO: should probably just handle this the same way we handle Seen
-  def broadcast_update
+  def broadcast_status
     json = ActiveModelSerializers::Adapter::Json.new(
       ProfileSerializer.new(self)
     ).serializable_hash
 
-    ProfileChannel.broadcast_to("#{self.id}", json)
+    ProfileChannel.broadcast_to("#{self.id}", { status: self.status, profile_id: self.id })
   end
 
   def broadcast_seen
@@ -64,11 +64,9 @@ class Profile < ApplicationRecord
       new_status["color"] = params[:color]
     end
     self.status = (self.status || {}).merge(new_status)
+    self.broadcast_status
 
-    if self.save
-      self.broadcast_update
-      return true
-    end
+    self.save
   end
 
   def summary
