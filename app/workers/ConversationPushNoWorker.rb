@@ -1,6 +1,3 @@
-# COLOR_EMOJI = ['❤️', '💛', '💚', '💙']
-COLOR_EMOJI = ['🔴', '🟡', '🟢', '🔵']
-
 class ConversationPushNoWorker
   include Sidekiq::Worker
 

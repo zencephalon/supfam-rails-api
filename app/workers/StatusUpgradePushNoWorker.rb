@@ -1,6 +1,3 @@
-# FIXME: put this somewhere consistent
-COLOR_EMOJI = ['🔴', '🟡', '🟢', '🔵']
-
 class StatusUpgradePushNoWorker
   include Sidekiq::Worker
 
