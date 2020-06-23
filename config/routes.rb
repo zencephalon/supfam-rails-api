@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   put 'push_token/:push_token', to: 'users#set_push_token'
 
   put 'statuses/me', to: 'profiles#update_status'
-  # get 'statuses/me', to: 'statuses#my_status'
 
   get 'profiles/me', to: 'profiles#me'
   get 'profiles/:id', to: 'profiles#show'
