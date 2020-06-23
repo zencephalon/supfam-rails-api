@@ -10,6 +10,9 @@ Use `User.where("users.phone IN (?)", ["+19522015076", "+19522015077"])` kind of
 
 When changing a friendship we also need to update the corresponding DM's conversationMembership's profile. #denormalization
 
+Kind of sad that we can use ActiveRecord:Enum to define the status colors because I nested it in a JSON object. Maybe we'll want
+to break that object up into separate columns on Profile one day.
+
 ## Setup
 
 `rvm install 2.6.3`

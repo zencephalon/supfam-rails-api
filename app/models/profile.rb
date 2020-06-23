@@ -50,10 +50,9 @@ class Profile < ApplicationRecord
     new_seen["updated_at"] = updated_at || DateTime.now()
     self.seen = (self.seen || {}).merge(new_seen)
 
-    if self.save
-      # self.broadcast_update
-      self.broadcast_seen
-    end
+    self.broadcast_seen
+
+    self.save
   end
 
   def update_status(params)
