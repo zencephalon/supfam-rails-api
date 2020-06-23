@@ -76,7 +76,7 @@ mattfam_users_data = [
   {
     displayName: "Cathy",
     displayImage: "fixture/cathy.jpg",
-    statusText: "Just chilling, hmu!",
+    statusText: "Playing trumpet and open to jamz",
     color: 2,
     phone: '+19522015081'
   },
