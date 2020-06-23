@@ -1,7 +1,7 @@
 # COLOR_EMOJI = ['❤️', '💛', '💚', '💙']
 COLOR_EMOJI = ['🔴', '🟡', '🟢', '🔵']
 
-class ConversationBroadcastWorker
+class ConversationPushNoWorker
   include Sidekiq::Worker
 
   def perform(conversation_id, message_id)
@@ -23,6 +23,8 @@ class ConversationBroadcastWorker
     end
 
     client = Exponent::Push::Client.new(gzip: true)
+
+    return if push_recipients.empty?
 
     handler = client.send_messages([{
       to: push_recipients,

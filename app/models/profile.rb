@@ -57,16 +57,19 @@ class Profile < ApplicationRecord
 
   def update_status(params)
     new_status = {}
-    if params[:message]
-      new_status["message"] = params[:message]
-    end
-    if params[:color]
-      new_status["color"] = params[:color]
-    end
-    self.status = (self.status || {}).merge(new_status)
+    old_status = self.status
+
+    new_status["updated_at"] = DateTime.now()
+    new_status["message"] = params[:message] if params[:message]
+    new_status["color"] = params[:color] if params[:color]
+
+    self.status = (old_status || {}).merge(new_status)
     self.broadcast_status
 
     self.save
+
+    old_updated_at = old_status["updated_at"]
+    StatusUpgradePushNoWorker.perform_async(self.id) if new_status["color"] > old_status["color"] and (!old_updated_at or (DateTime.parse(old_updated_at) + 5.minute) < new_status["updated_at"])
   end
 
   def summary

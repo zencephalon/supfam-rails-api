@@ -26,6 +26,7 @@ class Conversation < ApplicationRecord
   end
 
   def broadcast_message(msg)
+    # Do we need this? Can't we just do it the same way we do last_message?
     json = ActiveModelSerializers::Adapter::Json.new(
       MessageSerializer.new(msg)
     ).serializable_hash
@@ -46,7 +47,7 @@ class Conversation < ApplicationRecord
 
     if msg.save
       # update_with_message(msg)
-      ConversationBroadcastWorker.perform_async(self.id, msg.id)
+      ConversationPushNoWorker.perform_async(self.id, msg.id)
       return msg
     end
 
