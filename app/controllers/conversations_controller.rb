@@ -1,6 +1,6 @@
 # typed: false
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:read, :preview]
+  before_action :set_conversation, only: [:read, :preview, :membership]
 
   def read
     membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
