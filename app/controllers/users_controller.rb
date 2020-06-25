@@ -18,6 +18,20 @@ class UsersController < ApplicationController
     # render json: @current_user.friends
   end
 
+  def friends_of_friends
+    profile = @current_user.profiles.find_by(id: params[:profile_id])
+
+    unless profile
+      render json: []
+      return
+    end
+
+    result = profile.friends.map(&:friends).flatten.uniq
+    result.reject! { |friend| profile.friends.map(&:id).include? friend.id  }
+
+    render json: result
+  end
+
   def get_push_token
     render json: { push_token: @current_user.push_token }
   end

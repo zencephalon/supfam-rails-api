@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   get 'username/available', to: 'sessions#available'
 
   get 'friends/:profile_id', to: 'users#friends'
+  get 'friendsOfFriends/:profile_id', to: 'users#friends_of_friends'
 
 
   # conversations

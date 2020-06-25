@@ -132,6 +132,7 @@ mattfam_users_data.map do |data|
   profile.update_seen(get_random_seen, DateTime.now() - rand(150).seconds)
   profile
 end.combination(2) do |pair|
+  next if rand() > 0.5
   pair[0].create_friendship(pair[1].id)
   puts "Pair #{pair[0].id} #{pair[1].id}"
 end
