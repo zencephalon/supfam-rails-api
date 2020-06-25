@@ -9,7 +9,10 @@ class SeenChannel < ApplicationCable::Channel
   end
 
   def update_seen(msg)
-    current_profile = current_user.profiles.find_by(id: msg['profile_id'])
-    current_profile.update_seen(msg['data']) if current_profile
+    # TODO: probably ought to move this into a worker
+    # channels need to stay as concurrent as possible so they shouldn't do
+    # processing
+    ProfileChannel.broadcast_to("#{msg['profile_id']}", { seen: msg['data'], profile_id: msg['profile_id'] })
+    SeenUpdateWorker.perform_async(current_user.id, msg['profile_id'], msg['data'])
   end
 end

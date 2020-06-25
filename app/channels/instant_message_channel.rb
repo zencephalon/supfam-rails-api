@@ -7,10 +7,12 @@ class InstantMessageChannel < ApplicationCable::Channel
 
   def send_instant(data)
     self.broadcast_to("instant:#{params[:id]}", { message: {
+      conversation_id: params[:id],
       message: data['message'],
       type: 0,
       i: true,
       id: "i-#{data['profile_id']}",
+      qid: data['qid'],
       profile_id: data['profile_id']
     }})
   end

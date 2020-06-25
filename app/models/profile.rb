@@ -49,9 +49,6 @@ class Profile < ApplicationRecord
     new_seen = params.slice("battery", "battery_state", "network_type", "network_strength")
     new_seen["updated_at"] = updated_at || DateTime.now()
     self.seen = (self.seen || {}).merge(new_seen)
-
-    self.broadcast_seen
-
     self.save
   end
 
