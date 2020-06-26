@@ -27,7 +27,7 @@ class FriendInvitesController < ApplicationController
     end
 
     result = profile.friend_invites_from()
-    render json: result
+    render json: result.map(&:summary);
   end
 
   def to
@@ -39,6 +39,6 @@ class FriendInvitesController < ApplicationController
     end
 
     result = profile.friend_invites_to()
-    render json: result
+    render json: result.map(&:summary);
   end
 end
