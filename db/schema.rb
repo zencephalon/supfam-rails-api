@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_24_233039) do
+ActiveRecord::Schema.define(version: 2020_06_26_003451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,13 +54,13 @@ ActiveRecord::Schema.define(version: 2020_06_24_233039) do
   end
 
   create_table "friend_invites", force: :cascade do |t|
-    t.bigint "from_profile_id_id"
-    t.bigint "to_profile_id_id"
+    t.bigint "from_profile_id"
+    t.bigint "to_profile_id"
     t.integer "status", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["from_profile_id_id"], name: "index_friend_invites_on_from_profile_id_id"
-    t.index ["to_profile_id_id"], name: "index_friend_invites_on_to_profile_id_id"
+    t.index ["from_profile_id"], name: "index_friend_invites_on_from_profile_id"
+    t.index ["to_profile_id"], name: "index_friend_invites_on_to_profile_id"
   end
 
   create_table "friendships", force: :cascade do |t|
