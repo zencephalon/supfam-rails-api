@@ -32,6 +32,26 @@ class Profile < ApplicationRecord
     return true
   end
 
+  def friend_invites_from()
+    invites = FriendInvite.where(from_profile_id: self.id);
+
+    unless invites
+      return false
+    end
+
+    return invites
+  end
+
+  def friend_invites_to()
+    invites = FriendInvite.where(to_profile_id: self.id);
+
+    unless invites
+      return false
+    end
+
+    return invites
+  end
+
   def create_friendship(friend_profile_id)
     friend_profile = Profile.find_by(id: friend_profile_id)
 

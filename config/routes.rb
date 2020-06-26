@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
   post 'friend_invites/create', to: 'friend_invites#create'
   post 'friend_invites/cancel', to: 'friend_invites#cancel'
+  get 'friend_invites/from/:from_profile_id', to: 'friend_invites#from'
+  get 'friend_invites/to/:to_profile_id', to: 'friend_invites#to'
 
   # conversations
 
