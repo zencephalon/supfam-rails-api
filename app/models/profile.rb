@@ -12,10 +12,9 @@ class Profile < ApplicationRecord
     end
 
     Profile.transaction do
-      FriendInvite.create(from_profile_id: self.id, to_profile_id: friend_profile_id)
+      friend_invite = FriendInvite.create(from_profile_id: self.id, to_profile_id: friend_profile_id)
+      return friend_invite
     end
-
-    return true
   end
 
   def create_friendship(friend_profile_id)
