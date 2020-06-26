@@ -10,4 +10,11 @@ class FriendInvitesController < ApplicationController
       render json: @friendInvite.errors, status: :unprocessable_entity
     end
   end
+
+  def cancel
+    profile = @current_user.profiles.find_by(id: params[:from_profile_id])
+    profile.cancel_friend_invite(params[:to_profile_id]);
+
+    render json: {}
+  end
 end

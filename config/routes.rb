@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   # friend invite
 
   post 'friend_invites/create', to: 'friend_invites#create'
+  post 'friend_invites/cancel', to: 'friend_invites#cancel'
 
   # conversations
 
