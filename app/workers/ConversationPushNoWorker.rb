@@ -23,12 +23,14 @@ class ConversationPushNoWorker
 
     return if push_recipients.empty?
 
+    title = "#{message.profile.name} #{COLOR_EMOJI[message.profile.status["color"]]}"
+    body = message.message
     handler = client.send_messages([{
       to: push_recipients,
-      title: "#{message.profile.name} #{COLOR_EMOJI[message.profile.status["color"]]}",
+      title: title,
       # TODO: handle non-text messages
-      body: message.message,
-      data: { message: message }
+      body: body,
+      data: { message: message, title: title, body: body }
     }])
 
     puts handler.errors
