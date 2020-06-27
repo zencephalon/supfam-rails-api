@@ -33,10 +33,10 @@ I recommend installing https://postgresapp.com/
 
 `bundle`
 
-`rails db:create`
+`bundle exec rails db:create`
 
-`rails db:migrate`
+`bundle exec rails db:migrate`
 
-`rails db:seed`
+`bundle exec rails db:seed`
 
 `heroku local`
