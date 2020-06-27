@@ -18,6 +18,20 @@ class FriendInvitesController < ApplicationController
     render json: {}
   end
 
+  def decline
+    profile = @current_user.profiles.find_by(id: params[:to_profile_id])
+    profile.decline_friend_invite(params[:from_profile_id])
+
+    render json: {}
+  end
+
+  def accept
+    profile = @current_user.profiles.find_by(id: params[:to_profile_id])
+    profile.accept_friend_invite(params[:from_profile_id])
+
+    render json: {}
+  end
+
   def from
     profile = @current_user.profiles.find_by(id: params[:from_profile_id])
 

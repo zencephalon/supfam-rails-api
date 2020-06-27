@@ -18,7 +18,7 @@ class Profile < ApplicationRecord
   end
 
   def cancel_friend_invite(to_profile_id)
-    pending_invites = FriendInvite.where(to_profile_id: to_profile_id, status: :pending);
+    pending_invites = FriendInvite.where(from_profile_id: self.id, to_profile_id: to_profile_id, status: :pending);
 
     unless pending_invites
       return false
@@ -28,6 +28,39 @@ class Profile < ApplicationRecord
       invite.status = :cancelled
       invite.save
     end
+
+    return true
+  end
+
+  def decline_friend_invite(from_profile_id)
+    pending_invites = FriendInvite.where(from_profile_id: from_profile_id, to_profile_id: self.id, status: :pending);
+
+    unless pending_invites
+      return false
+    end
+
+    pending_invites.each do |invite|
+      invite.status = :declined
+      invite.save
+    end
+
+    return true
+  end
+
+  def accept_friend_invite(from_profile_id)
+    pending_invites = FriendInvite.where(from_profile_id: from_profile_id, to_profile_id: self.id, status: :pending);
+
+    unless pending_invites
+      return false
+    end
+
+    pending_invites.each do |invite|
+      invite.status = :accepted
+      invite.save
+    end
+
+    # Create friendship
+    self.create_friendship(from_profile_id)
 
     return true
   end
