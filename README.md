@@ -15,14 +15,28 @@ to break that object up into separate columns on Profile one day.
 
 ## Setup
 
-`rvm install 2.6.3`
-`rvm use 2.6.3`
-`bundle`
+Install Redis
+
+`brew install redis`
+
+Install Heroku
+
+`brew tap heroku/brew && brew install heroku`
+
+Consider using `asdf` instead of `rvm`.
 
 I recommend installing https://postgresapp.com/
 
+`rvm install 2.6.3`
+
+`rvm use 2.6.3`
+
+`bundle`
+
 `rails db:create`
+
 `rails db:migrate`
+
 `rails db:seed`
 
-`rails s`
+`heroku local`
