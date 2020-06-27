@@ -20,7 +20,6 @@ class StatusUpgradePushNoWorker
       to: push_recipients,
       title: "#{profile.name} upgraded their status",
       body: "#{COLOR_EMOJI[profile.status['color']]} #{profile.status['message']}",
-      _displayInForeground: true,
       data: { is_status: true }
     }])
   end

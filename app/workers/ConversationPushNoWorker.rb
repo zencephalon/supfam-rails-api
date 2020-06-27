@@ -28,7 +28,6 @@ class ConversationPushNoWorker
       title: "#{message.profile.name} #{COLOR_EMOJI[message.profile.status["color"]]}",
       # TODO: handle non-text messages
       body: message.message,
-      _displayInForeground: true,
       data: { message: message }
     }])
 
