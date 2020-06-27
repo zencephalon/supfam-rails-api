@@ -19,6 +19,8 @@ Install Redis
 
 `brew install redis`
 
+`brew services start redis`
+
 Install Heroku
 
 `brew tap heroku/brew && brew install heroku`
