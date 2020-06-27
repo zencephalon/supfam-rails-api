@@ -28,8 +28,9 @@ class UsersController < ApplicationController
 
     result = profile.friends.map(&:friends).flatten.uniq
     result.reject! { |friend| profile.friends.map(&:id).include? friend.id  }
+    result.reject! { |friend| profile.id == friend.id  }
 
-    render json: result
+    render json: result.map(&:summary)
   end
 
   def get_push_token

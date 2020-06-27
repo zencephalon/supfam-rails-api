@@ -4,6 +4,87 @@ class Profile < ApplicationRecord
   has_many :friendships, foreign_key: 'from_profile_id'
   has_many :friends, through: :friendships, class_name: 'Profile', source: :to_friend
 
+  def create_friend_invite(friend_profile_id)
+    friend_profile = Profile.find_by(id: friend_profile_id)
+
+    unless friend_profile
+      return false
+    end
+
+    Profile.transaction do
+      friend_invite = FriendInvite.create(from_profile_id: self.id, to_profile_id: friend_profile_id)
+      return friend_invite
+    end
+  end
+
+  def cancel_friend_invite(to_profile_id)
+    pending_invites = FriendInvite.where(from_profile_id: self.id, to_profile_id: to_profile_id, status: :pending);
+
+    unless pending_invites
+      return false
+    end
+
+    pending_invites.each do |invite|
+      invite.status = :cancelled
+      invite.save
+    end
+
+    return true
+  end
+
+  def decline_friend_invite(from_profile_id)
+    pending_invites = FriendInvite.where(from_profile_id: from_profile_id, to_profile_id: self.id, status: :pending);
+
+    unless pending_invites
+      return false
+    end
+
+    pending_invites.each do |invite|
+      invite.status = :declined
+      invite.save
+    end
+
+    return true
+  end
+
+  def accept_friend_invite(from_profile_id)
+    pending_invites = FriendInvite.where(from_profile_id: from_profile_id, to_profile_id: self.id, status: :pending);
+
+    unless pending_invites
+      return false
+    end
+
+    pending_invites.each do |invite|
+      invite.status = :accepted
+      invite.save
+    end
+
+    # Create friendship
+    self.create_friendship(from_profile_id)
+
+    return true
+  end
+
+  def friend_invites_from()
+    invites = FriendInvite.where(from_profile_id: self.id);
+
+    unless invites
+      return false
+    end
+
+    return invites
+  end
+
+  def friend_invites_to()
+    invites = FriendInvite.where(to_profile_id: self.id);
+
+    unless invites
+      return false
+    end
+
+    return invites
+  end
+
   def create_friendship(friend_profile_id)
     friend_profile = Profile.find_by(id: friend_profile_id)
 
