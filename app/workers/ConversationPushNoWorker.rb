@@ -33,8 +33,8 @@ class ConversationPushNoWorker
       data: { message: message, title: title, body: body }
     }])
 
-    puts handler.errors
-    puts handler.receipt_ids
+    logger.error handler.errors
+    logger.info handler.receipt_ids
 
     # TODO: we have to check push ticket receipts to make sure we're not getting flagged
     # Do this in a delayed job later
