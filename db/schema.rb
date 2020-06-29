@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_26_003451) do
+ActiveRecord::Schema.define(version: 2020_06_28_195315) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,11 +77,12 @@ ActiveRecord::Schema.define(version: 2020_06_26_003451) do
   end
 
   create_table "invitations", force: :cascade do |t|
-    t.bigint "family_id", null: false
-    t.string "phone"
+    t.bigint "from_profile_id"
+    t.integer "status", default: 0
+    t.string "phone", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["family_id"], name: "index_invitations_on_family_id"
+    t.index ["from_profile_id"], name: "index_invitations_on_from_profile_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -131,6 +132,5 @@ ActiveRecord::Schema.define(version: 2020_06_26_003451) do
     t.index ["phone"], name: "index_users_on_phone", unique: true
   end
 
-  add_foreign_key "invitations", "families"
   add_foreign_key "profiles", "users"
 end
