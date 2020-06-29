@@ -12,6 +12,8 @@ class StatusUpgradePushNoWorker
       push_recipients << friend.user.push_token
     end
 
+    push_recipients.uniq!
+
     client = Exponent::Push::Client.new(gzip: true)
 
     return if push_recipients.empty?

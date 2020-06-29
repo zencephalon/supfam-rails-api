@@ -19,6 +19,8 @@ class ConversationPushNoWorker
       push_recipients << membership.profile.user.push_token
     end
 
+    push_recipients.uniq!
+
     client = Exponent::Push::Client.new(gzip: true)
 
     return if push_recipients.empty?
