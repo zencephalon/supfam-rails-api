@@ -27,7 +27,11 @@ Rails.application.routes.draw do
   get 'friends/:profile_id', to: 'users#friends'
   get 'friends_of_friends/:profile_id', to: 'users#friends_of_friends'
 
-  # friend invite
+  # invitations
+  
+  post 'invitations/create', to: 'invitations#create'
+
+  # friend invites
 
   post 'friend_invites/create', to: 'friend_invites#create'
   post 'friend_invites/cancel', to: 'friend_invites#cancel'
