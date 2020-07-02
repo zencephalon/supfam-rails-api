@@ -14,12 +14,12 @@ class SessionsController < ActionController::API
   def check_invite
     phone = params[:phone]
 
-    invite = Invitation.find_by(phone: phone)
+    # invite = Invitation.find_by(phone: phone)
 
-    unless invite || Rails.env.development?
-      render json: { error: 'No invite code found' }, status: :unauthorized
-      return
-    end
+    # unless invite || Rails.env.development?
+    #   render json: { error: 'No invite code found' }, status: :unauthorized
+    #   return
+    # end
 
     verification = PhoneVerification.generate(phone)
 
