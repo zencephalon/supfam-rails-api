@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 class InstantMessageChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"

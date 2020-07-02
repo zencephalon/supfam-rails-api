@@ -1,4 +1,4 @@
-# typed: strict
+# typed: strong
 require "test_helper"
 
 class SeenChannelTest < ActionCable::Channel::TestCase

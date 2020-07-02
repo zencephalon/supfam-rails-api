@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 class InvitationsController < ApplicationController
   def create
     @invitation = Invitation.create(

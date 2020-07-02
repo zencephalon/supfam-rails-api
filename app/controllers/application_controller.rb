@@ -1,4 +1,4 @@
-# typed: true
+# typed: false
 class ApplicationController < ActionController::API
   # include ActionController::Serialization
 

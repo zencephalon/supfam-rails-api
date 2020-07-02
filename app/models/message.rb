@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 class Message < ApplicationRecord
   self.inheritance_column = :_type_disabled
 

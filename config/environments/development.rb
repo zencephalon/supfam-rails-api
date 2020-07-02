@@ -1,4 +1,4 @@
-# typed: strict
+# typed: false
 Rails.application.configure do
   config.hosts << /[a-z0-9]+\.ngrok\.io/
   # Settings specified here will take precedence over those in config/application.rb.

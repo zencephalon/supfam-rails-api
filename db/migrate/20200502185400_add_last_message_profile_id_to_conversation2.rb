@@ -1,3 +1,4 @@
+# typed: false
 class AddLastMessageProfileIdToConversation2 < ActiveRecord::Migration[6.0]
   def change
     remove_column :conversations, :last_message_profile_id_id

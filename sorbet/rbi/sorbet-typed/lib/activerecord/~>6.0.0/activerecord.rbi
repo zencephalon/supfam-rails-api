@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/activerecord/~>6.0.0/activerecord.rbi
 #
-# typed: false
+# typed: strong
 
 class ActiveRecord::Migration::Compatibility::V5_1 < ActiveRecord::Migration::Compatibility::V5_2; end
 
@@ -472,4 +472,12 @@ class ActiveRecord::Migration::Current < ActiveRecord::Migration
 
   sig { params(sql: String, name: T.nilable(String)).returns(T.untyped) }
   def execute(sql, name = nil); end
+end
+
+module ActiveRecord::Core
+  sig { returns(T::Boolean) }
+  def blank?; end
+
+  sig { returns(T::Boolean) }
+  def present?; end
 end

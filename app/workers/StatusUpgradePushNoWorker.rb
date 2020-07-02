@@ -1,3 +1,4 @@
+# typed: true
 class StatusUpgradePushNoWorker
   include Sidekiq::Worker
 
