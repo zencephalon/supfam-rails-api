@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   has_many :profiles
   has_many :conversation_memberships
+  has_many :conversations, through: :conversation_memberships
 
   # Generate a unique API key
   def generate_api_key

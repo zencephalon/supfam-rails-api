@@ -43,24 +43,6 @@ class ConversationsController < ApplicationController
     render json: membership.summary
   end
 
-  def dmMembership
-    conversation = Conversation.find_by(dmId: params[:dmId])
-
-    unless conversation
-      render json: { error: "No such conversation" }, status: 404
-      return
-    end
-
-    membership = conversation.conversation_memberships.where(user_id: @current_user.id)[0]
-
-    unless membership
-      render json: { error: "Not a member of this conversation" }, status: 403 
-      return
-    end
-
-    render json: membership.summary
-  end
-
   def conversation_with_profile
     conversation = Conversation.dmWith(@current_user.id, params[:to_profile_id])
 
@@ -69,6 +51,10 @@ class ConversationsController < ApplicationController
     else
       render json: { error: "Conversation not found" }, status: 404
     end
+  end
+
+  def group_conversations
+    
   end
 
   def messages

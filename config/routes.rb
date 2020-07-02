@@ -39,11 +39,13 @@ Rails.application.routes.draw do
   # conversations
 
   get 'conversation_memberships/me', to: 'conversation_memberships#me'
-  get 'conversations/:dmId/dmMembership', to: 'conversations#dmMembership'
+  # vestigial
+  # get 'conversations/:dmId/dmMembership', to: 'conversations#dmMembership'
   get 'conversations/:id/membership', to: 'conversations#membership'
 
   get 'conversations/profile/:to_profile_id', to: 'conversations#conversation_with_profile'
 
+  get 'group_conversations/me', to: 'conversations#groups'
 
   # messages
 

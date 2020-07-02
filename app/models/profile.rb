@@ -173,10 +173,5 @@ class Profile < ApplicationRecord
     #   color: 3,
     # }
     # profile.save
-    matt_profile_id = User.find_by(name: 'matt').profiles[0].id
-    evan_profile_id = User.find_by(name: 'evan').profiles[0].id
-
-    profile.create_friendship(matt_profile_id)
-    profile.create_friendship(evan_profile_id)
   end
 end

@@ -16,13 +16,17 @@ class Conversation < ApplicationRecord
     return dm if dm
 
     Conversation.transaction do
-      dm = self.create!(dmId: dmId)
+      dm = self.create(dmId: dmId)
       friendship = Friendship.where(from_user_id: current_user_id, to_user_id: user_id)[0]
-      ConversationMembership.create!(user_id: user_id, conversation_id: dm.id, type: 0, profile_id: profile_id)
-      ConversationMembership.create!(user_id: current_user_id, conversation_id: dm.id, type: 0, profile_id: friendship.from_profile_id)
+      dm.add_conversation_member(user_id, profile_id)
+      dm.add_conversation_member(current_user_id, friendship.from_profile_id)
     end
     
     return dm
+  end
+
+  def add_conversation_member(user_id, profile_id)
+    self.conversation_memberships.create(user_id: user_id, profile_id: profile_id, type: :member)
   end
 
   def broadcast_message(msg)

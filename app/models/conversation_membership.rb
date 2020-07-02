@@ -6,6 +6,8 @@ class ConversationMembership < ApplicationRecord
   belongs_to :profile
   belongs_to :conversation
 
+  enum type: [ :member, :admin ]
+
   def summary
     {
       conversation_id: self.conversation_id,
