@@ -54,7 +54,7 @@ class ConversationsController < ApplicationController
   end
 
   def group_conversations
-    
+    render json: @current_user.group_conversations
   end
 
   def messages

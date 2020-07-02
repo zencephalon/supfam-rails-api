@@ -58,6 +58,10 @@ class User < ApplicationRecord
     user.api_key = user.generate_api_key
   end
 
+  def group_conversations
+    self.conversations.where(dmId: nil)
+  end
+
   # after_create do |user|
   #   user.statuses.create({ message: 'I just joined, so everyone please welcome me! Sup fam?', color: 3 })
   # end
