@@ -133,6 +133,13 @@ class Profile < ApplicationRecord
     self.save
   end
 
+  def update_location(params, updated_at = nil)
+    new_location = params.slice("latitude", "longitude")
+    new_location["updated_at"] = updated_at || DateTime.now()
+    self.location = (self.location || {}).merge(new_location)
+    self.save
+  end
+
   def update_status(params)
     new_status = {}
     old_status = self.status

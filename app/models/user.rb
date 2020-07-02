@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
   has_many :profiles
   has_many :conversation_memberships
+  has_many :conversations, through: :conversation_memberships
 
   # Generate a unique API key
   def generate_api_key
@@ -55,6 +56,10 @@ class User < ApplicationRecord
   before_create do |user|
     user.name = user.name.downcase
     user.api_key = user.generate_api_key
+  end
+
+  def group_conversations
+    self.conversations.where(dmId: nil)
   end
 
   # after_create do |user|

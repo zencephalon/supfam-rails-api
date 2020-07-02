@@ -137,4 +137,7 @@ end.combination(2) do |pair|
   puts "Pair #{pair[0].id} #{pair[1].id}"
 end
 
-Conversation.create({ name: 'HF0 Demo Group Chat'})
+group_chat = Conversation.create({ name: 'Big happy group chat'})
+group_chat.add_conversation_member(1, 1)
+group_chat.add_conversation_member(2, 2)
+group_chat.add_conversation_member(3, 3)
