@@ -1,3 +1,4 @@
+# typed: true
 class CreateFriendInvites < ActiveRecord::Migration[6.0]
   def change
     create_table :friend_invites do |t|

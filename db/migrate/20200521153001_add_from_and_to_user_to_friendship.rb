@@ -1,3 +1,4 @@
+# typed: true
 class AddFromAndToUserToFriendship < ActiveRecord::Migration[6.0]
   def change
     add_reference :friendships, :to_user, index: true

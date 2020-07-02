@@ -1,3 +1,4 @@
+# typed: true
 class ConversationPushNoWorker
   include Sidekiq::Worker
 

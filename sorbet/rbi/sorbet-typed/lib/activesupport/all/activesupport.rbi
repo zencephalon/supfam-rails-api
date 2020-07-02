@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/activesupport/all/activesupport.rbi
 #
-# typed: false
+# typed: strong
 
 module ActiveSupport
   sig { params(kind: Symbol, blk: T.proc.bind(T.untyped).void).void }
@@ -881,6 +881,9 @@ class ActiveSupport::TimeWithZone
   sig { returns(Rational) }
   def to_r; end
 
+  sig { returns(Date) }
+  def to_date; end
+
   # Returns an instance of DateTime with the timezone's UTC offset
   #
   # ```ruby
@@ -895,6 +898,14 @@ class ActiveSupport::TimeWithZone
   # of `ActiveSupport.to_time_preserves_timezone`.
   sig { returns(Time) }
   def to_time; end
+
+  # Uses Date to provide precise Time calculations for years, months, and days according to the proleptic Gregorian calendar.
+  # The result is returned as a new `TimeWithZone` object.
+  # The options parameter takes a hash with any of these keys: :years, :months, :weeks, :days, :hours, :minutes, :seconds.
+  # If advancing by a value of variable length (i.e., years, weeks, months, days), move forward from `time`, otherwise move forward
+  # from utc, for accuracy when moving across DST boundaries.
+  sig { params(options: T::Hash[Symbol, T.any(Integer, Float)]).returns(ActiveSupport::TimeWithZone) }
+  def advance(options); end
 end
 
 # defines some of the methods at https://github.com/rails/rails/blob/v6.0.0/activesupport/lib/active_support/core_ext/date

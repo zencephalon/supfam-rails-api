@@ -1,4 +1,4 @@
-# typed: strong
+# typed: strict
 class Invitation < ApplicationRecord
   belongs_to :from_friend, foreign_key: :from_profile_id, class_name: 'Profile'
 

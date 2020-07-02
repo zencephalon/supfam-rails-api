@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 class FriendInvitesController < ApplicationController
   def create
     profile = @current_user.profiles.find_by(id: params[:from_profile_id])
