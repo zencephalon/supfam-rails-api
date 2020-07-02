@@ -167,16 +167,14 @@ class Profile < ApplicationRecord
     end
   end
 
-  after_create do |profile|
-    # profile.status = {
-    #   message: 'I just joined, so everyone please welcome me! Sup fam?',
-    #   color: 3,
-    # }
-    # profile.save
-    matt_profile_id = User.find_by(name: 'matt').profiles[0].id
-    evan_profile_id = User.find_by(name: 'evan').profiles[0].id
-
-    profile.create_friendship(matt_profile_id)
-    profile.create_friendship(evan_profile_id)
+  after_create_commit do |profile|
+    invitations = Invitation.where(phone: profile.user.phone);
+    invitations.each do |invitation|
+      if invitation.status == "pending"
+        profile.create_friendship(invitation.from_profile_id)
+        invitation.status = :accepted;
+        invitation.save
+      end
+    end
   end
 end
