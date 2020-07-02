@@ -23,6 +23,7 @@ class ConversationPushNoWorker
 
     return if push_recipients.empty?
 
+    # TODO: Max 100 recipients per chunk, check size of push_recipients.
     title = "#{message.profile.name} #{COLOR_EMOJI[message.profile.status["color"]]}"
     body = message.message
     handler = client.send_messages([{
@@ -35,6 +36,8 @@ class ConversationPushNoWorker
 
     logger.error handler.errors
     logger.info handler.receipt_ids
+
+    O
 
     # TODO: we have to check push ticket receipts to make sure we're not getting flagged
     # Do this in a delayed job later
