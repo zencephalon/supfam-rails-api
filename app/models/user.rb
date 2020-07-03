@@ -59,7 +59,7 @@ class User < ApplicationRecord
   end
 
   def group_conversations
-    self.conversations.where(dmId: nil)
+    self.conversations.where(dmId: nil).includes(:conversation_memberships).map(&:summary)
   end
 
   # after_create do |user|

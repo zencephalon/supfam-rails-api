@@ -1,6 +1,22 @@
 # typed: false
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:read, :preview, :membership]
+  before_action :set_conversation, only: [:read, :preview, :membership, :add_members, :remove_member]
+
+  def create_with_members
+    c = Conversation.create
+    c.add_conversation_members_by_profile_ids([params[:creatorId]], :admin) if params[:creatorId]
+    c.add_conversation_members_by_profile_ids(params[:profileIds])
+
+    render json: { conversation_id: c.id }
+  end
+
+  def add_members
+    @conversation.add_conversation_members_by_profile_ids(params[:profileIds])
+  end
+
+  def remove_member
+    @conversation.remove_member_by_profile_id(params[:profileId])
+  end
 
   def read
     membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]

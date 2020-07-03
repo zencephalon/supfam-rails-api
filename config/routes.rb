@@ -56,8 +56,13 @@ Rails.application.routes.draw do
 
   get 'message/:id', to: 'messages#show'
 
+  post 'conversations/create', to: 'conversations#create_with_members'
+
   post 'conversations/:id/read/:msgId', to: 'conversations#read'
   get 'conversations/:id/preview', to: 'conversations#preview'
+
+  post 'conversations/:id/add_members', to: 'conversations#add_members'
+  post 'conversations/:id/remove_member', to: 'conversations#remove_member'
 
   get 'conversations/:id/messages', to: 'conversations#messages'
   post 'conversations/:id/messages/profile/:from_profile_id', to: 'messages#send_message'
