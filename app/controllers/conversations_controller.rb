@@ -4,6 +4,7 @@ class ConversationsController < ApplicationController
 
   def create_with_members
     c = Conversation.create
+    c.add_conversation_members_by_profile_ids([params[:creatorId]], :admin) if params[:creatorId]
     c.add_conversation_members_by_profile_ids(params[:profileIds])
 
     render json: { conversation_id: c.id }

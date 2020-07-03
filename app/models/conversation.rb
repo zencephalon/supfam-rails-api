@@ -26,24 +26,24 @@ class Conversation < ApplicationRecord
     return dm
   end
 
-  def add_conversation_member(user_id, profile_id)
-    self.conversation_memberships.create(user_id: user_id, profile_id: profile_id, type: :member) 
+  def add_conversation_member(user_id, profile_id, type = :member)
+    self.conversation_memberships.create(user_id: user_id, profile_id: profile_id, type: type) 
   end
 
-  def add_conversation_member_by_profile(profile)
-    self.add_conversation_member(profile.user_id, profile.id)
+  def add_conversation_member_by_profile(profile, type = :member)
+    self.add_conversation_member(profile.user_id, profile.id, type)
   end
 
-  def add_conversation_members_by_profiles(profiles)
+  def add_conversation_members_by_profiles(profiles, type = :member)
     profiles.each do |profile|
-      self.add_conversation_member_by_profile(profile)
+      self.add_conversation_member_by_profile(profile, type)
     end
   end
 
-  def add_conversation_members_by_profile_ids(profile_ids)
+  def add_conversation_members_by_profile_ids(profile_ids, type = :member)
     profiles = Profile.where(id: profile_ids)
 
-    self.add_conversation_members_by_profiles(profiles)
+    self.add_conversation_members_by_profiles(profiles, type)
   end
 
   def remove_conversation_member_by_profile_id(profile_id)
