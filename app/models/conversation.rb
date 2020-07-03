@@ -74,4 +74,10 @@ class Conversation < ApplicationRecord
   def message_count
     self.messages.count
   end
+
+  def summary
+    summary = self.attributes
+    summary['member_profile_ids'] = self.conversation_memberships.map(&:profile_id)
+    return summary
+  end
 end
