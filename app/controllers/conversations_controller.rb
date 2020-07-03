@@ -2,6 +2,11 @@
 class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:read, :preview, :membership]
 
+  def create_with_members
+    c = Conversation.create
+    c.add_conversation_members_by_profile_ids(params[:profileIds])
+  end
+
   def read
     membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
 
