@@ -1,4 +1,7 @@
-# typed: false
+# typed: true
+
+extend T::Sig
+
 class Conversation < ApplicationRecord
   has_many :messages
   has_many :conversation_memberships
@@ -6,16 +9,19 @@ class Conversation < ApplicationRecord
   has_many :profiles, through: :conversation_memberships
   belongs_to :last_message, class_name: "Message", foreign_key: "last_message_id", optional: true
 
+  sig {params(ids: T::Array[Integer]).returns(String)}
   def self.getDmId(ids)
     ids.map(&:to_i).sort.join(":")
   end
 
+  sig {params(current_user_id: Integer, profile_id: Integer).returns(T.self_type)}
   def self.dmWith(current_user_id, profile_id)
     user_id = Profile.find(profile_id).user_id
     dmId = getDmId([user_id, current_user_id])
     dm = self.find_by(dmId: dmId)
     return dm if dm
 
+    dm = T.let(nil, T.untyped)
     Conversation.transaction do
       dm = self.create(dmId: dmId)
       friendship = Friendship.where(from_user_id: current_user_id, to_user_id: user_id)[0]
@@ -50,6 +56,7 @@ class Conversation < ApplicationRecord
     self.conversation_memberships.where(profile_id: profile_id).destroy_all
   end
 
+  sig {params(msg: Message).void}
   def broadcast_message(msg)
     # Do we need this? Can't we just do it the same way we do last_message?
     json = ActiveModelSerializers::Adapter::Json.new(
@@ -58,6 +65,7 @@ class Conversation < ApplicationRecord
 
     ConversationChannel.broadcast_to("#{self.id}", { last_message: msg, id: self.id })
     MessageChannel.broadcast_to("#{self.id}", json)
+    return nil
   end
 
   def update_with_message(msg)
