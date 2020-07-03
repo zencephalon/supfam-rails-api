@@ -42,3 +42,6 @@ I recommend installing https://postgresapp.com/
 `bundle exec rails db:seed`
 
 `heroku local`
+
+## Typechecking with Sorbet
+`bundle exec srb tc`
