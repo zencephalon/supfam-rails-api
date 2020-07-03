@@ -27,7 +27,23 @@ class Conversation < ApplicationRecord
   end
 
   def add_conversation_member(user_id, profile_id)
-    self.conversation_memberships.create(user_id: user_id, profile_id: profile_id, type: :member)
+    self.conversation_memberships.create(user_id: user_id, profile_id: profile_id, type: :member) 
+  end
+
+  def add_conversation_member_by_profile(profile)
+    self.add_conversation_member(profile.user_id, profile.id)
+  end
+
+  def add_conversation_members_by_profiles(profiles)
+    profiles.each do |profile|
+      self.add_conversation_member_by_profile(profile)
+    end
+  end
+
+  def add_conversation_members_by_profile_ids(profile_ids)
+    profiles = Profile.where(id: profile_ids)
+
+    self.add_conversation_members_by_profiles(profiles)
   end
 
   def broadcast_message(msg)

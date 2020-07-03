@@ -138,6 +138,4 @@ end.combination(2) do |pair|
 end
 
 group_chat = Conversation.create({ name: 'Big happy group chat'})
-group_chat.add_conversation_member(1, 1)
-group_chat.add_conversation_member(2, 2)
-group_chat.add_conversation_member(3, 3)
+group_chat.add_conversation_members_by_profile_ids([1, 2, 3])
