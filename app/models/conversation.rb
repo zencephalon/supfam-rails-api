@@ -46,6 +46,10 @@ class Conversation < ApplicationRecord
     self.add_conversation_members_by_profiles(profiles)
   end
 
+  def remove_conversation_member_by_profile_id(profile_id)
+    self.conversation_memberships.where(profile_id: profile_id).destroy_all
+  end
+
   def broadcast_message(msg)
     # Do we need this? Can't we just do it the same way we do last_message?
     json = ActiveModelSerializers::Adapter::Json.new(
