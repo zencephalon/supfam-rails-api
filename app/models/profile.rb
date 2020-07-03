@@ -7,22 +7,15 @@ class Profile < ApplicationRecord
   def create_friend_invite(friend_profile_id)
     friend_profile = Profile.find_by(id: friend_profile_id)
 
-    unless friend_profile
-      return false
-    end
+    return false unless friend_profile
 
-    Profile.transaction do
-      friend_invite = FriendInvite.create(from_profile_id: self.id, to_profile_id: friend_profile_id)
-      return friend_invite
-    end
+    return FriendInvite.create(from_profile_id: self.id, to_profile_id: friend_profile_id)
   end
 
   def cancel_friend_invite(to_profile_id)
     pending_invites = FriendInvite.where(from_profile_id: self.id, to_profile_id: to_profile_id, status: :pending);
 
-    unless pending_invites
-      return false
-    end
+    return false unless pending_invites
 
     pending_invites.each do |invite|
       invite.status = :cancelled
@@ -35,9 +28,7 @@ class Profile < ApplicationRecord
   def decline_friend_invite(from_profile_id)
     pending_invites = FriendInvite.where(from_profile_id: from_profile_id, to_profile_id: self.id, status: :pending);
 
-    unless pending_invites
-      return false
-    end
+    return false unless pending_invites
 
     pending_invites.each do |invite|
       invite.status = :declined
@@ -50,9 +41,7 @@ class Profile < ApplicationRecord
   def accept_friend_invite(from_profile_id)
     pending_invites = FriendInvite.where(from_profile_id: from_profile_id, to_profile_id: self.id, status: :pending);
 
-    unless pending_invites
-      return false
-    end
+    return false unless pending_invites
 
     pending_invites.each do |invite|
       invite.status = :accepted
@@ -68,9 +57,7 @@ class Profile < ApplicationRecord
   def friend_invites_from()
     invites = FriendInvite.where(from_profile_id: self.id);
 
-    unless invites
-      return false
-    end
+    return false unless invites
 
     return invites
   end
@@ -78,9 +65,7 @@ class Profile < ApplicationRecord
   def friend_invites_to()
     invites = FriendInvite.where(to_profile_id: self.id);
 
-    unless invites
-      return false
-    end
+    return false unless invites
 
     return invites
   end
@@ -88,13 +73,11 @@ class Profile < ApplicationRecord
   def create_friendship(friend_profile_id)
     friend_profile = Profile.find_by(id: friend_profile_id)
 
-    unless friend_profile
-      return false
-    end
+    return false unless friend_profile
 
     Profile.transaction do
-      Friendship.create(from_profile_id: self.id, to_profile_id: friend_profile_id, from_user_id: self.id, to_user_id: friend_profile.user_id)
-      Friendship.create(to_profile_id: self.id, from_profile_id: friend_profile_id, to_user_id: self.id, from_user_id: friend_profile.user_id)
+      Friendship.create!(from_profile_id: self.id, to_profile_id: friend_profile_id, from_user_id: self.id, to_user_id: friend_profile.user_id)
+      Friendship.create!(to_profile_id: self.id, from_profile_id: friend_profile_id, to_user_id: self.id, from_user_id: friend_profile.user_id)
     end
 
     # Setup the conversation immediately
@@ -179,7 +162,7 @@ class Profile < ApplicationRecord
     invitations.each do |invitation|
       if invitation.status == "pending"
         profile.create_friendship(invitation.from_profile_id)
-        invitation.status = :accepted;
+        invitation.status = :accepted
         invitation.save
       end
     end

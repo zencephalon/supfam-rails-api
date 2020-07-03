@@ -27,6 +27,18 @@ class ProfilesController < ApplicationController
     render json: { error: "Couldn't update status" }, status: :unprocessable_entity
   end
 
+  def update_location
+    profile = @current_user.profiles.find_by(id: params[:profileId])
+
+    if profile && profile.update_location(location_params)
+      render json: true
+      return
+    end
+
+    render json: { error: "Couldn't update status" }, status: :unprocessable_entity
+  end
+
+
   # POST /profiles
   def create
     @profile = @current_user.create_profile(profile_params)
@@ -46,5 +58,9 @@ class ProfilesController < ApplicationController
 
     def status_params
       params.permit(:message, :color)
+    end
+
+    def location_params
+      params.permit(:longitude, :latitude)
     end
 end

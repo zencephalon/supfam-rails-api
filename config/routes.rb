@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   put 'push_token/:push_token', to: 'users#set_push_token'
 
   put 'statuses/me', to: 'profiles#update_status'
+  put 'locations/me', to: 'profiles#update_location'
 
   get 'profiles/me', to: 'profiles#me'
   get 'profiles/:id', to: 'profiles#show'
@@ -62,4 +63,5 @@ Rails.application.routes.draw do
   post 'conversations/:id/messages/profile/:from_profile_id', to: 'messages#send_message'
 
   post 'profiles/:from_profile_id/messages/profile/:to_profile_id', to: 'messages#send_message_to_profile'
+
 end

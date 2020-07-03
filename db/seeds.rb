@@ -123,6 +123,10 @@ def get_random_seen
   {"battery_state" => rand(1..2), "battery" => rand(), "network_type" => ['wifi', 'cellular'].sample, "network_strength" => rand(1..5)}
 end
 
+def get_random_location
+  { "latitude" => 40.6749728 + rand() * 0.01, "longitude" => -73.9434645 + rand() * 0.01}
+end
+
 mattfam_users_data.map do |data|
   puts data
   user = User.create({ password: 'password', password_confirmation: 'password', phone: data[:phone], name: data[:displayName] })
@@ -130,6 +134,7 @@ mattfam_users_data.map do |data|
   profile = user.create_profile(avatar_key: data[:displayImage], name: data[:displayName])
   profile.update_status(message: data[:statusText], color: data[:color])
   profile.update_seen(get_random_seen, DateTime.now() - rand(150).seconds)
+  profile.update_location(get_random_location, DateTime.now() - rand(150).seconds)
   profile
 end.combination(2) do |pair|
   next if rand() > 0.5
