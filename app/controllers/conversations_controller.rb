@@ -4,7 +4,7 @@ class ConversationsController < ApplicationController
 
   def show
     conversation = Conversation.find_by(id: params[:id])
-    render json: conversation
+    render json: conversation.summary
   end
 
   def create_with_members
