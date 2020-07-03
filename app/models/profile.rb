@@ -139,8 +139,6 @@ class Profile < ApplicationRecord
     return self.save
   end
 
-
-
   def summary
     return {id: self.id, name: self.name, avatar_url: self.avatar_url, user_id: self.user_id}
   end
