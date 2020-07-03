@@ -1,8 +1,7 @@
 # typed: true
-
-extend T::Sig
-
 class Conversation < ApplicationRecord
+  extend T::Sig
+
   has_many :messages
   has_many :conversation_memberships
   has_many :users, through: :conversation_memberships
@@ -14,7 +13,7 @@ class Conversation < ApplicationRecord
     ids.map(&:to_i).sort.join(":")
   end
 
-  sig {params(current_user_id: Integer, profile_id: Integer).returns(T.self_type)}
+  # sig {params(current_user_id: Integer, profile_id: Integer).returns(T.self_type)}
   def self.dmWith(current_user_id, profile_id)
     user_id = Profile.find(profile_id).user_id
     dmId = getDmId([user_id, current_user_id])
@@ -58,13 +57,8 @@ class Conversation < ApplicationRecord
 
   sig {params(msg: Message).void}
   def broadcast_message(msg)
-    # Do we need this? Can't we just do it the same way we do last_message?
-    json = ActiveModelSerializers::Adapter::Json.new(
-      MessageSerializer.new(msg)
-    ).serializable_hash
-
     ConversationChannel.broadcast_to("#{self.id}", { last_message: msg, id: self.id })
-    MessageChannel.broadcast_to("#{self.id}", json)
+    MessageChannel.broadcast_to("#{self.id}", { message: msg })
     return nil
   end
 

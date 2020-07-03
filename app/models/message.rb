@@ -8,4 +8,8 @@ class Message < ApplicationRecord
   def profile_summary
     self.profile.summary
   end
+
+  def summary
+    slice(:id, :profile_id, :conversation_id, :type, :message, :qid)
+  end
 end
