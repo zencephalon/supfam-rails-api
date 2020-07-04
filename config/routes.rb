@@ -60,6 +60,7 @@ Rails.application.routes.draw do
 
   post 'conversations/:id/read/:msgId', to: 'conversations#read'
   get 'conversations/:id/preview', to: 'conversations#preview'
+  get 'conversations/:id', to: 'conversations#show'
 
   post 'conversations/:id/add_members', to: 'conversations#add_members'
   post 'conversations/:id/remove_member', to: 'conversations#remove_member'

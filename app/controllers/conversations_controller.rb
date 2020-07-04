@@ -2,6 +2,11 @@
 class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:read, :preview, :membership, :add_members, :remove_member]
 
+  def show
+    conversation = Conversation.find_by(id: params[:id])
+    render json: conversation.summary
+  end
+
   def create_with_members
     c = Conversation.create
     c.add_conversation_members_by_profile_ids([params[:creatorId]], :admin) if params[:creatorId]
