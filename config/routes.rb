@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 
   get 'friends/:profile_id', to: 'users#friends'
   get 'friends_of_friends/:profile_id', to: 'users#friends_of_friends'
+  post 'friends/block', to: 'friend_invites#block'
 
   # invitations
   

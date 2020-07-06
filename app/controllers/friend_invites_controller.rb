@@ -55,4 +55,11 @@ class FriendInvitesController < ApplicationController
     result = profile.friend_invites_to()
     render json: result.map(&:summary);
   end
+
+  def block
+    profile = @current_user.profiles.find_by(id: params[:from_profile_id])
+    profile.delete_friendship(params[:to_profile_id])
+
+    render json: {}
+  end
 end

@@ -86,6 +86,19 @@ class Profile < ApplicationRecord
     return true
   end
 
+  def delete_friendship(friend_profile_id)
+    friend_profile = Profile.find_by(id: friend_profile_id)
+
+    return false unless friend_profile
+
+    Profile.transaction do
+      friendship_to = Friendship.where(from_profile_id: self.id, to_profile_id: friend_profile_id).destroy_all
+      friendship_from = Friendship.where(from_profile_id: self.id, to_profile_id: friend_profile_id).destroy_all
+    end
+
+    return true
+  end
+
   def avatar_url
     # signer = Aws::S3::Presigner.new
     # signer.presigned_url(:get_object, bucket: "supfam-avatar", key: self.avatar_key)
