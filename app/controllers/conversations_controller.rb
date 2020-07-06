@@ -72,7 +72,7 @@ class ConversationsController < ApplicationController
   end
 
   def conversation_with_profile
-    conversation = Conversation.dmWith(@current_user.id, params[:to_profile_id])
+    conversation = Conversation.dmWith(@current_user.id, params[:to_profile_id].to_i)
 
     if conversation
       render json: conversation
