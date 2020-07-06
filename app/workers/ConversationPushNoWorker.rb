@@ -14,8 +14,13 @@ class ConversationPushNoWorker
 
     conversation.conversation_memberships.each do |membership|
       next if membership.profile_id == message.profile_id
-      next if membership.profile.status["color"] == 0
       next unless membership.profile.user.push_token
+
+      color = membership.profile.status["color"]
+      # Don't notify AWAY
+      next if color == 0
+      # Don't notify BUSY for group conversations
+      next if !conversation.dmId && membership.color == 1
 
       push_recipients << membership.profile.user.push_token
     end
@@ -26,12 +31,11 @@ class ConversationPushNoWorker
 
     return if push_recipients.empty?
 
-    title = "#{message.profile.name} #{COLOR_EMOJI[message.profile.status["color"]]}"
-    body = message.message
+    title = message.notification_title
+    body = message.notification_body
     handler = client.send_messages([{
       to: push_recipients,
       title: title,
-      # TODO: handle non-text messages
       body: body,
       data: { message: message, title: title, body: body }
     }])
