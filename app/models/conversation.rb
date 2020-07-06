@@ -51,7 +51,7 @@ class Conversation < ApplicationRecord
     self.add_conversation_members_by_profiles(profiles, type)
   end
 
-  def remove_conversation_member_by_profile_id(profile_id)
+  def remove_member_by_profile_id(profile_id)
     self.conversation_memberships.where(profile_id: profile_id).destroy_all
   end
 
