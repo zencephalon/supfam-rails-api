@@ -13,7 +13,7 @@ class Conversation < ApplicationRecord
     ids.map(&:to_i).sort.join(":")
   end
 
-  # sig {params(current_user_id: Integer, profile_id: Integer).returns(T.self_type)}
+  sig {params(current_user_id: Integer, profile_id: Integer).returns(T.self_type)}
   def self.dmWith(current_user_id, profile_id)
     user_id = Profile.find(profile_id).user_id
     dmId = getDmId([user_id, current_user_id])

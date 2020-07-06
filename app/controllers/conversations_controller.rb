@@ -1,6 +1,6 @@
 # typed: false
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:read, :preview, :membership, :add_members, :remove_member]
+  before_action :set_conversation, only: [:read, :preview, :membership, :add_members, :remove_member, :update_name]
 
   def show
     conversation = Conversation.find_by(id: params[:id])
@@ -13,6 +13,13 @@ class ConversationsController < ApplicationController
     c.add_conversation_members_by_profile_ids(params[:profileIds])
 
     render json: { conversation_id: c.id }
+  end
+
+  def update_name
+    @conversation.name = params[:name]
+    @conversation.save
+
+    render json: {}
   end
 
   def add_members

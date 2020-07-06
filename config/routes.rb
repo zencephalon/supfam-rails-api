@@ -64,6 +64,7 @@ Rails.application.routes.draw do
 
   post 'conversations/:id/add_members', to: 'conversations#add_members'
   post 'conversations/:id/remove_member', to: 'conversations#remove_member'
+  put 'conversations/:id/name', to: 'conversations#update_name'
 
   get 'conversations/:id/messages', to: 'conversations#messages'
   post 'conversations/:id/messages/profile/:from_profile_id', to: 'messages#send_message'
