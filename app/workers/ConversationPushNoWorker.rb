@@ -20,7 +20,7 @@ class ConversationPushNoWorker
       # Don't notify AWAY
       next if color == 0
       # Don't notify BUSY for group conversations
-      next if !conversation.dmId && membership.color == 1
+      next if !conversation.dmId && color == 1
 
       push_recipients << membership.profile.user.push_token
     end
@@ -31,13 +31,16 @@ class ConversationPushNoWorker
 
     return if push_recipients.empty?
 
+    isDm = !!conversation.dmId
     title = message.notification_title
+    subtitle = isDm ? nil : conversation.name
     body = message.notification_body
     handler = client.send_messages([{
       to: push_recipients,
       title: title,
+      # subtitle: subtitle,
       body: body,
-      data: { message: message, title: title, body: body }
+      data: { message: message, title: title, body: body, isDm: isDm, subtitle: subtitle }
     }])
 
     logger.error handler.errors

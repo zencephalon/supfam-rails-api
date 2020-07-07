@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:read, :preview, :membership, :add_members, :remove_member, :update_name]
 
   def show
-    conversation = Conversation.find_by(id: params[:id])
+    conversation = Conversation.find(params[:id])
     render json: conversation.summary
   end
 
