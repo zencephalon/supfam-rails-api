@@ -40,7 +40,9 @@ class ConversationPushNoWorker
       title: title,
       # subtitle: subtitle,
       body: body,
-      data: { message: message, title: title, body: body, isDm: isDm, subtitle: subtitle }
+      priority: 'high',
+      channelId: 'minor',
+      data: { message: message, title: title, body: body, isDm: isDm, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
     }])
 
     logger.error handler.errors
