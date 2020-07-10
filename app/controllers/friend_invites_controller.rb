@@ -62,4 +62,37 @@ class FriendInvitesController < ApplicationController
 
     render json: {}
   end
+
+  def phone_lookup
+    to_user = User.find_by(phone: params[:phone])
+
+    unless to_user
+      render json: {result: 'no_user'}
+      return
+    end
+
+    to_profile = to_user.profiles.first
+    from_profile = @current_user.profiles.find_by(id: params[:from_profile_id])
+
+    unless from_profile && to_profile
+      render json: {result: 'no_user'}
+      return
+    end
+
+    existing_friendship = Friendship.where(from_profile_id: from_profile.id, to_profile_id: to_profile.id).first
+
+    if existing_friendship
+      render json: {result: 'existing_friendship'}
+      return
+    end
+
+    existing_invite = FriendInvite.where(from_profile_id: from_profile.id, to_profile_id: to_profile.id).first
+
+    if existing_invite
+      render json: {result: 'existing_invite'}
+      return
+    end
+
+    render json: { result: 'user_found', profile_id: to_profile.id }
+  end
 end

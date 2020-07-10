@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
   # invitations
   
+  get 'invitations/phone_lookup/:phone/:from_profile_id', to: 'friend_invites#phone_lookup'
   post 'invitations/create', to: 'invitations#create'
 
   # friend invites
