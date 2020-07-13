@@ -5,7 +5,7 @@ class MessagesController < ApplicationController
     conversation = Conversation.find(params[:id])
     from_profile = @current_user.profiles.find(params[:from_profile_id])
     if conversation && from_profile
-      render json: conversation.add_message(from_profile, msg_params)
+      render json: conversation.add_message(from_profile.id, msg_params)
     else
       render json: { error: "Invalid profile" }, status: :unprocessable_entity
     end

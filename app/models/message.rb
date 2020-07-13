@@ -5,6 +5,8 @@ class Message < ApplicationRecord
   belongs_to :conversation
   belongs_to :profile
 
+  before_save :add_links
+
   # types
   # 0 text
   # 1 image
@@ -26,5 +28,11 @@ class Message < ApplicationRecord
     return "Sent an image" if self.type == 1
 
     return self.message
+  end
+
+  def add_links
+    if self.type == 0
+      self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(self.message)
+    end
   end
 end
