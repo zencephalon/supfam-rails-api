@@ -21,6 +21,10 @@ Install Redis
 
 `brew services start redis`
 
+Install libIDN
+
+`brew install libidn`
+
 Install Heroku
 
 `brew tap heroku/brew && brew install heroku`
@@ -44,4 +48,5 @@ I recommend installing https://postgresapp.com/
 `heroku local`
 
 ## Typechecking with Sorbet
+
 `bundle exec srb tc`

@@ -29,6 +29,8 @@ gem 'faker'
 gem 'sorbet', :group => :development
 gem 'sorbet-runtime'
 
+gem 'twitter-text'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
