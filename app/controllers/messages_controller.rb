@@ -19,6 +19,6 @@ class MessagesController < ApplicationController
 
     # Only allow a trusted parameter "allow list" through.
     def msg_params
-      params.require(:message).permit(:type, :message, :qid, data: [:quoted, :quotedType, :profileId])
+      params.require(:message).permit(:type, :message, :qid, data: [:quoted, :quoted_type, :profile_id])
     end
 end
