@@ -19,6 +19,6 @@ class MessagesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def msg_params
-      params.require(:message).permit(:type, :message, :qid)
+      params.require(:message).permit(:type, :message, :qid, :data)
     end
 end

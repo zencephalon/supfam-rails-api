@@ -18,7 +18,7 @@ class Message < ApplicationRecord
   end
 
   def summary
-    slice(:id, :profile_id, :conversation_id, :type, :message, :qid)
+    slice(:id, :profile_id, :conversation_id, :type, :message, :qid, :links, :data)
   end
 
   def notification_title
