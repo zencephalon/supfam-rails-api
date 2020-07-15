@@ -10,6 +10,7 @@ class Message < ApplicationRecord
   # types
   # 0 text
   # 1 image
+  # 2 quoted reply
   # unfortunately using an Enum here causes massive serialization problems, so we're sticking to an int
 
   def profile_summary
