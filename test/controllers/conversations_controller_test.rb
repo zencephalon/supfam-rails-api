@@ -6,11 +6,11 @@ class ConversationsControllerTest < ActionDispatch::IntegrationTest
     # @conversation = conversations(:one)
   end
 
-  test "should add a message successfully" do
-    assert_difference('Message.count', 1) do
-      post "/messages/user/2", params: { message: { message: 'hey', type: 0 } }, as: :json, headers: { 'Authorization' => 'hello' }
-    end
-  end
+  # test "should add a message successfully" do
+  #   assert_difference('Message.count', 1) do
+  #     post "/messages/user/2", params: { message: { message: 'hey', type: 0 } }, as: :json, headers: { 'Authorization' => 'hello' }
+  #   end
+  # end
 
   # test "should get index" do
   #   get conversations_url, as: :json
