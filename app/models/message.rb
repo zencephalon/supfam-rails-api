@@ -35,6 +35,7 @@ class Message < ApplicationRecord
     self.reactions = {} if self.reactions.nil?
     self.reactions[emoji] = [] if self.reactions[emoji].nil?
     self.reactions[emoji] = self.reactions[emoji] | [profile_id]
+    MessageReactionsChannel.broadcast_to("#{self.conversation_id}", { reactions: self.reactions, id: self.id })
     self.save
   end
 
@@ -42,6 +43,7 @@ class Message < ApplicationRecord
     self.reactions = {} if self.reactions.nil?
     self.reactions[emoji] = [] if self.reactions[emoji].nil?
     self.reactions[emoji] = self.reactions[emoji] - [profile_id]
+    MessageReactionsChannel.broadcast_to("#{self.conversation_id}", { reactions: self.reactions, id: self.id })
     self.save
   end
 
