@@ -13,6 +13,10 @@ When changing a friendship we also need to update the corresponding DM's convers
 Kind of sad that we can use ActiveRecord:Enum to define the status colors because I nested it in a JSON object. Maybe we'll want
 to break that object up into separate columns on Profile one day.
 
+## Security
+
+TODO: we need to limit access to ActionCable channels
+
 ## Setup
 
 Install Redis
