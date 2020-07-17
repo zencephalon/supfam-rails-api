@@ -31,6 +31,20 @@ class Message < ApplicationRecord
     return self.message
   end
 
+  def add_reaction(profile_id, emoji)
+    self.reactions = {} if self.reactions.nil?
+    self.reactions[emoji] = [] if self.reactions[emoji].nil?
+    self.reactions[emoji] = self.reactions[emoji] | [profile_id]
+    self.save
+  end
+
+  def remove_reaction(profile_id, emoji)
+    self.reactions = {} if self.reactions.nil?
+    self.reactions[emoji] = [] if self.reactions[emoji].nil?
+    self.reactions[emoji] = self.reactions[emoji] - [profile_id]
+    self.save
+  end
+
   def add_links
     if self.type == 0
       self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(self.message)

@@ -11,6 +11,27 @@ class MessagesController < ApplicationController
     end
   end
 
+
+  def add_reaction
+    membership = ConversationMembership.where(conversation_id: @message.conversation_id, profile_id: params[:profile_id]).first
+    if membership
+      @message.add_reaction(profile_id: params[:profile_id], emoji: params[:emoji])
+      render json: "ok"
+    else
+      render_unauthorized
+    end
+  end
+
+  def remove_reaction
+    membership = ConversationMembership.where(conversation_id: @message.conversation_id, profile_id: params[:profile_id]).first
+    if membership
+      @message.remove_reaction(profile_id: params[:profile_id], emoji: params[:emoji])
+      render json: "ok"
+    else
+      render_unauthorized
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_message
