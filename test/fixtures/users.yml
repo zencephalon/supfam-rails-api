@@ -3,25 +3,25 @@
 matt:
   id: 1
   name: Matt
-  families: mattfam, hf0
+  phone: "+19522015074"
   api_key: hello
 
 daria:
   id: 2
+  phone: "+19192470014"
   name: Daria
-  families: mattfam
 
 mark:
   id: 3
+  phone: "+19522001001"
   name: Mark
-  families: mattfam
 
 condon:
   id: 4
+  phone: "+19522001002"
   name: Condon
-  families: hf0
 
 stedman:
   id: 5
+  phone: "+19522001003"
   name: Stedman
-  families: hf0
