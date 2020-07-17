@@ -57,8 +57,8 @@ Rails.application.routes.draw do
   # messages
 
   get 'message/:id', to: 'messages#show'
-  post 'message/:id/reactions/:profile_id/add', to: 'messages#add_reaction'
-  post 'message/:id/reactions/:profile_id/remove', to: 'messages#remove_reaction'
+  post 'message/:id/reactions/add', to: 'messages#add_reaction'
+  post 'message/:id/reactions/remove', to: 'messages#remove_reaction'
 
   post 'conversations/create', to: 'conversations#create_with_members'
 
@@ -71,7 +71,7 @@ Rails.application.routes.draw do
   put 'conversations/:id/name', to: 'conversations#update_name'
 
   get 'conversations/:id/messages', to: 'conversations#messages'
-  post 'conversations/:id/messages/profile/:from_profile_id', to: 'messages#send_message'
 
-  post 'profiles/:from_profile_id/messages/profile/:to_profile_id', to: 'messages#send_message_to_profile'
+  # TODO: this route naming sucks, we should just include from_profile_id in the post body
+  post 'conversations/:id/messages/profile/:from_profile_id', to: 'messages#send_message'
 end

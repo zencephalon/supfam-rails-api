@@ -1,5 +1,6 @@
 # typed: false
 class MessagesController < ApplicationController
+  before_action :set_message, only: [:add_reaction, :remove_reaction]
 
   def send_message
     conversation = Conversation.find(params[:id])
@@ -15,8 +16,8 @@ class MessagesController < ApplicationController
   def add_reaction
     membership = ConversationMembership.where(conversation_id: @message.conversation_id, profile_id: params[:profile_id]).first
     if membership
-      @message.add_reaction(profile_id: params[:profile_id], emoji: params[:emoji])
-      render json: "ok"
+      @message.add_reaction(params[:profile_id], params[:emoji])
+      render json: {}
     else
       render_unauthorized
     end
@@ -25,8 +26,8 @@ class MessagesController < ApplicationController
   def remove_reaction
     membership = ConversationMembership.where(conversation_id: @message.conversation_id, profile_id: params[:profile_id]).first
     if membership
-      @message.remove_reaction(profile_id: params[:profile_id], emoji: params[:emoji])
-      render json: "ok"
+      @message.remove_reaction(params[:profile_id], params[:emoji])
+      render json: {}
     else
       render_unauthorized
     end
