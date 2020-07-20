@@ -10,6 +10,8 @@ class User < ApplicationRecord
   has_many :profiles
   has_many :conversation_memberships
   has_many :conversations, through: :conversation_memberships
+  has_many :friendships, foreign_key: :from_user_id
+  has_many :friends, through: :friendships, source: :to_friend
 
   # Generate a unique API key
   def generate_api_key

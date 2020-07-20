@@ -1,7 +1,9 @@
 # typed: true
 class ProfileChannel < ApplicationCable::Channel
   def subscribed
-    stream_for "#{params[:id]}"
+  	current_user.friendships.pluck(:to_profile_id).each do |profile_id|
+	    stream_for "#{profile_id}"
+	  end
   end
 
   def unsubscribed
