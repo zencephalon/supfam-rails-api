@@ -1,7 +1,6 @@
 # typed: false
 class SeenChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "some_channel"
   end
 
   def unsubscribed

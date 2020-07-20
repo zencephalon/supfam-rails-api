@@ -1,10 +1,9 @@
 # typed: true
 class ConversationChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
-    # conversation = Conversation.find(params[:id])
-    # stream_for conversation
-    stream_for "#{params[:id]}"
+  	current_user.conversation_memberships.pluck(:conversation_id).each do |conversation_id|
+	    stream_for "#{conversation_id}"
+	  end
   end
 
   def unsubscribed
