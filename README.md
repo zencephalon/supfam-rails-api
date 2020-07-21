@@ -17,6 +17,10 @@ to break that object up into separate columns on Profile one day.
 
 TODO: we need to limit access to ActionCable channels
 
+## Running
+
+`heroku local -f Procfile.dev`
+
 ## Setup
 
 ### Install Redis
