@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.3'
 
 gem 'aws-sdk', '~> 3'
+gem 'anycable-rails', '~> 1.0'
 
 gem 'sidekiq'
 gem 'exponent-server-sdk'

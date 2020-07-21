@@ -19,27 +19,35 @@ TODO: we need to limit access to ActionCable channels
 
 ## Setup
 
-Install Redis
+### Install Redis
 
 `brew install redis`
 
 `brew services start redis`
 
-Install libIDN
+### Install libIDN
 
 `brew install libidn`
 
-Install Heroku
+### Install Heroku
 
 `brew tap heroku/brew && brew install heroku`
 
-Consider using `asdf` instead of `rvm`.
+### Install Ruby version
 
-I recommend installing https://postgresapp.com/
+Consider using `asdf` instead of `rvm`.
 
 `rvm install 2.6.3`
 
 `rvm use 2.6.3`
+
+### Install anycable-go
+
+`brew install anycable-go`
+
+### Install Postgres
+
+I recommend installing https://postgresapp.com/
 
 `bundle`
 
