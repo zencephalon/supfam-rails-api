@@ -70,7 +70,7 @@ class SessionsController < ActionController::API
     if @user.save
       render json: { token: @user.api_key, user: @user }, status: :created
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: { error: @user.errors }, status: :unprocessable_entity
     end
   end
 

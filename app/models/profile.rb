@@ -102,7 +102,7 @@ class Profile < ApplicationRecord
   def avatar_url
     # signer = Aws::S3::Presigner.new
     # signer.presigned_url(:get_object, bucket: "supfam-avatar", key: self.avatar_key)
-    "https://supfam-avatar.s3.us-east-2.amazonaws.com/#{avatar_key}"
+    false ? "https://supfam-avatar.s3.us-east-2.amazonaws.com/#{avatar_key}" : "https://ui-avatars.com/api/?background=B48EAD&color=fff&name=#{self.name.split(' ').join('+')}"
   end
 
   def phone
