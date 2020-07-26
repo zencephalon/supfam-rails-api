@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'profiles/me', to: 'profiles#me'
   get 'profiles/:id', to: 'profiles#show'
   post 'profiles', to: 'profiles#create'
+  put 'profiles/:id', to: 'profiles#update_name_and_image'
 
   get 'uploads/presigned', to: 'uploads#presign'
 
