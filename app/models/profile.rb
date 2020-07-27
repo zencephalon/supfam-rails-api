@@ -147,7 +147,7 @@ class Profile < ApplicationRecord
     self.status = (old_status || {}).merge(new_status)
     self.broadcast_status
     old_updated_at = old_status["updated_at"]
-    StatusUpgradePushNoWorker.perform_async(self.id) if new_status["color"] > old_status["color"] and (!old_updated_at or (DateTime.parse(old_updated_at) + 5.minute) < new_status["updated_at"])
+    StatusUpgradePushNoWorker.perform_async(self.id) if self.status["color"] > old_status["color"] and (!old_updated_at or (DateTime.parse(old_updated_at) + 5.minute) < self.status["updated_at"])
 
     return self.save
   end
