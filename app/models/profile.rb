@@ -136,11 +136,11 @@ class Profile < ApplicationRecord
     self.save
   end
 
-  def update_status(params)
+  def update_status(params, updated_at = nil)
     new_status = {}
     old_status = self.status
 
-    new_status["updated_at"] = DateTime.now()
+    new_status["updated_at"] = updated_at || DateTime.now()
     new_status["message"] = params[:message] if params[:message]
     new_status["color"] = params[:color] if params[:color]
 

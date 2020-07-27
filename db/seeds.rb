@@ -143,8 +143,9 @@ mattfam_users_data.map.with_index do |data, index|
   user = User.create({ password: 'password', password_confirmation: 'password', phone: data[:phone], name: data[:userName] })
   user.save!
   profile = user.create_profile(avatar_key: data[:displayImage], name: data[:displayName])
-  profile.update_status(message: data[:statusText], color: data[:color])
-  profile.update_seen(get_random_seen, DateTime.now() - ((10-index)*60*4).seconds)
+  status_update_time = DateTime.now() - ((10-index)*60*4).seconds
+  profile.update_status({ message: data[:statusText], color: data[:color] }, status_update_time)
+  profile.update_seen(get_random_seen, status_update_time)
   profile.update_location(get_random_location, DateTime.now() - rand(150).seconds)
   profile
 end.combination(2) do |pair|
@@ -154,10 +155,21 @@ end.combination(2) do |pair|
 end
 
 dm = Conversation.find_by(dmId: "1:9")
-dm.add_message(9, {message: "Let's stop by Mark's place on the way back from ramen?"})
+dm.add_message(9, {message: "Let's stop by Mark's place on the way back from ramen?", type: 0})
 group_chat = Conversation.create({ name: 'Party planning'})
 group_chat.add_conversation_members_by_profile_ids([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-group_chat.add_message(2, { message: "We got a huge outdoor space for this"})
+group_chat.add_message(2, { message: "We got a huge outdoor space for this", type: 0})
 group_chat = Conversation.create({ name: 'My peeps'})
 group_chat.add_conversation_members_by_profile_ids([1, 2, 3])
-group_chat.add_message(2, { message: "Want to grab ramen in like 45 minutes?"})
+group_chat.add_message(2, { message: "Want to grab ramen in like 45 minutes?", type: 0})
+group_chat = Conversation.create()
+group_chat.add_conversation_members_by_profile_ids([1, 4, 5, 6])
+
+profile = Profile.find(10)
+profile.update_seen(get_random_seen, DateTime.now())
+
+profile = Profile.find(9)
+profile.update_seen(get_random_seen, DateTime.now())
+
+profile = Profile.find(8)
+profile.update_seen(get_random_seen, DateTime.now())
