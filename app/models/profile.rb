@@ -152,14 +152,6 @@ class Profile < ApplicationRecord
     return self.save
   end
 
-  def update_name_and_image(name, avatar_key, updated_at = nil)
-    self.name = name
-    if avatar_key
-      self.avatar_key = avatar_key
-    end
-    self.save
-  end
-
   def summary
     return {id: self.id, name: self.name, avatar_url: self.avatar_url, user_id: self.user_id}
   end

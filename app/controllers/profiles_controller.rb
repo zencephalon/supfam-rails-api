@@ -39,13 +39,10 @@ class ProfilesController < ApplicationController
   end
 
   # PUT /profiles/:id
-  def update_name_and_image
+  def update
     profile = @current_user.profiles.find_by(id: params[:id])
 
-    new_name = params[:name]
-    new_avatar_key = params[:avatar_key]
-
-    if profile && profile.update_name_and_image(new_name, new_avatar_key)
+    if profile && profile.update(profile_params)
       render json: true
       return
     end
