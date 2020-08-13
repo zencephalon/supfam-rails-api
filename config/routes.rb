@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   get 'message/:id', to: 'messages#show'
   post 'message/:id/reactions/add', to: 'messages#add_reaction'
   post 'message/:id/reactions/remove', to: 'messages#remove_reaction'
+  post 'message/:id/flag', to: "messages#flag"
 
   post 'conversations/create', to: 'conversations#create_with_members'
 

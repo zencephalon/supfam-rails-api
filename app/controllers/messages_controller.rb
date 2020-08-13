@@ -12,6 +12,15 @@ class MessagesController < ApplicationController
     end
   end
 
+  def flag
+    membership = ConversationMembership.where(conversation_id: @message.conversation_id, profile_id: params[:profile_id]).first
+    if membership
+      @message.add_flag
+      render json: {}
+    else
+      render_unauthorized
+    end
+  end
 
   def add_reaction
     membership = ConversationMembership.where(conversation_id: @message.conversation_id, profile_id: params[:profile_id]).first

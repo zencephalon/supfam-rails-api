@@ -2,7 +2,7 @@
 class Conversation < ApplicationRecord
   extend T::Sig
 
-  has_many :messages
+  has_many :messages, -> { where(flag: nil) }
   has_many :conversation_memberships
   has_many :users, through: :conversation_memberships
   has_many :profiles, through: :conversation_memberships

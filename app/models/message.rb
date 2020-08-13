@@ -47,6 +47,11 @@ class Message < ApplicationRecord
     self.save
   end
 
+  def add_flag
+    self.flag = true
+    self.save
+  end
+
   def add_links
     if self.type == 0
       self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(self.message)
