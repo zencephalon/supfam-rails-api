@@ -38,6 +38,18 @@ class ProfilesController < ApplicationController
     render json: { error: "Couldn't update status" }, status: :unprocessable_entity
   end
 
+  # PUT /profiles/:id
+  def update
+    profile = @current_user.profiles.find_by(id: params[:id])
+
+    if profile && profile.update(profile_params)
+      render json: true
+      return
+    end
+
+    render json: { error: "Couldn't update profile" }, status: :unprocessable_entity
+  end
+
 
   # POST /profiles
   def create
