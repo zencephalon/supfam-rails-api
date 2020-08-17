@@ -1,6 +1,6 @@
 # typed: false
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:add_reaction, :remove_reaction]
+  before_action :set_message, only: [:add_reaction, :remove_reaction, :flag]
 
   def send_message
     conversation = Conversation.find(params[:id])
@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
   end
 
   def flag
-    membership = ConversationMembership.where(conversation_id: @message.conversation_id, profile_id: params[:profile_id]).first
+    membership = ConversationMembership.where(conversation_id: @message.conversation_id, user_id: @current_user.id).first
     if membership
       @message.add_flag
       render json: {}
