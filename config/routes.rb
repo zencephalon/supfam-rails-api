@@ -23,6 +23,11 @@ Rails.application.routes.draw do
   post 'check_invite', to: 'sessions#check_invite'
   post 'verify', to: 'sessions#verify'
   post 'resend_code', to: 'sessions#resend_code'
+
+  post 'start_reset', to: 'sessions#start_reset'
+  post 'verify_reset', to: 'sessions#verify_reset'
+  post 'reset_password', to: 'sessions#reset_password'
+  post 'resend_reset_code', to: 'sessions#resend_reset_code'
   
   get 'username/available', to: 'sessions#available'
 

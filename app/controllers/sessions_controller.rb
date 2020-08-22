@@ -74,6 +74,74 @@ class SessionsController < ActionController::API
     end
   end
 
+  def start_reset
+    username = params[:username]
+
+    user = User.find_by(name: username)
+
+    unless user
+      render json: { error: 'No user found' }, status: :not_found
+      return
+    end
+
+    verification = ResetVerification.generate(user.id)
+    TwMessager.send_message("Your Supfam password reset code: #{verification.code}")
+
+    render json: { token: verification.token }
+  end
+
+  def resend_reset_code
+    token = params[:token]
+    verification = ResetVerification.find_by(token: token)
+
+    if verification
+      TwMessager.send_message(verification.phone, "Your Supfam password reset code: #{verification.code}")
+    end
+
+    render json: {}
+  end
+
+  def verify_reset
+    token = params[:token]
+    code = params[:code]
+
+    verification = ResetVerification.find_by(token: token)
+
+    if verification and (verification.code == code || (Rails.env.development? && code == "1111"))
+      verification.verified = true
+      verification.save
+      render json: { success: true }
+      return
+    end
+
+    render json: { error: 'Invalid code' }, status: :unauthorized
+  end
+
+  def reset_password
+    token = params[:token]
+    verification = ResetVerification.find_by(token: token)
+
+    if !verification or !verification.verified
+      render json: { error: 'No verification found'}, status: :unprocessable_entity
+      return
+    end
+
+    code = params[:code]
+    unless verification.code == code
+      render json: { error: 'Invalid code'}, status: :unprocessable_entity
+      return
+    end
+
+    user = verification.user
+    user.update(password: params[:password]) 
+
+    if user.save
+      render json: { token: user.api_key, user: user }
+    else
+      render json: { error: user.errors }, status: :unprocessable_entity
+    end
+  end
+
   def available
     name = (params[:name] || '').downcase
 
