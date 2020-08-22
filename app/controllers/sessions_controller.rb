@@ -126,12 +126,6 @@ class SessionsController < ActionController::API
       return
     end
 
-    code = params[:code]
-    unless verification.code == code
-      render json: { error: 'Invalid code'}, status: :unprocessable_entity
-      return
-    end
-
     user = verification.user
     user.update(password: params[:password]) 
 
