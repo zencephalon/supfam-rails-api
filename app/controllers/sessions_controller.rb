@@ -85,7 +85,7 @@ class SessionsController < ActionController::API
     end
 
     verification = ResetVerification.generate(user.id)
-    TwMessager.send_message("Your Supfam password reset code: #{verification.code}")
+    TwMessager.send_message(user.phone, "Your Supfam password reset code: #{verification.code}")
 
     render json: { token: verification.token }
   end
@@ -95,7 +95,7 @@ class SessionsController < ActionController::API
     verification = ResetVerification.find_by(token: token)
 
     if verification
-      TwMessager.send_message(verification.phone, "Your Supfam password reset code: #{verification.code}")
+      TwMessager.send_message(verification.user.phone, "Your Supfam password reset code: #{verification.code}")
     end
 
     render json: {}
