@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_22_111858) do
+ActiveRecord::Schema.define(version: 2020_08_24_180341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2020_08_22_111858) do
     t.index ["from_profile_id"], name: "index_friendships_on_from_profile_id"
     t.index ["from_user_id"], name: "index_friendships_on_from_user_id"
     t.index ["to_profile_id"], name: "index_friendships_on_to_profile_id"
+    t.index ["to_user_id", "from_user_id"], name: "index_friendships_on_to_user_id_and_from_user_id", unique: true
     t.index ["to_user_id"], name: "index_friendships_on_to_user_id"
   end
 
