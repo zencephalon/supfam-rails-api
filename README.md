@@ -15,7 +15,7 @@ to break that object up into separate columns on Profile one day.
 
 ## Security
 
-TODO: we need to limit access to ActionCable channels
+* Consider doing encryption at rest
 
 ## Running
 
