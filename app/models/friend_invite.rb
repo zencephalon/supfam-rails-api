@@ -3,6 +3,8 @@ class FriendInvite < ApplicationRecord
   belongs_to :to_friend, foreign_key: :to_profile_id, class_name: 'Profile'
   belongs_to :from_friend, foreign_key: :from_profile_id, class_name: 'Profile'
 
+  validates :to_profile_id, uniqueness: { scope: :ffrom_profile_id }
+
   enum status: { pending: 0, cancelled: 1, accepted: 2, declined: 3 }
 
   def summary
