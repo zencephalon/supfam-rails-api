@@ -82,6 +82,7 @@ class Profile < ApplicationRecord
 
     # Setup the conversation immediately
     Conversation.dmWith(self.user_id, friend_profile_id)
+    NewFriendNotificationWorker.perform_async(friend_profile_id, self.id)
 
     return true
   end
