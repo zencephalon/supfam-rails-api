@@ -19,10 +19,10 @@ Rails.application.routes.draw do
   get 'uploads/presigned', to: 'uploads#presign'
 
   post 'login', to: 'sessions#login'
-  post 'register', to: 'sessions#register'
   post 'check_invite', to: 'sessions#check_invite'
   post 'verify', to: 'sessions#verify'
   post 'resend_code', to: 'sessions#resend_code'
+  post 'register', to: 'sessions#register'
 
   post 'start_reset', to: 'sessions#start_reset'
   post 'verify_reset', to: 'sessions#verify_reset'

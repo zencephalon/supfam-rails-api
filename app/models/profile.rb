@@ -76,8 +76,8 @@ class Profile < ApplicationRecord
     return false unless friend_profile
 
     Profile.transaction do
-      Friendship.create!(from_profile_id: self.id, to_profile_id: friend_profile_id, from_user_id: self.id, to_user_id: friend_profile.user_id)
-      Friendship.create!(to_profile_id: self.id, from_profile_id: friend_profile_id, to_user_id: self.id, from_user_id: friend_profile.user_id)
+      Friendship.create!(from_profile_id: self.id, to_profile_id: friend_profile_id, from_user_id: self.user_id, to_user_id: friend_profile.user_id)
+      Friendship.create!(to_profile_id: self.id, from_profile_id: friend_profile_id, to_user_id: self.user_id, from_user_id: friend_profile.user_id)
     end
 
     # Setup the conversation immediately
