@@ -2,12 +2,12 @@
 class FriendInvitesController < ApplicationController
   def create
     profile = @current_user.profiles.find_by(id: params[:from_profile_id])
-    @friendInvite = profile.create_friend_invite(params[:to_profile_id])
+    friend_invite = profile.create_friend_invite(params[:to_profile_id])
 
-    if @friendInvite.save
-      render json: @friendInvite, status: :created
+    if friend_invite.save
+      render json: friend_invite, status: :created
     else
-      render json: @friendInvite.errors, status: :unprocessable_entity
+      render json: friend_invite.errors, status: :unprocessable_entity
     end
   end
 
