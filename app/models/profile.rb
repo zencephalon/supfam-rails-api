@@ -94,7 +94,7 @@ class Profile < ApplicationRecord
 
     Profile.transaction do
       friendship_to = Friendship.where(from_profile_id: self.id, to_profile_id: friend_profile_id).destroy_all
-      friendship_from = Friendship.where(from_profile_id: self.id, to_profile_id: friend_profile_id).destroy_all
+      friendship_from = Friendship.where(to_profile_id: self.id, from_profile_id: friend_profile_id).destroy_all
     end
 
     return true
