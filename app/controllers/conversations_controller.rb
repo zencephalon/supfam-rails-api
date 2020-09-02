@@ -1,11 +1,10 @@
 # typed: false
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:read, :preview, :membership, :add_members, :remove_member, :update_name, :messages, :sync_messages]
-  before_action :check_membership, only: [:read, :preview, :membership, :add_members, :remove_member, :update_name, :messages, :sync_messages]
+  before_action :set_conversation, only: [:read, :preview, :membership, :add_members, :remove_member, :update_name, :messages, :sync_messages, :show]
+  before_action :check_membership, only: [:read, :preview, :membership, :add_members, :remove_member, :update_name, :messages, :sync_messages, :show]
 
   def show
-    conversation = Conversation.find(params[:id])
-    render json: conversation.summary
+    render json: @conversation.summary
   end
 
   def create_with_members
