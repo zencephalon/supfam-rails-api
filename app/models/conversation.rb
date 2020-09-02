@@ -93,6 +93,14 @@ class Conversation < ApplicationRecord
     return self.message_page.where("id < ?", cursor_id)
   end
 
+  def get_messages_with_precursor(cursor_id)
+    unless cursor_id
+      return message_page
+    end
+
+    return self.message_page.where("id > ?", cursor_id)
+  end
+
   def message_count
     self.messages.count
   end

@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   put 'conversations/:id/name', to: 'conversations#update_name'
 
   get 'conversations/:id/messages', to: 'conversations#messages'
+  get 'conversations/:id/sync', to: 'conversations#sync_messages'
 
   # TODO: this route naming sucks, we should just include from_profile_id in the post body
   post 'conversations/:id/messages/profile/:from_profile_id', to: 'messages#send_message'

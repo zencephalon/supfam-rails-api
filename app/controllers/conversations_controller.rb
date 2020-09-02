@@ -1,6 +1,7 @@
 # typed: false
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:read, :preview, :membership, :add_members, :remove_member, :update_name]
+  before_action :set_conversation, only: [:read, :preview, :membership, :add_members, :remove_member, :update_name, :messages, :sync_messages]
+  before_action :check_membership, only: [:read, :preview, :membership, :add_members, :remove_member, :update_name, :messages, :sync_messages]
 
   def show
     conversation = Conversation.find(params[:id])
@@ -31,18 +32,11 @@ class ConversationsController < ApplicationController
   end
 
   def read
-    membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
-
-    unless membership
-      render json: { error: "Not a member of this conversation" }, status: 403 
-      return
-    end
-
     # TODO: enable this when we want to support read-avatar heads like Facebook has
     # membership.broadcast_read(@conversation)
-    membership.last_read_message_id = params[:msgId]
+    @membership.last_read_message_id = params[:msgId]
     
-    if membership.save
+    if @membership.save
       render json: {}
     else
       render json: { error: "Failed to save" }, status: 400
@@ -50,25 +44,11 @@ class ConversationsController < ApplicationController
   end
 
   def preview
-    membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
-
-    unless membership
-      render json: { error: "Not a member of this conversation" }, status: 403 
-      return
-    end
-
     render json: @conversation.last_message
   end
 
   def membership
-    membership = @conversation.conversation_memberships.where(user_id: @current_user.id)[0]
-
-    unless membership
-      render json: { error: "Not a member of this conversation" }, status: 403 
-      return
-    end
-
-    render json: membership.summary
+    render json: @membership.summary
   end
 
   def conversation_with_profile
@@ -86,15 +66,28 @@ class ConversationsController < ApplicationController
   end
 
   def messages
-    conversation = Conversation.find(params[:id])
-    messages = conversation.get_messages_with_cursor(params[:cursor])
+    messages = @conversation.get_messages_with_cursor(params[:cursor])
     render json: { messages: messages, next_cursor: messages.last&.id }
+  end
+
+  def sync_messages
+    messages = @conversation.get_messages_with_precursor(params[:precursor])
+    render json: { messages: messages }
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_conversation
       @conversation = Conversation.find(params[:id])
+    end
+
+    def check_membership
+      @membership = @conversation.conversation_memberships.where(user_id: @current_user.id).first
+
+      unless @membership
+        render json: { error: "Not a member of this conversation" }, status: 403 
+        return
+      end
     end
 
     # Only allow a trusted parameter "white list" through.
