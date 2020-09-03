@@ -19,7 +19,7 @@ class ProfilesController < ApplicationController
   def update_status
     profile = @current_user.profiles.find_by(id: params[:profileId])
 
-    if profile && profile.update_status(status_params)
+    if profile&.update_status(status_params)
       render json: true
       return
     end
@@ -30,7 +30,7 @@ class ProfilesController < ApplicationController
   def update_location
     profile = @current_user.profiles.find_by(id: params[:profileId])
 
-    if profile && profile.update_location(location_params)
+    if profile&.update_location(location_params)
       render json: true
       return
     end
@@ -42,14 +42,13 @@ class ProfilesController < ApplicationController
   def update
     profile = @current_user.profiles.find_by(id: params[:id])
 
-    if profile && profile.update(profile_params)
+    if profile&.update(profile_params)
       render json: true
       return
     end
 
     render json: { error: "Couldn't update profile" }, status: :unprocessable_entity
   end
-
 
   # POST /profiles
   def create
@@ -63,16 +62,17 @@ class ProfilesController < ApplicationController
   end
 
   private
-    # Only allow a trusted parameter "white list" through.
-    def profile_params
-      params.require(:profile).permit(:name, :avatar_key)
-    end
 
-    def status_params
-      params.permit(:message, :color)
-    end
+  # Only allow a trusted parameter "white list" through.
+  def profile_params
+    params.require(:profile).permit(:name, :avatar_key)
+  end
 
-    def location_params
-      params.permit(:longitude, :latitude)
-    end
+  def status_params
+    params.permit(:message, :color)
+  end
+
+  def location_params
+    params.permit(:longitude, :latitude)
+  end
 end

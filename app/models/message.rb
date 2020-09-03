@@ -14,7 +14,7 @@ class Message < ApplicationRecord
   # unfortunately using an Enum here causes massive serialization problems, so we're sticking to an int
 
   def profile_summary
-    self.profile.summary
+    profile.summary
   end
 
   def summary
@@ -22,39 +22,37 @@ class Message < ApplicationRecord
   end
 
   def notification_title
-    "#{self.profile.name} #{COLOR_EMOJI[self.profile.status["color"]]}"
+    "#{profile.name} #{COLOR_EMOJI[profile.status['color']]}"
   end
 
   def notification_body
-    return "Sent an image" if self.type == 1
+    return 'Sent an image' if type == 1
 
-    return self.message
+    message
   end
 
   def add_reaction(profile_id, emoji)
-    self.reactions = {} if self.reactions.nil?
-    self.reactions[emoji] = [] if self.reactions[emoji].nil?
-    self.reactions[emoji] = self.reactions[emoji] | [profile_id]
-    MessageReactionsChannel.broadcast_to("#{self.conversation_id}", { reactions: self.reactions, id: self.id })
-    self.save
+    self.reactions = {} if reactions.nil?
+    reactions[emoji] = [] if reactions[emoji].nil?
+    reactions[emoji] = reactions[emoji] | [profile_id]
+    MessageReactionsChannel.broadcast_to(conversation_id.to_s, { reactions: reactions, id: id })
+    save
   end
 
   def remove_reaction(profile_id, emoji)
-    self.reactions = {} if self.reactions.nil?
-    self.reactions[emoji] = [] if self.reactions[emoji].nil?
-    self.reactions[emoji] = self.reactions[emoji] - [profile_id]
-    MessageReactionsChannel.broadcast_to("#{self.conversation_id}", { reactions: self.reactions, id: self.id })
-    self.save
+    self.reactions = {} if reactions.nil?
+    reactions[emoji] = [] if reactions[emoji].nil?
+    reactions[emoji] = reactions[emoji] - [profile_id]
+    MessageReactionsChannel.broadcast_to(conversation_id.to_s, { reactions: reactions, id: id })
+    save
   end
 
   def add_flag
     self.flag = true
-    self.save
+    save
   end
 
   def add_links
-    if self.type == 0
-      self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(self.message)
-    end
+    self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(message) if type == 0
   end
 end

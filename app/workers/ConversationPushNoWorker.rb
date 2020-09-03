@@ -5,6 +5,7 @@ class ConversationPushNoWorker
   def perform(conversation_id, message_id)
     message = Message.includes(:profile).find(message_id)
     return unless message
+
     conversation = Conversation.includes(conversation_memberships: { profile: :user }).find(conversation_id)
     return unless conversation
 
@@ -16,7 +17,7 @@ class ConversationPushNoWorker
       next if membership.profile_id == message.profile_id
       next unless membership.profile.user.push_token
 
-      color = membership.profile.status["color"]
+      color = membership.profile.status['color']
       # Don't notify AWAY
       next if color == 0
       # Don't notify BUSY for group conversations
@@ -36,14 +37,14 @@ class ConversationPushNoWorker
     subtitle = isDm ? nil : conversation.name
     body = message.notification_body
     handler = client.send_messages([{
-      to: push_recipients,
-      title: title,
-      # subtitle: subtitle,
-      body: body,
-      priority: 'high',
-      channelId: 'minor',
-      data: { message: message, title: title, body: body, isDm: isDm, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
-    }])
+                                     to: push_recipients,
+                                     title: title,
+                                     # subtitle: subtitle,
+                                     body: body,
+                                     priority: 'high',
+                                     channelId: 'minor',
+                                     data: { message: message, title: title, body: body, isDm: isDm, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
+                                   }])
 
     logger.error handler.errors
     logger.info handler.receipt_ids

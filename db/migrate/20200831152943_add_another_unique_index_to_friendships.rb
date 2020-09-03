@@ -1,5 +1,5 @@
 class AddAnotherUniqueIndexToFriendships < ActiveRecord::Migration[6.0]
   def change
-	  add_index :friendships, [:to_profile_id, :from_profile_id], unique: true
+    add_index :friendships, %i[to_profile_id from_profile_id], unique: true
   end
 end

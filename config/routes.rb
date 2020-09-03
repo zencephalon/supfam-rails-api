@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   post 'verify_reset', to: 'sessions#verify_reset'
   post 'reset_password', to: 'sessions#reset_password'
   post 'resend_reset_code', to: 'sessions#resend_reset_code'
-  
+
   get 'username/available', to: 'sessions#available'
 
   get 'friends/:profile_id', to: 'users#friends'
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
   post 'friends/block', to: 'friend_invites#block'
 
   # invitations
-  
+
   get 'invitations/phone_lookup/:phone/:from_profile_id', to: 'friend_invites#phone_lookup'
   post 'invitations/create', to: 'invitations#create'
 
@@ -65,7 +65,7 @@ Rails.application.routes.draw do
   get 'message/:id', to: 'messages#show'
   post 'message/:id/reactions/add', to: 'messages#add_reaction'
   post 'message/:id/reactions/remove', to: 'messages#remove_reaction'
-  post 'message/:id/flag', to: "messages#flag"
+  post 'message/:id/flag', to: 'messages#flag'
 
   post 'conversations/create', to: 'conversations#create_with_members'
 

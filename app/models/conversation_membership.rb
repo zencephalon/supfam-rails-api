@@ -6,16 +6,16 @@ class ConversationMembership < ApplicationRecord
   belongs_to :profile
   belongs_to :conversation
 
-  enum type: [ :member, :admin ]
+  enum type: %i[member admin]
 
   def summary
     {
-      conversation_id: self.conversation_id,
-      last_message: self.conversation.last_message,
-      last_read_message_id: self.last_read_message_id,
-      last_message_profile_id: self.conversation.last_message_profile_id,
-      dmId: self.conversation.dmId,
-      user_id: self.user_id
+      conversation_id: conversation_id,
+      last_message: conversation.last_message,
+      last_read_message_id: last_read_message_id,
+      last_message_profile_id: conversation.last_message_profile_id,
+      dmId: conversation.dmId,
+      user_id: user_id
     }
   end
 

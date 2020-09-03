@@ -1,10 +1,8 @@
 class MessageReactionsChannel < ApplicationCable::Channel
   def subscribed
-    unless current_user.conversation_memberships.where(conversation_id: params[:id]).first
-      reject
-    end
+    reject unless current_user.conversation_memberships.where(conversation_id: params[:id]).first
 
-    stream_for "#{params[:id]}"
+    stream_for params[:id].to_s
   end
 
   def unsubscribed

@@ -1,6 +1,6 @@
 # typed: false
 class MessagesController < ApplicationController
-  before_action :set_message, only: [:add_reaction, :remove_reaction, :flag]
+  before_action :set_message, only: %i[add_reaction remove_reaction flag]
 
   def send_message
     conversation = Conversation.find(params[:id])
@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
     if conversation && from_profile
       render json: conversation.add_message(from_profile.id, msg_params)
     else
-      render json: { error: "Invalid profile" }, status: :unprocessable_entity
+      render json: { error: 'Invalid profile' }, status: :unprocessable_entity
     end
   end
 
@@ -43,13 +43,14 @@ class MessagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_message
-      @message = Message.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "allow list" through.
-    def msg_params
-      params.require(:message).permit(:type, :message, :qid, data: [:quoted, :quote_type, :profile_id, :image => [:width, :height, :uri]])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_message
+    @message = Message.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "allow list" through.
+  def msg_params
+    params.require(:message).permit(:type, :message, :qid, data: [:quoted, :quote_type, :profile_id, image: %i[width height uri]])
+  end
 end

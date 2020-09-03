@@ -2,7 +2,9 @@
 Rails.application.configure do
   # Specify AnyCable WebSocket server URL to use by JS client
   config.after_initialize do
-    config.action_cable.url = ActionCable.server.config.url = ENV.fetch("CABLE_URL", "ws://localhost:8080/cable") if AnyCable::Rails.enabled?
+    if AnyCable::Rails.enabled?
+      config.action_cable.url = ActionCable.server.config.url = ENV.fetch('CABLE_URL', 'ws://localhost:8080/cable')
+    end
   end
   config.hosts << /[a-z0-9]+\.ngrok\.io/
   # Settings specified here will take precedence over those in config/application.rb.
@@ -47,7 +49,6 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true

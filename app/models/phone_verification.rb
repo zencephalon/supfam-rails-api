@@ -3,7 +3,7 @@ class PhoneVerification < ApplicationRecord
   def self.generate_token
     loop do
       token = SecureRandom.base64.tr('+/=', 'Qrt')
-      break token unless self.exists?(token: token)
+      break token unless exists?(token: token)
     end
   end
 
@@ -12,6 +12,6 @@ class PhoneVerification < ApplicationRecord
   end
 
   def self.generate(phone)
-    return self.create(phone: phone, token: self.generate_token, verified: false, code: self.generate_code)
+    create(phone: phone, token: generate_token, verified: false, code: generate_code)
   end
 end

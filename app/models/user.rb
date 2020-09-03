@@ -5,7 +5,7 @@ class User < ApplicationRecord
   validates :name, :phone, presence: true
   validates :name, :phone, uniqueness: true
   validates :password, confirmation: true, length: { minimum: 8 }, if: :password
-  validates :name, format: { with: /\A\w+\z/, message: "Ony allow letters, numbers, and underscores" }
+  validates :name, format: { with: /\A\w+\z/, message: 'Ony allow letters, numbers, and underscores' }
 
   has_many :profiles
   has_many :conversation_memberships
@@ -22,36 +22,36 @@ class User < ApplicationRecord
   end
 
   def create_profile(profile_params)
-    is_first_profile = (self.profiles.size < 1)
+    is_first_profile = (profiles.size < 1)
 
     profile_params[:is_default] = is_first_profile
-    profile = self.profiles.create(profile_params)
+    profile = profiles.create(profile_params)
 
-    return profile
+    profile
   end
 
   def dms
-    self.friend_ids.map do |user_id|
-      Conversation.dmWith(self.id, user_id)
+    friend_ids.map do |user_id|
+      Conversation.dmWith(id, user_id)
     end
   end
 
   def get_friend_id_from_dm_id(dmId)
     ids = dmId.split(':').map(&:to_i)
-    return ids.reject {|id| id == self.id}.first
+    ids.reject { |id| id == self.id}.first
   end
 
   def dms_by_dm_id
     dm_obj = {}
-    self.direct_conversations.each do |conversation|
+    direct_conversations.each do |conversation|
       # dm_obj[self.get_friend_id_from_dm_id(conversation.dmId)] = conversation
       dm_obj[conversation.dmId] = conversation
     end
-    return dm_obj
+    dm_obj
   end
 
   def summary
-    return {id: self.id, name: self.name, avatar_url: self.avatar_url}
+    {id: id, name: name, avatar_url: avatar_url}
   end
 
   # Assign an API key on create
@@ -61,7 +61,7 @@ class User < ApplicationRecord
   end
 
   def group_conversations
-    self.conversations.where(dmId: nil).includes(:conversation_memberships).map(&:summary)
+    conversations.where(dmId: nil).includes(:conversation_memberships).map(&:summary)
   end
 
   # after_create do |user|

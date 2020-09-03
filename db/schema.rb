@@ -10,145 +10,144 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_31_174150) do
-
+ActiveRecord::Schema.define(version: 20_200_831_174_150) do
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
-  create_table "conversation_memberships", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "conversation_id"
-    t.integer "type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "profile_id"
-    t.bigint "last_read_message_id"
-    t.index ["conversation_id"], name: "index_conversation_memberships_on_conversation_id"
-    t.index ["last_read_message_id"], name: "index_conversation_memberships_on_last_read_message_id"
-    t.index ["profile_id"], name: "index_conversation_memberships_on_profile_id"
-    t.index ["user_id"], name: "index_conversation_memberships_on_user_id"
+  create_table 'conversation_memberships', force: :cascade do |t|
+    t.bigint 'user_id'
+    t.bigint 'conversation_id'
+    t.integer 'type'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.bigint 'profile_id'
+    t.bigint 'last_read_message_id'
+    t.index ['conversation_id'], name: 'index_conversation_memberships_on_conversation_id'
+    t.index ['last_read_message_id'], name: 'index_conversation_memberships_on_last_read_message_id'
+    t.index ['profile_id'], name: 'index_conversation_memberships_on_profile_id'
+    t.index ['user_id'], name: 'index_conversation_memberships_on_user_id'
   end
 
-  create_table "conversations", force: :cascade do |t|
-    t.string "dmId"
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "last_message_id"
-    t.integer "message_count"
-    t.bigint "last_message_profile_id"
-    t.index ["last_message_profile_id"], name: "index_conversations_on_last_message_profile_id"
+  create_table 'conversations', force: :cascade do |t|
+    t.string 'dmId'
+    t.string 'name'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.bigint 'last_message_id'
+    t.integer 'message_count'
+    t.bigint 'last_message_profile_id'
+    t.index ['last_message_profile_id'], name: 'index_conversations_on_last_message_profile_id'
   end
 
-  create_table "families", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table 'families', force: :cascade do |t|
+    t.string 'name'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
   end
 
-  create_table "families_users", id: false, force: :cascade do |t|
-    t.bigint "family_id", null: false
-    t.bigint "user_id", null: false
-    t.index ["family_id"], name: "index_families_users_on_family_id"
-    t.index ["user_id"], name: "index_families_users_on_user_id"
+  create_table 'families_users', id: false, force: :cascade do |t|
+    t.bigint 'family_id', null: false
+    t.bigint 'user_id', null: false
+    t.index ['family_id'], name: 'index_families_users_on_family_id'
+    t.index ['user_id'], name: 'index_families_users_on_user_id'
   end
 
-  create_table "friend_invites", force: :cascade do |t|
-    t.bigint "from_profile_id"
-    t.bigint "to_profile_id"
-    t.integer "status", default: 0
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["from_profile_id"], name: "index_friend_invites_on_from_profile_id"
-    t.index ["to_profile_id", "from_profile_id"], name: "index_friend_invites_on_to_profile_id_and_from_profile_id", unique: true
-    t.index ["to_profile_id"], name: "index_friend_invites_on_to_profile_id"
+  create_table 'friend_invites', force: :cascade do |t|
+    t.bigint 'from_profile_id'
+    t.bigint 'to_profile_id'
+    t.integer 'status', default: 0
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['from_profile_id'], name: 'index_friend_invites_on_from_profile_id'
+    t.index %w[to_profile_id from_profile_id], name: 'index_friend_invites_on_to_profile_id_and_from_profile_id', unique: true
+    t.index ['to_profile_id'], name: 'index_friend_invites_on_to_profile_id'
   end
 
-  create_table "friendships", force: :cascade do |t|
-    t.bigint "from_profile_id"
-    t.bigint "to_profile_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "to_user_id"
-    t.bigint "from_user_id"
-    t.index ["from_profile_id"], name: "index_friendships_on_from_profile_id"
-    t.index ["from_user_id"], name: "index_friendships_on_from_user_id"
-    t.index ["to_profile_id", "from_profile_id"], name: "index_friendships_on_to_profile_id_and_from_profile_id", unique: true
-    t.index ["to_profile_id"], name: "index_friendships_on_to_profile_id"
-    t.index ["to_user_id", "from_user_id"], name: "index_friendships_on_to_user_id_and_from_user_id", unique: true
-    t.index ["to_user_id"], name: "index_friendships_on_to_user_id"
+  create_table 'friendships', force: :cascade do |t|
+    t.bigint 'from_profile_id'
+    t.bigint 'to_profile_id'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.bigint 'to_user_id'
+    t.bigint 'from_user_id'
+    t.index ['from_profile_id'], name: 'index_friendships_on_from_profile_id'
+    t.index ['from_user_id'], name: 'index_friendships_on_from_user_id'
+    t.index %w[to_profile_id from_profile_id], name: 'index_friendships_on_to_profile_id_and_from_profile_id', unique: true
+    t.index ['to_profile_id'], name: 'index_friendships_on_to_profile_id'
+    t.index %w[to_user_id from_user_id], name: 'index_friendships_on_to_user_id_and_from_user_id', unique: true
+    t.index ['to_user_id'], name: 'index_friendships_on_to_user_id'
   end
 
-  create_table "invitations", force: :cascade do |t|
-    t.bigint "from_profile_id"
-    t.integer "status", default: 0
-    t.string "phone", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["from_profile_id"], name: "index_invitations_on_from_profile_id"
+  create_table 'invitations', force: :cascade do |t|
+    t.bigint 'from_profile_id'
+    t.integer 'status', default: 0
+    t.string 'phone', null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['from_profile_id'], name: 'index_invitations_on_from_profile_id'
   end
 
-  create_table "messages", force: :cascade do |t|
-    t.bigint "conversation_id"
-    t.integer "type"
-    t.string "message"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "profile_id"
-    t.float "qid"
-    t.jsonb "links"
-    t.jsonb "data"
-    t.jsonb "reactions"
-    t.boolean "flag"
-    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
-    t.index ["profile_id"], name: "index_messages_on_profile_id"
+  create_table 'messages', force: :cascade do |t|
+    t.bigint 'conversation_id'
+    t.integer 'type'
+    t.string 'message'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.bigint 'profile_id'
+    t.float 'qid'
+    t.jsonb 'links'
+    t.jsonb 'data'
+    t.jsonb 'reactions'
+    t.boolean 'flag'
+    t.index ['conversation_id'], name: 'index_messages_on_conversation_id'
+    t.index ['profile_id'], name: 'index_messages_on_profile_id'
   end
 
-  create_table "phone_verifications", force: :cascade do |t|
-    t.string "token"
-    t.string "phone"
-    t.string "code"
-    t.boolean "verified"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+  create_table 'phone_verifications', force: :cascade do |t|
+    t.string 'token'
+    t.string 'phone'
+    t.string 'code'
+    t.boolean 'verified'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
   end
 
-  create_table "profiles", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "name"
-    t.jsonb "status"
-    t.jsonb "location"
-    t.jsonb "seen"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.boolean "is_default"
-    t.string "avatar_key"
-    t.string "short_desc"
-    t.index ["user_id"], name: "index_profiles_on_user_id"
+  create_table 'profiles', force: :cascade do |t|
+    t.bigint 'user_id', null: false
+    t.string 'name'
+    t.jsonb 'status'
+    t.jsonb 'location'
+    t.jsonb 'seen'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.boolean 'is_default'
+    t.string 'avatar_key'
+    t.string 'short_desc'
+    t.index ['user_id'], name: 'index_profiles_on_user_id'
   end
 
-  create_table "reset_verifications", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "code"
-    t.string "token"
-    t.boolean "verified"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_reset_verifications_on_user_id"
+  create_table 'reset_verifications', force: :cascade do |t|
+    t.bigint 'user_id', null: false
+    t.string 'code'
+    t.string 'token'
+    t.boolean 'verified'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index ['user_id'], name: 'index_reset_verifications_on_user_id'
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string "phone"
-    t.string "name"
-    t.string "password_digest"
-    t.string "api_key"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.string "push_token"
-    t.index ["name"], name: "index_users_on_name", unique: true
-    t.index ["phone"], name: "index_users_on_phone", unique: true
+  create_table 'users', force: :cascade do |t|
+    t.string 'phone'
+    t.string 'name'
+    t.string 'password_digest'
+    t.string 'api_key'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.string 'push_token'
+    t.index ['name'], name: 'index_users_on_name', unique: true
+    t.index ['phone'], name: 'index_users_on_phone', unique: true
   end
 
-  add_foreign_key "profiles", "users"
-  add_foreign_key "reset_verifications", "users"
+  add_foreign_key 'profiles', 'users'
+  add_foreign_key 'reset_verifications', 'users'
 end

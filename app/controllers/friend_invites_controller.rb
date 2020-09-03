@@ -40,8 +40,8 @@ class FriendInvitesController < ApplicationController
       return
     end
 
-    result = profile.friend_invites_from()
-    render json: result.map(&:summary);
+    result = profile.friend_invites_from
+    render json: result.map(&:summary)
   end
 
   def to
@@ -52,8 +52,8 @@ class FriendInvitesController < ApplicationController
       return
     end
 
-    result = profile.friend_invites_to()
-    render json: result.map(&:summary);
+    result = profile.friend_invites_to
+    render json: result.map(&:summary)
   end
 
   def block

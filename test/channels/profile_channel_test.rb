@@ -1,5 +1,5 @@
 # typed: strong
-require "test_helper"
+require 'test_helper'
 
 class ProfileChannelTest < ActionCable::Channel::TestCase
   # test "subscribes" do

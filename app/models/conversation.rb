@@ -6,108 +6,104 @@ class Conversation < ApplicationRecord
   has_many :conversation_memberships
   has_many :users, through: :conversation_memberships
   has_many :profiles, through: :conversation_memberships
-  belongs_to :last_message, class_name: "Message", foreign_key: "last_message_id", optional: true
+  belongs_to :last_message, class_name: 'Message', foreign_key: 'last_message_id', optional: true
 
-  sig {params(ids: T::Array[Integer]).returns(String)}
+  sig { params(ids: T::Array[Integer]).returns(String)}
   def self.getDmId(ids)
-    ids.map(&:to_i).sort.join(":")
+    ids.map(&:to_i).sort.join(':')
   end
 
   sig {params(current_user_id: Integer, profile_id: Integer).returns(T.self_type)}
   def self.dmWith(current_user_id, profile_id)
     user_id = Profile.find(profile_id).user_id
     dmId = getDmId([user_id, current_user_id])
-    dm = self.find_by(dmId: dmId)
+    dm = find_by(dmId: dmId)
     return dm if dm
 
     dm = T.let(nil, T.untyped)
     Conversation.transaction do
-      dm = self.create(dmId: dmId)
+      dm = create(dmId: dmId)
       friendship = Friendship.where(from_user_id: current_user_id, to_user_id: user_id)[0]
       dm.add_conversation_member(user_id, profile_id)
       dm.add_conversation_member(current_user_id, friendship.from_profile_id)
     end
-    
-    return dm
+
+    dm
   end
 
   def add_conversation_member(user_id, profile_id, type = :member)
-    self.conversation_memberships.create(user_id: user_id, profile_id: profile_id, type: type) 
+    conversation_memberships.create(user_id: user_id, profile_id: profile_id, type: type)
   end
 
   def add_conversation_member_by_profile(profile, type = :member)
-    self.add_conversation_member(profile.user_id, profile.id, type)
+    add_conversation_member(profile.user_id, profile.id, type)
   end
 
   def add_conversation_members_by_profiles(profiles, type = :member)
     profiles.each do |profile|
-      self.add_conversation_member_by_profile(profile, type)
+      add_conversation_member_by_profile(profile, type)
     end
   end
 
   def add_conversation_members_by_profile_ids(profile_ids, type = :member)
     profiles = Profile.where(id: profile_ids)
 
-    self.add_conversation_members_by_profiles(profiles, type)
+    add_conversation_members_by_profiles(profiles, type)
   end
 
   def remove_member_by_profile_id(profile_id)
-    self.conversation_memberships.where(profile_id: profile_id).destroy_all
+    conversation_memberships.where(profile_id: profile_id).destroy_all
   end
 
   sig {params(msg: Message).void}
   def broadcast_message(msg)
-    ConversationChannel.broadcast_to("#{self.id}", { last_message: msg, id: self.id })
-    MessageChannel.broadcast_to("#{self.id}", { message: msg })
-    return nil
+    ConversationChannel.broadcast_to(id.to_s, { last_message: msg, id: id })
+    MessageChannel.broadcast_to(id.to_s, { message: msg })
+    nil
   end
 
   def update_with_message(msg)
-    self.update(message_count: self.message_count + 1, last_message_id: msg.id, last_message_profile_id: msg.profile_id)
+    update(message_count: message_count + 1, last_message_id: msg.id, last_message_profile_id: msg.profile_id)
   end
 
   def add_message(from_profile_id, msg_params)
     return false unless from_profile_id
 
-    msg = self.messages.create({ profile_id: from_profile_id, message: msg_params[:message], type: msg_params[:type], qid: msg_params[:qid], data: msg_params[:data] })
-    self.broadcast_message(msg)
+    msg = messages.create({ profile_id: from_profile_id, message: msg_params[:message], type: msg_params[:type], qid: msg_params[:qid], data: msg_params[:data] })
+    broadcast_message(msg)
 
     if msg.save
       # update_with_message(msg)
-      ConversationPushNoWorker.perform_async(self.id, msg.id)
+      ConversationPushNoWorker.perform_async(id, msg.id)
       return msg
     end
 
-    return false
+    false
   end
 
   def message_page
-    return self.messages.order(id: :desc).limit(10)
+    messages.order(id: :desc).limit(10)
   end
 
   def get_messages_with_cursor(cursor_id)
-    unless cursor_id
-      return message_page
-    end
+    return message_page unless cursor_id
 
-    return self.message_page.where("id < ?", cursor_id)
+    message_page.where('id < ?', cursor_id)
   end
 
   def get_messages_with_precursor(cursor_id)
-    unless cursor_id
-      return message_page
-    end
+    return message_page unless cursor_id
 
-    return self.message_page.where("id > ?", cursor_id)
+    message_page.where('id > ?', cursor_id)
   end
 
   def message_count
-    self.messages.count
+    messages.count
   end
 
   def summary
-    summary = self.attributes
-    summary['member_profile_ids'] = self.conversation_memberships.map(&:profile_id)
-    return summary
+    summary = attributes
+    summary['member_profile_ids'] = conversation_memberships.map(&:profile_id)
+    summary
   end
 end

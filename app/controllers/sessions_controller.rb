@@ -32,9 +32,7 @@ class SessionsController < ActionController::API
     token = params[:token]
     verification = PhoneVerification.find_by(token: token)
 
-    if verification
-      TwMessager.send_message(verification.phone, "Your Supfam verification code: #{verification.code}")
-    end
+    TwMessager.send_message(verification.phone, "Your Supfam verification code: #{verification.code}") if verification
 
     render json: {}
   end
@@ -45,7 +43,7 @@ class SessionsController < ActionController::API
 
     verification = PhoneVerification.find_by(token: token)
 
-    if verification and (verification.code == code || (Rails.env.development? && code == "1111"))
+    if verification && (verification.code == code || (Rails.env.development? && code == '1111'))
       verification.verified = true
       verification.save
       render json: { success: true }
@@ -59,7 +57,7 @@ class SessionsController < ActionController::API
     token = params[:token]
     verification = PhoneVerification.find_by(token: token)
 
-    if !verification or !verification.verified
+    if !verification || !verification.verified
       render json: { error: 'No verification found' }, status: :unprocessable_entity
       return
     end
@@ -107,7 +105,7 @@ class SessionsController < ActionController::API
 
     verification = ResetVerification.find_by(token: token)
 
-    if verification and (verification.code == code || (Rails.env.development? && code == "1111"))
+    if verification && (verification.code == code || (Rails.env.development? && code == '1111'))
       verification.verified = true
       verification.save
       render json: { success: true }
@@ -121,13 +119,13 @@ class SessionsController < ActionController::API
     token = params[:token]
     verification = ResetVerification.find_by(token: token)
 
-    if !verification or !verification.verified
+    if !verification || !verification.verified
       render json: { error: 'No verification found'}, status: :unprocessable_entity
       return
     end
 
     user = verification.user
-    user.update(password: params[:password]) 
+    user.update(password: params[:password])
 
     if user.save
       render json: { token: user.api_key, user: user }
@@ -139,7 +137,7 @@ class SessionsController < ActionController::API
   def available
     name = (params[:name] || '').downcase
 
-    if ['here', 'free', 'busy', 'away', 'open'].include?(name) or !(name =~ /\A\w+\z/)
+    if %w[here free busy away open].include?(name) || !(name =~ /\A\w+\z/)
       render json: false
       return
     end
