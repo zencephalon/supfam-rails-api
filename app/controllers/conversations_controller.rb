@@ -70,7 +70,7 @@ class ConversationsController < ApplicationController
   end
 
   def sync_messages
-    messages = @conversation.get_messages_with_precursor(params[:precursor])
+    messages = @conversation.get_messages_with_precursor(params[:cursor])
     render json: { messages: messages }
   end
 
