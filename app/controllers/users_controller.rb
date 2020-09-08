@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       return
     end
 
-    render json: profile.friends
+    render json: profile.friends.left_outer_joins(:user).select('profiles.*, users.phone')
     # render json: @current_user.friends
   end
 
