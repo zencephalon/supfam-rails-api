@@ -2,6 +2,40 @@
 class ConversationPushNoWorker
   include Sidekiq::Worker
 
+  def normal_messages(conversation, message, push_recipients)
+    is_dm? = !!conversation.dmId
+    title = message.notification_title
+    subtitle = is_dm? ? nil : conversation.name
+    body = message.notification_body
+
+    return {
+      to: push_recipients,
+      title: title,
+      # subtitle: subtitle,
+      body: body,
+      priority: 'high',
+      channelId: 'minor',
+      data: { message: message, title: title, body: body, isDm: is_dm?, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
+    }
+  end
+
+  def mention_messages(conversation, message, push_recipients)
+    is_dm? = !!conversation.dmId
+    title = message.notification_title + ' @mentioned you'
+    subtitle = is_dm? ? nil : conversation.name
+    body = message.notification_body
+
+    return {
+      to: push_recipients,
+      title: title,
+      # subtitle: subtitle,
+      body: body,
+      priority: 'high',
+      channelId: 'minor',
+      data: { message: message, title: title, body: body, isDm: is_dm?, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
+    }
+  end
+
   def perform(conversation_id, message_id)
     message = Message.includes(:profile).find(message_id)
     return unless message
@@ -11,40 +45,43 @@ class ConversationPushNoWorker
 
     conversation.update_with_message(message)
 
-    push_recipients = []
+    normal_push_recipients = []
+    mention_push_recipients = []
 
     conversation.conversation_memberships.each do |membership|
       next if membership.profile_id == message.profile_id
-      next unless membership.profile.user.push_token
+
+      user = membership.profile.user
+      next unless user.push_token
 
       color = membership.profile.status['color']
+
+      if message.mentioned_usernames.include?(user.name)
+        # in a DM @mention can notify AWAY as a desperation measure
+        # in groups @mention can notify BUSY
+        mention_push_recipients.push(user.push_token) if conversation.dmId or color > 0
+        # Skip the normal notification if we send an @mention notification
+        next
+      end
+
+      ## Non-mentions
+
       # Don't notify AWAY
       next if color == 0
+
       # Don't notify BUSY for group conversations
       next if !conversation.dmId && color == 1
 
-      push_recipients << membership.profile.user.push_token
+      normal_push_recipients << user.push_token
     end
 
-    push_recipients.uniq!
+    normal_push_recipients.uniq!
 
     client = Exponent::Push::Client.new(gzip: true)
 
-    return if push_recipients.empty?
+    return if normal_push_recipients.empty? and mention_push_recipients.empty?
 
-    isDm = !!conversation.dmId
-    title = message.notification_title
-    subtitle = isDm ? nil : conversation.name
-    body = message.notification_body
-    handler = client.send_messages([{
-                                     to: push_recipients,
-                                     title: title,
-                                     # subtitle: subtitle,
-                                     body: body,
-                                     priority: 'high',
-                                     channelId: 'minor',
-                                     data: { message: message, title: title, body: body, isDm: isDm, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
-                                   }])
+    handler = client.send_messages([normal_messages(conversation, message, normal_push_recipients), mention_messages(conversation, message, mention_push_recipients)])
 
     logger.error handler.errors
     logger.info handler.receipt_ids

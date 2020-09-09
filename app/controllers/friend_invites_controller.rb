@@ -67,7 +67,7 @@ class FriendInvitesController < ApplicationController
     to_user = User.find_by(phone: params[:phone])
 
     unless to_user
-      render json: {result: 'no_user'}
+      render json: { result: 'no_user'}
       return
     end
 

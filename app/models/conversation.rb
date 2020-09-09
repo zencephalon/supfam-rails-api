@@ -8,7 +8,7 @@ class Conversation < ApplicationRecord
   has_many :profiles, through: :conversation_memberships
   belongs_to :last_message, class_name: 'Message', foreign_key: 'last_message_id', optional: true
 
-  sig { params(ids: T::Array[Integer]).returns(String)}
+  sig { params(ids: T::Array[Integer]).returns(String) }
   def self.getDmId(ids)
     ids.map(&:to_i).sort.join(':')
   end

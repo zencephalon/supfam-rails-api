@@ -1,4 +1,4 @@
-TEXT_TYPES = [0, 2]
+TEXT_TYPES = [0, 2].freeze
 
 # typed: false
 class Message < ApplicationRecord
@@ -50,16 +50,22 @@ class Message < ApplicationRecord
     save
   end
 
+  def mentioned_usernames
+    mentions.map { |m| m['screen_name']}
+  end
+
   def add_flag
     self.flag = true
     save
   end
 
   def add_links
-    self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(message) if TEXT_TYPES.include?(self.type)
+    self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(message) if TEXT_TYPES.include?(type)
   end
 
   def add_mentions
-    self.mentions = Twitter::TwitterText::Extractor.extract_mentioned_screen_names_with_indices(message) if TEXT_TYPES.include?(self.type)
+    if TEXT_TYPES.include?(type)
+      self.mentions = Twitter::TwitterText::Extractor.extract_mentioned_screen_names_with_indices(message)
+    end
   end
 end

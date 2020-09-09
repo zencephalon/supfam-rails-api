@@ -31,6 +31,6 @@ class MessageTest < ActiveSupport::TestCase
 
     m.add_mentions
 
-    assert_equal 'zencephalon', m.mentions[0]["screen_name"]
+    assert_equal 'zencephalon', m.mentions[0]['screen_name']
   end
 end
