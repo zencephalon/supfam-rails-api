@@ -148,11 +148,12 @@ class Profile < ApplicationRecord
     self.status = (old_status || {}).merge(new_status)
     broadcast_status
     old_updated_at = old_status['updated_at']
+
+    save
+
     if (status['color'] > old_status['color']) && (!old_updated_at || ((DateTime.parse(old_updated_at) + 5.minute) < status['updated_at']))
       StatusUpgradePushNoWorker.perform_in(1.seconds, id)
     end
-
-    save
   end
 
   def summary
