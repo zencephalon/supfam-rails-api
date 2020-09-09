@@ -81,7 +81,7 @@ class ConversationPushNoWorker
 
     return if normal_push_recipients.empty? and mention_push_recipients.empty?
 
-    handler = client.send_messages([normal_messages(conversation, message, normal_push_recipients), mention_messages(conversation, message, mention_push_recipients)])
+    handler = client.send_messages([normal_messages(conversation, message, normal_push_recipients)])
 
     logger.error handler.errors
     logger.info handler.receipt_ids
