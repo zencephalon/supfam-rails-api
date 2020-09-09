@@ -25,4 +25,12 @@ class MessageTest < ActiveSupport::TestCase
 
     assert_equal [2], m.reactions['?']
   end
+
+  test 'mentions added correctly' do
+    m = Message.new(type: 0, message: '@zencephalon hello')
+
+    m.add_mentions
+
+    assert_equal 'zencephalon', m.mentions[0]["screen_name"]
+  end
 end

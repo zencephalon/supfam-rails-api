@@ -56,10 +56,10 @@ class Message < ApplicationRecord
   end
 
   def add_links
-    self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(message) if TEXT_TYPES.include?(message.type)
+    self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(message) if TEXT_TYPES.include?(self.type)
   end
 
   def add_mentions
-    self.mentions = Twitter::TwitterText::Extractor.extract_mentioned_screen_names_with_indices(message) if TEXT_TYPES.include?(message.type)
+    self.mentions = Twitter::TwitterText::Extractor.extract_mentioned_screen_names_with_indices(message) if TEXT_TYPES.include?(self.type)
   end
 end
