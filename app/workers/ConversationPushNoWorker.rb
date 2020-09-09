@@ -79,9 +79,13 @@ class ConversationPushNoWorker
 
     client = Exponent::Push::Client.new(gzip: true)
 
-    return if normal_push_recipients.empty? and mention_push_recipients.empty?
+    return if normal_push_recipients.empty? && mention_push_recipients.empty?
 
-    handler = client.send_messages([normal_messages(conversation, message, normal_push_recipients)])
+    notifications = []
+    notifications.push(normal_messages(conversation, message, normal_push_recipients)) unless normal_push_recipients.empty?
+    notifications.push(mention_messages(conversation, message, mention_push_recipients)) unless mention_push_recipients.empty?
+
+    handler = client.send_messages(notifications)
 
     logger.error handler.errors
     logger.info handler.receipt_ids
