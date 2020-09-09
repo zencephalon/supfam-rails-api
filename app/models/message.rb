@@ -1,3 +1,5 @@
+TEXT_TYPES = [0, 2]
+
 # typed: false
 class Message < ApplicationRecord
   self.inheritance_column = :_type_disabled
@@ -6,6 +8,7 @@ class Message < ApplicationRecord
   belongs_to :profile
 
   before_save :add_links
+  before_save :add_mentions
 
   # types
   # 0 text
@@ -53,6 +56,10 @@ class Message < ApplicationRecord
   end
 
   def add_links
-    self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(message) if type == 0
+    self.links = Twitter::TwitterText::Extractor.extract_urls_with_indices(message) if TEXT_TYPES.include?(message.type)
+  end
+
+  def add_mentions
+    self.mentions = Twitter::TwitterText::Extractor.extract_mentioned_screen_names_with_indices(message) if TEXT_TYPES.include?(message.type)
   end
 end
