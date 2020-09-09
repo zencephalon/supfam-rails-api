@@ -3,9 +3,9 @@ class ConversationPushNoWorker
   include Sidekiq::Worker
 
   def normal_messages(conversation, message, push_recipients)
-    is_dm? = !!conversation.dmId
+    is_dm = !!conversation.dmId
     title = message.notification_title
-    subtitle = is_dm? ? nil : conversation.name
+    subtitle = is_dm ? nil : conversation.name
     body = message.notification_body
 
     return {
@@ -15,14 +15,14 @@ class ConversationPushNoWorker
       body: body,
       priority: 'high',
       channelId: 'minor',
-      data: { message: message, title: title, body: body, isDm: is_dm?, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
+      data: { message: message, title: title, body: body, isDm: is_dm, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
     }
   end
 
   def mention_messages(conversation, message, push_recipients)
-    is_dm? = !!conversation.dmId
+    is_dm = !!conversation.dmId
     title = message.notification_title + ' @mentioned you'
-    subtitle = is_dm? ? nil : conversation.name
+    subtitle = is_dm ? nil : conversation.name
     body = message.notification_body
 
     return {
@@ -32,7 +32,7 @@ class ConversationPushNoWorker
       body: body,
       priority: 'high',
       channelId: 'minor',
-      data: { message: message, title: title, body: body, isDm: is_dm?, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
+      data: { message: message, title: title, body: body, isDm: is_dm, subtitle: subtitle, vibrate: true, sound: true, priority: 'high' }
     }
   end
 
