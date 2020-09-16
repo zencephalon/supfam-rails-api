@@ -69,6 +69,8 @@ class Conversation < ApplicationRecord
   def add_message(from_profile_id, msg_params)
     return false unless from_profile_id
 
+    sleep 3
+
     msg = messages.create({ profile_id: from_profile_id, message: msg_params[:message], type: msg_params[:type], qid: msg_params[:qid], data: msg_params[:data] })
     broadcast_message(msg)
 
@@ -103,7 +105,12 @@ class Conversation < ApplicationRecord
 
   def summary
     summary = attributes
-    summary['member_profile_ids'] = conversation_memberships.map(&:profile_id)
+    summary['member_profile_ids'] = conversation_memberships.pluck(:profile_id)
+    summary['at_mention_summary'] = at_mention_summary
     summary
+  end
+
+  def at_mention_summary
+    conversation_memberships.joins(:user).pluck("users.name", "conversation_memberships.profile_id")
   end
 end
