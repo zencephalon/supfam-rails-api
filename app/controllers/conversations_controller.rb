@@ -1,7 +1,7 @@
 # typed: false
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: %i[read preview membership add_members remove_member update_name messages sync_messages show]
-  before_action :check_membership, only: %i[read preview membership add_members remove_member update_name messages sync_messages show]
+  before_action :set_conversation, only: %i[read preview membership add_members remove_member update_name messages sync_messages show mentions_summary]
+  before_action :check_membership, only: %i[read preview membership add_members remove_member update_name messages sync_messages show mentions_summary]
 
   def show
     render json: @conversation.summary
@@ -72,6 +72,10 @@ class ConversationsController < ApplicationController
   def sync_messages
     messages = @conversation.get_messages_with_precursor(params[:cursor])
     render json: { messages: messages }
+  end
+
+  def mentions_summary
+    render json: @conversation.mentions_summary
   end
 
   private

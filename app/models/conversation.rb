@@ -106,11 +106,10 @@ class Conversation < ApplicationRecord
   def summary
     summary = attributes
     summary['member_profile_ids'] = conversation_memberships.pluck(:profile_id)
-    summary['at_mention_summary'] = at_mention_summary
     summary
   end
 
-  def at_mention_summary
-    conversation_memberships.joins(:user).pluck("users.name", "conversation_memberships.profile_id")
+  def mentions_summary
+    conversation_memberships.joins(:profile, :user).pluck("profiles.id", "profiles.name", "users.name")
   end
 end
