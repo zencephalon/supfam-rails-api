@@ -55,7 +55,7 @@ Rails.application.routes.draw do
   # vestigial
   # get 'conversations/:dmId/dmMembership', to: 'conversations#dmMembership'
   get 'conversations/:id/membership', to: 'conversations#membership'
-  get 'conversations/:id/members_summary', to: 'conversations#members_summary'
+  get 'conversations/:id/mentions_summary', to: 'conversations#mentions_summary
 
   get 'conversations/profile/:to_profile_id', to: 'conversations#conversation_with_profile'
 
