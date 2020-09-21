@@ -69,8 +69,6 @@ class Conversation < ApplicationRecord
   def add_message(from_profile_id, msg_params)
     return false unless from_profile_id
 
-    sleep 3
-
     msg = messages.create({ profile_id: from_profile_id, message: msg_params[:message], type: msg_params[:type], qid: msg_params[:qid], data: msg_params[:data] })
     broadcast_message(msg)
 
