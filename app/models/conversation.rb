@@ -73,7 +73,7 @@ class Conversation < ApplicationRecord
     broadcast_message(msg)
 
     if msg.save
-      # update_with_message(msg)
+      update_with_message(msg)
       ConversationPushNoWorker.perform_async(id, msg.id)
       return msg
     end

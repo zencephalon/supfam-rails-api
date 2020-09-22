@@ -43,8 +43,6 @@ class ConversationPushNoWorker
     conversation = Conversation.includes(conversation_memberships: { profile: :user }).find(conversation_id)
     return unless conversation
 
-    conversation.update_with_message(message)
-
     normal_push_recipients = []
     mention_push_recipients = []
 
