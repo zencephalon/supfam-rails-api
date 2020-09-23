@@ -33,7 +33,8 @@ class ConversationsController < ApplicationController
   def read
     # TODO: enable this when we want to support read-avatar heads like Facebook has
     # membership.broadcast_read(@conversation)
-    @membership.last_read_message_id = params[:msgId]
+    # @membership.last_read_message_id = params[:msgId]
+    @membership.last_read_message = @conversation.last_message_id
 
     if @membership.save
       render json: {}
