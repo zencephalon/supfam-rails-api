@@ -51,7 +51,7 @@ class Message < ApplicationRecord
   end
 
   def mentioned_usernames
-    mentions.map { |m| m['screen_name']}
+    (mentions || []).map { |m| m['screen_name']}
   end
 
   def add_flag
