@@ -15,7 +15,7 @@ class ConversationPushNoWorker
       body: body,
       priority: 'high',
       channelId: 'minor',
-      sound: "message.wav",
+      sound: "default",
       data: { message: message, title: title, body: body, isDm: is_dm, subtitle: subtitle, vibrate: true, priority: 'high' }
     }
   end
@@ -33,7 +33,7 @@ class ConversationPushNoWorker
       body: body,
       priority: 'high',
       channelId: 'minor',
-      sound: "message.wav",
+      sound: "default",
       data: { message: message, title: title, body: body, isDm: is_dm, subtitle: subtitle, vibrate: true, priority: 'high' }
     }
   end
